@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Mediadesk</title>
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMyZjliZmYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwYTU2YjAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjEzNiIgeT0iOTgiIHdpZHRoPSIyNDAiIGhlaWdodD0iNDAiIHJ4PSIxNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMTE2IiB5PSIxMzQiIHdpZHRoPSIyODAiIGhlaWdodD0iNDAiIHJ4PSIxOCIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjYiLz48cmVjdCB4PSI5NiIgeT0iMTcyIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjI0OCIgcng9IjM2IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTIyNiAyNDB2MTEybDk2LTU2eiIgZmlsbD0iIzBiNmZkMCIvPjwvc3ZnPg==">
@@ -2587,6 +2587,49 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
       #docside { border-right: 1px solid var(--line); border-bottom: 0 }
     }
 
+    /* ---- Documents on phones: the file list is a dropdown, so the page gets the whole screen ---- */
+    #docsidebtn { display: none }
+    @media (max-width: 820px), (orientation: landscape) and (max-height: 520px) and (max-width: 1000px) {
+      #docsidebtn { display: inline-flex; align-items: center; gap: 4px }
+      #docs.sideopen #docsidebtn { background: var(--soft); border-color: var(--accent) }
+      #docbody { position: relative; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) }
+      #docside { display: none; position: absolute; left: 8px; right: 8px; top: 6px; z-index: 60; max-height: min(62vh, 440px); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden }
+      #docs.sideopen #docside { display: flex }
+      #docscroll { touch-action: pan-x pan-y }
+    }
+
+
+    /* ---- phones: Filters / Playback / Gallery options are dropdowns, so the lists get the room ---- */
+    #filtbtn, #galopt { display: none }
+    @media (max-width: 860px), (orientation: landscape) and (max-height: 520px) and (max-width: 1000px) {
+      #filtbtn, #galopt { display: inline-flex; align-items: center; gap: 4px }
+      #filtbtn { margin-left: 8px }
+      aside:not(.fopen) .filters, aside:not(.fopen) .play { display: none }
+      aside.fopen #filtbtn, #gal.galopen #galopt { background: var(--soft); border-color: var(--accent) }
+      #gal:not(.galopen) #galq, #gal:not(.galopen) #galsort, #gal:not(.galopen) #galbar label, #gal:not(.galopen) #galfilt { display: none }
+      #galbar h2 { margin-right: 0 }
+      #galbar .sp { display: none }
+      #galbar #galselbtn { margin-left: auto }
+      /* nobody pinch-zooms the page; only the open document does (see script) */
+      html, body { touch-action: pan-x pan-y }
+      /* picture resizing: big finger-sized handle, and the picture toolbar docks to the bottom edge instead of sitting on top of the picture */
+      #imghdl { width: 30px; height: 30px; margin: -8px 0 0 -8px; border-radius: 50% }
+      #imghdl::after { content: ""; position: absolute; inset: -12px }
+      #imgbar { left: 8px !important; right: 8px !important; top: auto !important; bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important; max-width: none; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none }
+      #imgbar::-webkit-scrollbar { display: none }
+      #imgbar button { height: 38px; flex: none; white-space: nowrap }
+      #imgbar .sp { display: none }
+      #docpage img.imgsel { touch-action: none }
+      body:has(#imgbar:not([hidden])) #fab { display: none }
+      /* Documents top bar: one swipeable row instead of three, so the page gets the screen */
+      #docbar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none }
+      #docbar::-webkit-scrollbar { display: none }
+      #docbar > * { flex: none }
+      #docbar .sp { display: none }
+    }
+
+    @media (max-width: 480px) { #galcount { display: none } }
+
     /* ---- coarse pointers (any touch phone/tablet): comfortable tap targets ---- */
     @media (hover: none) and (pointer: coarse) and (max-width: 860px) {
       button, select, input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]) { min-height: 36px }
@@ -2820,7 +2863,7 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
         <button id="shot" type="button" title="Save current frame as PNG">Save frame</button>
       </div>
     </details>
-    <div class="bar"><span id="count">No videos</span><button id="view" style="margin-left:auto">List
+    <div class="bar"><span id="count">No videos</span><button id="filtbtn" type="button" aria-expanded="false" title="Show or hide search, sort and playback options">Filters ▾</button><button id="view" style="margin-left:auto">List
         view</button><button id="clear">Clear all</button></div>
     <ul id="list" aria-label="Playlist"></ul>
     <div id="foot"><span id="stats">No videos</span><button id="keys">Shortcuts</button></div>
@@ -2900,6 +2943,7 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
   <div id="docs" hidden role="dialog" aria-label="Documents">
     <div id="docbar">
       <h2>Documents</h2><span id="doccount"></span>
+      <button id="docsidebtn" type="button" aria-expanded="false" aria-controls="docside" title="Show or hide your document list">Files ▾</button>
       <span class="sp"></span>
       <button id="docnew" title="New blank document, template or PDF">New ▾</button>
       <button id="docrename" title="Rename this document" disabled>Rename</button>
@@ -2978,7 +3022,7 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
 
   <div id="gal" hidden role="dialog" aria-label="Gallery">
     <div id="galbar">
-      <h2>All files</h2><span id="galcount"></span>
+      <h2>All files</h2><span id="galcount"></span><button id="galopt" type="button" aria-expanded="false" title="Show or hide search, sort and file-type filters">Filters ▾</button>
       <span class="sp"></span>
       <input id="galq" type="search" placeholder="Search names" aria-label="Search names">
       <select id="galsort" aria-label="Sort by"></select>
@@ -4932,6 +4976,10 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
         var bar = $('imgbar'), hd = $('imghdl');
         if (!im || !editable() || !docOpen || !dPage.contains(im)) { if (im) im.classList.remove('imgsel'); imgSel = null; bar.hidden = true; hd.hidden = true; return }
         imgSel = im; im.classList.add('imgsel'); imgPlace();
+        if (window.matchMedia && matchMedia('(max-width: 860px), (orientation: landscape) and (max-height: 520px) and (max-width: 1000px)').matches && !bar.hidden) {
+          var scr = $('docscroll'), sr = scr.getBoundingClientRect(), bt = bar.getBoundingClientRect().top, rr = im.getBoundingClientRect();
+          if (rr.bottom > bt - 36 && rr.height < bt - sr.top - 60) { scr.scrollTop += rr.bottom - (bt - 36); imgPlace() }
+        }
       }
       function imgPlace() {
         var im = imgSel, bar = $('imgbar'), hd = $('imghdl'); if (!im) return;
@@ -4942,7 +4990,7 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
         var bh = bar.offsetHeight, bw = bar.offsetWidth, top = r.top - bh - 8;
         if (top < sc.top + 4) top = Math.min(r.bottom + 8, sc.bottom - bh - 4);
         bar.style.left = Math.max(8, Math.min(innerWidth - bw - 8, r.left)) + 'px'; bar.style.top = Math.max(sc.top + 4, top) + 'px';
-        hd.style.left = Math.min(innerWidth - 16, r.right - 7) + 'px'; hd.style.top = Math.min(innerHeight - 16, r.bottom - 7) + 'px';
+        var hw = hd.offsetWidth || 14, hm = hw > 14 ? 8 : 0; hd.style.left = Math.min(innerWidth - hw - 2 + hm, r.right - 7) + 'px'; hd.style.top = Math.min(innerHeight - hw - 2 + hm, r.bottom - 7) + 'px';
       }
       dPage.addEventListener('click', function (e) { if (e.target.tagName === 'IMG') imgSelect(e.target) });
       dPage.addEventListener('dragstart', function (e) { if (e.target.tagName === 'IMG') e.preventDefault() });
@@ -5969,6 +6017,48 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
           else if (d.kind === 'docx') { dPage.style.zoom = 1; zoomOpt($('dzoom'), 100); e.preventDefault() }
         }
       });
+
+      /* ---------- phones: Files dropdown + two-finger pinch zoom ---------- */
+      (function () {
+        var docs = $('docs'), btn = $('docsidebtn'), side = $('docside'), sc = $('docscroll');
+        function setSide(o) { docs.classList.toggle('sideopen', o); btn.setAttribute('aria-expanded', o ? 'true' : 'false') }
+        btn.onclick = function (e) { e.stopPropagation(); setSide(!docs.classList.contains('sideopen')) };
+        $('doclist').addEventListener('click', function (e) { if (e.target.closest('.di') && !e.target.closest('.rm')) setSide(false) });
+        $('docoutline').addEventListener('click', function () { setSide(false) });
+        $('docclose').addEventListener('click', function () { setSide(false) });
+        document.addEventListener('click', function (e) {
+          if (docs.classList.contains('sideopen') && e.target.isConnected && !side.contains(e.target) && e.target !== btn) setSide(false)
+        });
+        var pd = 0, lx = 0, ly = 0;
+        function mid(t) { return { x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 } }
+        function dist(t) { return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY) }
+        sc.addEventListener('touchstart', function (e) {
+          if (e.touches.length === 2) { pd = dist(e.touches); var m = mid(e.touches); lx = m.x; ly = m.y } else pd = 0
+        }, { passive: true });
+        sc.addEventListener('touchmove', function (e) {
+          if (e.touches.length !== 2 || !pd) return;
+          var d = dist(e.touches), m = mid(e.touches), dd = docCur;
+          if (dd && dd.kind === 'docx') { sc.scrollLeft -= m.x - lx; sc.scrollTop -= m.y - ly }
+          if (zoomFactor(d / pd, { clientX: m.x, clientY: m.y })) e.preventDefault();
+          pd = d; lx = m.x; ly = m.y;
+        }, { passive: false });
+        sc.addEventListener('touchend', function (e) { if (e.touches.length < 2) pd = 0 }, { passive: true });
+        sc.addEventListener('touchcancel', function () { pd = 0 }, { passive: true });
+      })();
+
+
+      /* ---------- phones: dropdowns for Filters and Gallery options; page zoom is off everywhere except Documents ---------- */
+      (function () {
+        var aside = document.querySelector('aside'), fb = $('filtbtn'), gal = $('gal'), gb = $('galopt');
+        fb.onclick = function () { var o = aside.classList.toggle('fopen'); fb.setAttribute('aria-expanded', o ? 'true' : 'false') };
+        gb.onclick = function () { var o = gal.classList.toggle('galopen'); gb.setAttribute('aria-expanded', o ? 'true' : 'false') };
+        $('q').addEventListener('focus', function () { if (!aside.classList.contains('fopen')) { aside.classList.add('fopen'); fb.setAttribute('aria-expanded', 'true') } });
+        if (window.matchMedia && matchMedia('(pointer: coarse)').matches) {
+          ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) { document.addEventListener(t, function (e) { e.preventDefault() }, { passive: false }) });
+          document.addEventListener('touchmove', function (e) { if (e.touches.length > 1 && !(e.target.closest && e.target.closest('#docscroll'))) e.preventDefault() }, { passive: false });
+          document.addEventListener('dblclick', function (e) { if (!(e.target.closest && e.target.closest('#docs,#lb'))) e.preventDefault() }, { passive: false });
+        }
+      })();
 
       /* ---------- page layout: size, orientation, margins ---------- */
       var PS = { letter: [8.5, 11], a4: [8.2677, 11.6929], legal: [8.5, 14], a5: [5.8268, 8.2677], a3: [11.6929, 16.5354], exec: [7.25, 10.5] }, MG = { normal: 1, narrow: .5, mod: .75, wide: 1.5 };
