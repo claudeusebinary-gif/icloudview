@@ -2244,6 +2244,37 @@
     #doctools .rpane .tb.on, #pdftools .rpane .tb.on { background: var(--soft); border-color: var(--accent); color: var(--accent) }
     #doctools select, #pdftools select { height: 32px; background-color: var(--panel) }
     #tabtools { border: 0; padding: 0 }
+
+    #docs .cl input[type=color] { pointer-events: none }
+    #clpop { position: fixed; z-index: 95; width: 252px; padding: 10px; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow) }
+    #clpop .g { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; margin-bottom: 8px }
+    #clpop .sw { height: 20px; padding: 0; border-radius: 4px; border: 1px solid rgba(128,128,128,.35) }
+    #clpop .sw:hover { outline: 2px solid var(--accent); outline-offset: 1px }
+    #clpop .t { font-size: 12px; color: var(--mute); margin: 2px 0 5px }
+    #clpop .w { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 6px 8px; border-radius: 7px }
+    #clpop .w:hover { background: var(--card) }
+    #clpop input.hex { width: 100%; height: 30px; margin-top: 6px; font-family: ui-monospace, Consolas, monospace }
+
+    #doctools select, #pdftools select { max-width: none; width: auto; text-overflow: clip; padding-left: 12px }
+    #doctools .rpane { flex-wrap: nowrap; overflow-x: auto }
+
+    #docpage[data-hdr]::before { content: attr(data-hdr); position: absolute; top: calc(var(--m, 96px) / 2 - 9px); left: var(--m, 96px); right: var(--m, 96px); font-size: 9pt; color: #777; white-space: pre; overflow: hidden; text-overflow: ellipsis; pointer-events: none; user-select: none }
+    #docpage[data-ftr]::after { content: attr(data-ftr); position: absolute; bottom: calc(var(--m, 96px) / 2 - 9px); left: var(--m, 96px); right: var(--m, 96px); text-align: var(--fal, center); font-size: 9pt; color: #777; white-space: pre; overflow: hidden; text-overflow: ellipsis; pointer-events: none; user-select: none }
+    #docpage .tbx { box-sizing: border-box; border: 1.5px solid #4a5568; border-radius: 4px; padding: 10px 12px; margin: 8px 0; width: 55%; min-height: 56px; resize: both; overflow: auto }
+    #hfdlg label { display: flex; flex-direction: column; gap: 4px; flex: 1 }
+
+    #docpage.tbdraw, #docpage.tbdraw * { cursor: crosshair !important }
+    #tbghost { position: fixed; z-index: 96; border: 1.5px dashed var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); pointer-events: none }
+    #tbframe { position: fixed; z-index: 70; border: 2px solid var(--accent); border-radius: 3px; pointer-events: none }
+    #tbbar { position: fixed; z-index: 80; display: flex; align-items: center; gap: 2px; padding: 4px; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow) }
+    #tbbar button { height: 28px; padding: 0 10px; border: 0; background: none; border-radius: 7px; font-size: 13px; white-space: nowrap }
+    #tbbar button:hover { background: var(--card) }
+    #tbbar .mv { cursor: grab; font-weight: 600 } #tbbar .mv:active { cursor: grabbing }
+    #tbbar .sep { width: 1px; height: 18px; background: var(--line); margin: 0 3px }
+    #docpage .tbx { overflow: hidden }
+
+    #docpage:not(.plain) { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--ph, 1056px) - 3px), rgba(120,128,150,.38) calc(var(--ph, 1056px) - 3px), rgba(120,128,150,.38) var(--ph, 1056px)) }
+    #docscroll[data-edge] #docpage, #docscroll[data-edge] #docpage * { cursor: move !important }
   </style>
 </head>
 
@@ -3956,12 +3987,21 @@
         });
         return out;
       }
+      function dxSp(el) {
+        var st = el.style || {}, a = '';
+        if (st.marginTop) a += ' w:before="' + Math.round(cssPx(st.marginTop) * 15) + '"';
+        if (st.marginBottom) a += ' w:after="' + Math.round(cssPx(st.marginBottom) * 15) + '"';
+        if (parseFloat(st.lineHeight) > 0 && !/[a-z%]/i.test(st.lineHeight)) a += ' w:line="' + Math.round(parseFloat(st.lineHeight) * 240) + '" w:lineRule="auto"';
+        return a ? '<w:spacing' + a + '/>' : '';
+      }
+      function dxFi(el) { var t = el.style && el.style.textIndent; return t ? Math.round(cssPx(t) * 15) : 0 }
       function dxPara(inner, o) {
         o = o || {}; var p = '';
         if (o.style) p += '<w:pStyle w:val="' + o.style + '"/>';
         if (o.numId) p += '<w:numPr><w:ilvl w:val="' + o.ilvl + '"/><w:numId w:val="' + o.numId + '"/></w:numPr>';
         if (o.border) p += '<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="808080"/></w:pBdr>';
-        if (o.ind) p += '<w:ind w:left="' + Math.round(o.ind) + '"/>';
+        if (o.sp) p += o.sp;
+        if (o.ind || o.fi) p += '<w:ind w:left="' + Math.round(o.ind || 0) + '"' + (o.fi ? ' w:firstLine="' + o.fi + '"' : '') + '/>';
         if (o.jc) p += '<w:jc w:val="' + o.jc + '"/>';
         return '<w:p>' + (p ? '<w:pPr>' + p + '</w:pPr>' : '') + (inner || '') + '</w:p>';
       }
@@ -3982,16 +4022,17 @@
       }
       function dxBlock(ctx, el, inh) {
         var tg = el.tagName, st = el.style || {};
+        if (el.classList && el.classList.contains('pbrk')) return '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
         var h = { ind: inh.ind + cssPx(st.marginLeft) * 15, jc: alignOf(el) || inh.jc, f: inh.f };
         if (tg === 'UL' || tg === 'OL') return dxList(ctx, el, 0, h);
         if (tg === 'TABLE') return dxTable(ctx, el, h);
         if (tg === 'HR') return dxPara('', { border: 1, ind: h.ind });
         if (tg === 'BLOCKQUOTE') { if (!cssPx(st.marginLeft)) h.ind += 720; return dxBlocks(ctx, el, h) }
         if (tg === 'LI') return dxBlocks(ctx, el, h);
-        if (/^H[1-6]$/.test(tg)) return dxPara(dxRuns(ctx, dKids(el), h.f), { style: 'Heading' + tg.charAt(1), ind: h.ind, jc: h.jc });
-        if (tg === 'PRE') { var pf = {}; for (var k in h.f) pf[k] = h.f[k]; pf.pre = 1; pf.font = 'Consolas'; return dxPara(dxRuns(ctx, dKids(el), pf), { ind: h.ind, jc: h.jc }) }
+        if (/^H[1-6]$/.test(tg)) return dxPara(dxRuns(ctx, dKids(el), h.f), { style: 'Heading' + tg.charAt(1), ind: h.ind, jc: h.jc, sp: dxSp(el), fi: dxFi(el) });
+        if (tg === 'PRE') { var pf = {}; for (var k in h.f) pf[k] = h.f[k]; pf.pre = 1; pf.font = 'Consolas'; return dxPara(dxRuns(ctx, dKids(el), pf), { ind: h.ind, jc: h.jc, sp: dxSp(el), fi: dxFi(el) }) }
         if (tg !== 'P' && hasBlock(el)) return dxBlocks(ctx, el, h);
-        return dxPara(dxRuns(ctx, dKids(el), fmtOf(el, h.f)), { ind: h.ind, jc: h.jc });
+        return dxPara(dxRuns(ctx, dKids(el), fmtOf(el, h.f)), { ind: h.ind, jc: h.jc, sp: dxSp(el), fi: dxFi(el) });
       }
       function dxList(ctx, el, lvl, inh) {
         var ordered = el.tagName === 'OL', numId = 1, out = '';
@@ -4067,16 +4108,18 @@
       async function buildDocx(root) {
         var ctx = { rels: [], media: [], rid: 2, imgN: 0, nums: [], nextNum: 2, ext: {}, imgData: new Map() };
         await prepImages(root, ctx);
+        var hf = hfDocx(ctx);
         var body = dxBlocks(ctx, root, { ind: 0, jc: '', f: {} });
         if (!body || /<\/w:tbl>$/.test(body)) body += '<w:p/>';
         var enc = new TextEncoder(), entries = [];
         function put(name, data) { var u = typeof data === 'string' ? enc.encode(data) : data; entries.push({ name: name, blob: u, size: u.length, crc: crc32(u) }) }
         var types = '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>';
         Object.keys(ctx.ext).forEach(function (e) { types += '<Default Extension="' + e + '" ContentType="image/' + e + '"/>' });
-        put('[Content_Types].xml', XMLH + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' + types + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/></Types>');
+        put('[Content_Types].xml', XMLH + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' + types + hf.types + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/></Types>');
         put('_rels/.rels', XMLH + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
-        put('word/document.xml', XMLH + '<w:document ' + WNS + '><w:body>' + body + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>');
+        put('word/document.xml', XMLH + '<w:document ' + WNS + '><w:body>' + body + '<w:sectPr>' + hf.refs + pgXml() + '</w:sectPr></w:body></w:document>');
         put('word/_rels/document.xml.rels', XMLH + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>' + ctx.rels.join('') + '</Relationships>');
+        hf.parts.forEach(function (x) { put(x[0], x[1]) });
         put('word/styles.xml', stylesXml());
         put('word/numbering.xml', numberingXml(ctx));
         ctx.media.forEach(function (m) { put('word/media/' + m.name, m.bytes) });
@@ -5480,9 +5523,24 @@
       var dc = function (c) { return '[data-c="' + c + '"]' };
       (function () {
         var t = $('doctools'); t.querySelector(dc('insertHorizontalRule')).textContent = 'Line'; t.querySelector('[data-x="check"]').textContent = 'Checkbox'; t.querySelector(dc('removeFormat')).textContent = 'Clear format';
+        function mk(tag, id, cls, html, title) { var e = document.createElement(tag); e.id = id; if (cls) e.className = cls; e.innerHTML = html; e.title = title; e.setAttribute('aria-label', title); t.appendChild(e); return e }
+        var op = function (a) { return a.map(function (x) { return '<option value="' + x[0] + '">' + x[1] + '</option>' }).join('') };
+        mk('select', 'docls', '', op([['', 'Line spacing'], ['1', '1.0'], ['1.15', '1.15'], ['1.5', '1.5'], ['2', '2.0'], ['2.5', '2.5'], ['3', '3.0']]), 'Line spacing');
+        mk('select', 'docpara', '', op([['', 'Paragraph'], ['bp', 'Add space before'], ['bn', 'Remove space before'], ['ap', 'Add space after'], ['an', 'Remove space after']]), 'Space between paragraphs');
+        mk('button', 'docfi', 'tb', 'First-line indent', 'Indent the first line of the paragraph').type = 'button';
+        mk('select', 'doccase', '', op([['', 'Aa Case'], ['u', 'UPPERCASE'], ['l', 'lowercase'], ['t', 'Title Case']]), 'Change letter case of the selection');
+        mk('button', 'docbrk', 'tb', 'Page break', 'Start a new page here (print, PDF and web export)').type = 'button';
+        mk('button', 'docnp', 'tb', 'New blank page', 'Add a blank page at the end of the document').type = 'button';
+        mk('button', 'doctbx', 'tb', 'Text box', 'Draw a text box on the page: click, then drag to set its size').type = 'button';
+        mk('button', 'dochf', 'tb', 'Header and footer', 'Add a header, footer and page numbers').type = 'button';
+        mk('select', 'lysize', '', op([['letter', 'Letter 8.5 × 11 in'], ['a4', 'A4 210 × 297 mm'], ['legal', 'Legal 8.5 × 14 in'], ['a5', 'A5 148 × 210 mm'], ['a3', 'A3 297 × 420 mm'], ['exec', 'Executive 7.25 × 10.5 in']]), 'Page size');
+        mk('select', 'lyori', '', op([['p', 'Portrait'], ['l', 'Landscape']]), 'Page orientation');
+        mk('select', 'lymar', '', op([['normal', 'Margins: Normal 1 in'], ['narrow', 'Margins: Narrow 0.5 in'], ['mod', 'Margins: Moderate 0.75 in'], ['wide', 'Margins: Wide 1.5 in']]), 'Page margins');
         var r = buildRibbon(t, [
-          { id: 'home', n: 'Home', g: [[dc('undo'), dc('redo')], ['#docstyle', '#docfont', '#docsize'], [dc('bold'), dc('italic'), dc('underline'), dc('strikeThrough'), dc('subscript'), dc('superscript'), cl('doccolor'), cl('dochl')], [dc('justifyLeft'), dc('justifyCenter'), dc('justifyRight'), dc('justifyFull')], [dc('insertUnorderedList'), dc('insertOrderedList'), dc('outdent'), dc('indent')], [dc('removeFormat')]] },
-          { id: 'insert', n: 'Insert', g: [[dc('link'), dc('image'), dc('table')], ['[data-x="shape"]', dc('insertHorizontalRule'), '[data-x="check"]', '[data-x="date"]']] },
+          { id: 'home', n: 'Home', g: [[dc('undo'), dc('redo')], ['#docstyle', '#docfont', '#docsize'], [dc('bold'), dc('italic'), dc('underline'), dc('strikeThrough'), dc('subscript'), dc('superscript'), cl('doccolor'), cl('dochl')], [dc('justifyLeft'), dc('justifyCenter'), dc('justifyRight'), dc('justifyFull')], [dc('insertUnorderedList'), dc('insertOrderedList')]] },
+          { id: 'para', n: 'Paragraph', g: [['#docls', '#docpara'], [dc('outdent'), dc('indent'), '#docfi'], ['#doccase', dc('removeFormat')]] },
+          { id: 'insert', n: 'Insert', g: [[dc('link'), dc('image'), dc('table')], ['[data-x="shape"]', dc('insertHorizontalRule'), '[data-x="check"]', '[data-x="date"]', '#docbrk', '#docnp'], ['#doctbx', '#dochf']] },
+          { id: 'layout', n: 'Layout', g: [['#lysize', '#lyori', '#lymar']] },
           { id: 'tools', n: 'Find and export', g: [['[data-x="find"]'], ['#docexp']] },
           { id: 'table', n: 'Table', hide: 1, g: [['#tabtools']] }
         ], ['#dzoom']);
@@ -5547,6 +5605,228 @@
           else if (d.kind === 'docx') { dPage.style.zoom = 1; zoomOpt($('dzoom'), 100); e.preventDefault() }
         }
       });
+
+      /* ---------- page layout: size, orientation, margins ---------- */
+      var PS = { letter: [8.5, 11], a4: [8.2677, 11.6929], legal: [8.5, 14], a5: [5.8268, 8.2677], a3: [11.6929, 16.5354], exec: [7.25, 10.5] }, MG = { normal: 1, narrow: .5, mod: .75, wide: 1.5 };
+      function lyGet() { var d = docCur, L = (d && d.ly) || { s: 'letter', o: 'p', m: 'normal' }, z = PS[L.s].slice(); if (L.o === 'l') z.reverse(); return { L: L, w: z[0], h: z[1], m: MG[L.m] } }
+      function pgXml() { var g = lyGet(), m = Math.round(g.m * 1440); return '<w:pgSz w:w="' + Math.round(g.w * 1440) + '" w:h="' + Math.round(g.h * 1440) + '"' + (g.L.o === 'l' ? ' w:orient="landscape"' : '') + '/><w:pgMar w:top="' + m + '" w:right="' + m + '" w:bottom="' + m + '" w:left="' + m + '" w:header="720" w:footer="720" w:gutter="0"/>' }
+      var pgSt = document.createElement('style'); document.head.appendChild(pgSt);
+      function lyApply() {
+        var d = docCur; if (!d || d.kind !== 'docx') return; hfShow();
+        if (dPage.classList.contains('plain')) { dPage.style.width = dPage.style.minHeight = dPage.style.padding = dPage.style.maxWidth = ''; return }
+        var g = lyGet(); $('lysize').value = g.L.s; $('lyori').value = g.L.o; $('lymar').value = g.L.m;
+        dPage.style.width = Math.round(g.w * 96) + 'px'; dPage.style.minHeight = Math.round(g.h * 96) + 'px'; dPage.style.padding = Math.round(g.m * 96) + 'px'; dPage.style.setProperty('--m', Math.round(g.m * 96) + 'px'); dPage.style.maxWidth = 'none';
+        pgSt.textContent = '@page{size:' + g.w + 'in ' + g.h + 'in;margin:0}'; dPage.style.setProperty('--ph', Math.round(g.h * 96) + 'px'); pgFit();
+      }
+      function lySet(k, v) { var d = docCur; if (!d || d.kind !== 'docx') return; (d.ly = d.ly || { s: 'letter', o: 'p', m: 'normal' })[k] = v; lyApply(); markDirty() }
+      $('lysize').onchange = function () { lySet('s', this.value) }; $('lyori').onchange = function () { lySet('o', this.value) }; $('lymar').onchange = function () { lySet('m', this.value) };
+      new MutationObserver(lyApply).observe(dPage, { childList: true, attributes: true, attributeFilter: ['hidden', 'class'] });
+
+      /* ---------- spacing, indent, case, page break ---------- */
+      var BL = 'p,h1,h2,h3,h4,h5,h6,li,blockquote,pre';
+      function eachBlock(fn) { rich(function () { var s = getSelection(); if (!s.rangeCount) return; var r = s.getRangeAt(0); Array.prototype.forEach.call(dPage.querySelectorAll(BL), function (b) { if (r.intersectsNode(b)) fn(b) }) }) }
+      $('docls').onchange = function () { var v = this.value; if (v) eachBlock(function (b) { b.style.lineHeight = v }); this.value = '' };
+      $('docpara').onchange = function () { var v = this.value; if (v) eachBlock(function (b) { if (v === 'bp') b.style.marginTop = '12pt'; else if (v === 'bn') b.style.marginTop = '0'; else if (v === 'ap') b.style.marginBottom = '12pt'; else b.style.marginBottom = '0' }); this.value = '' };
+      $('docfi').onclick = function () { var on = null; eachBlock(function (b) { if (on === null) on = !b.style.textIndent; b.style.textIndent = on ? '0.5in' : '' }) };
+      $('doccase').onchange = function () {
+        var v = this.value; this.value = ''; if (!v) return;
+        var cs = v === 'u' ? function (t) { return t.toUpperCase() } : v === 'l' ? function (t) { return t.toLowerCase() } : function (t) { return t.toLowerCase().replace(/(^|[^\p{L}\p{N}'])(\p{L})/gu, function (m, a, c) { return a + c.toUpperCase() }) };
+        rich(function () {
+          var s = getSelection(); if (!s.rangeCount || s.isCollapsed) return; var r = s.getRangeAt(0), rt = r.commonAncestorContainer, list = [], n;
+          if (rt.nodeType === 3) list = [rt]; else { var w = document.createTreeWalker(rt, NodeFilter.SHOW_TEXT); while ((n = w.nextNode())) if (r.intersectsNode(n)) list.push(n) }
+          list.forEach(function (n) { var a = n === r.startContainer ? r.startOffset : 0, b = n === r.endContainer ? r.endOffset : n.length; if (b > a) n.replaceData(a, b - a, cs(n.data.slice(a, b))) });
+        });
+      };
+      $('docbrk').onclick = function () { rich(function () { document.execCommand('insertHTML', false, '<div class="pbrk" style="break-after:page;page-break-after:always;border-top:1px dashed #b5b5b5;margin:14px 0;height:0"></div><p><br></p>') }) };
+
+      /* ---------- Word-style colour picker ---------- */
+      var CPOP = null, CREC = [];
+      var CTH = ['#000000', '#ffffff', '#44546a', '#e7e6e6', '#4472c4', '#ed7d31', '#a5a5a5', '#ffc000', '#5b9bd5', '#70ad47'], CST = ['#c00000', '#ff0000', '#ffc000', '#ffff00', '#92d050', '#00b050', '#00b0f0', '#0070c0', '#002060', '#7030a0'];
+      function cmix(h, t, k) { var n = parseInt(h.slice(1), 16); return '#' + [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { return ('0' + Math.round(v + (t - v) * k).toString(16)).slice(-2) }).join('') }
+      function sws(a) { return a.map(function (c) { return '<button type="button" class="sw" data-col="' + c + '" title="' + c.toUpperCase() + '" style="background:' + c + '"></button>' }).join('') }
+      function colApply(id, val) {
+        var inp = $(id), lab = inp.parentNode;
+        if (val === '') {
+          rich(function () { document.execCommand('styleWithCSS', false, true); if (id === 'doccolor') document.execCommand('foreColor', false, '#111111'); else if (!document.execCommand('hiliteColor', false, 'transparent')) document.execCommand('backColor', false, 'transparent'); document.execCommand('styleWithCSS', false, false) });
+          lab.style.setProperty('--sw', id === 'doccolor' ? '#111111' : 'transparent'); return;
+        }
+        inp.value = val; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      function colClose() { if (CPOP) { CPOP.remove(); CPOP = null } }
+      function colOpen(id, lab) {
+        colClose(); var inp = $(id), doc = id.indexOf('px') !== 0, p = CPOP = document.createElement('div'); p.id = 'clpop';
+        var th = sws(CTH); [.8, .6, .4].forEach(function (k) { th += sws(CTH.map(function (c) { return cmix(c, 255, k) })) }); [.25, .5].forEach(function (k) { th += sws(CTH.map(function (c) { return cmix(c, 0, k) })) });
+        p.innerHTML = (doc ? '<button type="button" class="w" data-col="">' + (id === 'dochl' ? 'No highlight' : 'Automatic') + '</button>' : '') + '<div class="t">Theme colours</div><div class="g">' + th + '</div><div class="t">Standard colours</div><div class="g">' + sws(CST) + '</div>' + (CREC.length ? '<div class="t">Recent</div><div class="g">' + sws(CREC) + '</div>' : '') + '<button type="button" class="w" data-more="1">More colours…</button><input class="hex" placeholder="#RRGGBB" aria-label="Hex colour" maxlength="7">';
+        $('docs').appendChild(p); var r = lab.getBoundingClientRect(); p.style.top = Math.min(r.bottom + 6, innerHeight - p.offsetHeight - 8) + 'px'; p.style.left = Math.max(8, Math.min(r.left, innerWidth - 262)) + 'px';
+        p.addEventListener('mousedown', function (e) { if (e.target.tagName !== 'INPUT') e.preventDefault() });
+        p.addEventListener('click', function (e) {
+          var b = e.target.closest('button'); if (!b) return;
+          if (b.dataset.more) { colClose(); try { inp.showPicker() } catch (x) { inp.click() } return }
+          var c = b.dataset.col; colClose(); colApply(id, c);
+        });
+        p.querySelector('.hex').addEventListener('keydown', function (e) { if (e.key === 'Enter') { var v = this.value.trim(); if (/^#?[0-9a-f]{6}$/i.test(v)) { v = '#' + v.replace('#', '').toLowerCase(); colClose(); colApply(id, v) } } });
+      }
+      ['doccolor', 'dochl', 'pxcol', 'pxfill'].forEach(function (id) {
+        var inp = $(id), lab = inp.parentNode;
+        lab.addEventListener('click', function (e) { e.preventDefault(); if (CPOP && CPOP.dataset.id === id) { colClose(); return } colOpen(id, lab); CPOP.dataset.id = id });
+        inp.addEventListener('change', function () { var c = inp.value; CREC = [c].concat(CREC.filter(function (x) { return x !== c })).slice(0, 10) });
+      });
+      document.addEventListener('mousedown', function (e) { if (CPOP && !CPOP.contains(e.target) && !e.target.closest('label.cl')) colClose() });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && CPOP) { colClose(); e.stopPropagation() } }, true);
+
+      /* ---------- text box ---------- */
+      $('doctbx').onclick = function () {
+        rich(function () {
+          document.execCommand('insertHTML', false, '<div class="tbx" data-new="1">Type here</div><p><br></p>');
+          var b = dPage.querySelector('[data-new]'); if (!b) return; b.removeAttribute('data-new');
+          var r = document.createRange(); r.selectNodeContents(b); var s = getSelection(); s.removeAllRanges(); s.addRange(r); docRange = r.cloneRange();
+        });
+      };
+
+      /* ---------- header, footer and page numbers ---------- */
+      var hfd = document.createElement('dialog'); hfd.className = 'sdlg'; hfd.id = 'hfdlg';
+      hfd.innerHTML = '<h3>Header and footer</h3><div class="row"><label>Header<input type="text" id="hfh" placeholder="Shown at the top of every page"></label></div><div class="row"><label>Footer<input type="text" id="hff" placeholder="Shown at the bottom of every page"></label></div><div class="row"><label>Page numbers<select id="hfp"><option value="">None</option><option value="l">Left</option><option value="c">Centre</option><option value="r">Right</option></select></label></div><div class="act"><button type="button" id="hfclr">Remove all</button><button type="button" id="hfcan">Cancel</button><button type="button" class="primary" id="hfok">Apply</button></div>';
+      document.body.appendChild(hfd);
+      function hfShow() {
+        var d = docCur, h = d && d.kind === 'docx' && d.hf, ft = h ? h.f || '' : '', f = ft + (h && h.pn ? (ft ? '   ' : '') + 'Page 1' : '');
+        if (h && h.h) dPage.setAttribute('data-hdr', h.h); else dPage.removeAttribute('data-hdr');
+        if (f) dPage.setAttribute('data-ftr', f); else dPage.removeAttribute('data-ftr');
+        dPage.style.setProperty('--fal', h && h.pn === 'l' ? 'left' : h && h.pn === 'r' ? 'right' : 'center');
+      }
+      function hfSet(v) { var d = docCur; if (!d || d.kind !== 'docx') return; d.hf = v; hfShow(); markDirty(); hfd.close() }
+      $('dochf').onclick = function () { var h = (docCur && docCur.hf) || {}; $('hfh').value = h.h || ''; $('hff').value = h.f || ''; $('hfp').value = h.pn || ''; hfd.showModal(); $('hfh').focus() };
+      $('hfcan').onclick = function () { hfd.close() };
+      $('hfclr').onclick = function () { hfSet(null) };
+      $('hfok').onclick = function () { hfSet({ h: $('hfh').value.trim(), f: $('hff').value.trim(), pn: $('hfp').value }) };
+      hfd.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); $('hfok').click() } });
+      function hfDocx(ctx) {
+        var d = docCur, h = d && d.hf, o = { refs: '', parts: [], types: '' };
+        if (!h || (!h.h && !h.f && !h.pn)) return o;
+        var R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/', T = 'application/vnd.openxmlformats-officedocument.wordprocessingml.';
+        function run(t) { return '<w:r><w:rPr><w:color w:val="777777"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">' + xe(t) + '</w:t></w:r>' }
+        if (h.h) {
+          o.parts.push(['word/header1.xml', XMLH + '<w:hdr ' + WNS + '><w:p>' + run(h.h) + '</w:p></w:hdr>']);
+          o.refs += '<w:headerReference w:type="default" r:id="rIdHdr"/>'; ctx.rels.push('<Relationship Id="rIdHdr" Type="' + R + 'header" Target="header1.xml"/>');
+          o.types += '<Override PartName="/word/header1.xml" ContentType="' + T + 'header+xml"/>';
+        }
+        if (h.f || h.pn) {
+          var jc = h.pn === 'l' ? 'left' : h.pn === 'r' ? 'right' : 'center', fl = '';
+          if (h.pn) fl = (h.f ? run('   ') : '') + '<w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r>' + run('1') + '<w:r><w:fldChar w:fldCharType="end"/></w:r>';
+          o.parts.push(['word/footer1.xml', XMLH + '<w:ftr ' + WNS + '><w:p><w:pPr><w:jc w:val="' + jc + '"/></w:pPr>' + (h.f ? run(h.f) : '') + fl + '</w:p></w:ftr>']);
+          o.refs += '<w:footerReference w:type="default" r:id="rIdFtr"/>'; ctx.rels.push('<Relationship Id="rIdFtr" Type="' + R + 'footer" Target="footer1.xml"/>');
+          o.types += '<Override PartName="/word/footer1.xml" ContentType="' + T + 'footer+xml"/>';
+        }
+        return o;
+      }
+
+      /* ---------- text box: draw it, move it freely, switch to in-line ---------- */
+      var TB = { draw: false, g: null, x0: 0, y0: 0, sel: null, mv: null };
+      var tbBar = document.createElement('div'); tbBar.id = 'tbbar'; tbBar.hidden = true;
+      tbBar.innerHTML = '<button type="button" data-tb="mode"></button><i class="sep"></i><button type="button" data-tb="fill" title="Turn the white background on or off">Fill</button><button type="button" data-tb="border" title="Show or hide the border">Border</button><i class="sep"></i><button type="button" data-tb="del" title="Delete this text box">🗑</button>';
+      var tbFrame = document.createElement('div'); tbFrame.id = 'tbframe'; tbFrame.hidden = true;
+      $('docs').appendChild(tbFrame); $('docs').appendChild(tbBar);
+      var zoomOf = function () { return parseFloat(dPage.style.zoom) || 1 };
+      function tbPlace() {
+        var b = TB.sel; if (!b || !docOpen || !dPage.contains(b)) { tbBar.hidden = tbFrame.hidden = true; return }
+        var r = b.getBoundingClientRect(), sr = $('docscroll').getBoundingClientRect();
+        if (r.bottom < sr.top + 10 || r.top > sr.bottom - 10) { tbBar.hidden = tbFrame.hidden = true; return }
+        tbBar.hidden = tbFrame.hidden = false;
+        tbFrame.style.left = r.left - 2 + 'px'; tbFrame.style.top = r.top - 2 + 'px'; tbFrame.style.width = r.width + 'px'; tbFrame.style.height = r.height + 'px';
+        tbBar.querySelector('[data-tb="mode"]').textContent = b.style.position === 'absolute' ? 'In line with text' : 'Float over text';
+        var bw = tbBar.offsetWidth, top = r.top - tbBar.offsetHeight - 8; if (top < sr.top + 4) top = Math.min(r.bottom + 8, sr.bottom - 40);
+        tbBar.style.top = top + 'px'; tbBar.style.left = Math.max(8, Math.min(r.left, innerWidth - bw - 8)) + 'px';
+      }
+      var tbRO = window.ResizeObserver ? new ResizeObserver(function () {
+        var b = TB.sel; if (!b) return; var k = b.offsetWidth + 'x' + b.offsetHeight;
+        if (TB.k && TB.k !== k) markDirty(); TB.k = k; tbPlace();
+      }) : null;
+      function tbUse(b) {
+        b = b || null; if (b !== TB.sel) { if (tbRO) { tbRO.disconnect(); TB.k = ''; if (b) tbRO.observe(b) } }
+        TB.sel = b; tbPlace();
+      }
+      function tbFree(b) {
+        var z = zoomOf(), pr = dPage.getBoundingClientRect(), r = b.getBoundingClientRect();
+        b.style.width = r.width / z + 'px'; b.style.margin = '0'; b.style.zIndex = '4'; b.style.left = (r.left - pr.left) / z + 'px'; b.style.top = (r.top - pr.top) / z + 'px'; b.style.position = 'absolute';
+      }
+      document.addEventListener('selectionchange', function () {
+        if (!docOpen || TB.draw) return; var s = getSelection(), n = s.anchorNode; if (n && n.nodeType === 3) n = n.parentNode;
+        var b = n && n.closest ? n.closest('.tbx') : null; if (b && dPage.contains(b)) tbUse(b); else if (n && dPage.contains(n)) tbUse(null);
+      });
+      dPage.addEventListener('mousedown', function (e) { var b = e.target.closest && e.target.closest('.tbx'); if (b) tbUse(b); else tbUse(null) });
+      $('docscroll').addEventListener('scroll', tbPlace); window.addEventListener('resize', tbPlace);
+      tbBar.addEventListener('mousedown', function (e) { if (e.target.closest('button')) e.preventDefault() });
+      tbBar.addEventListener('click', function (e) {
+        var k = e.target.closest('button'), b = TB.sel; if (!k || !b) return; k = k.dataset.tb;
+        if (k === 'mode') { if (b.style.position === 'absolute') { b.style.position = ''; b.style.left = b.style.top = b.style.zIndex = ''; b.style.margin = '' } else tbFree(b) }
+        else if (k === 'fill') b.style.background = b.style.background ? '' : '#fff';
+        else if (k === 'border') b.style.borderStyle = b.style.borderStyle === 'none' ? '' : 'none';
+        else if (k === 'del') { b.remove(); tbUse(null) }
+        markDirty(); tbPlace();
+      });
+      $('doctbx').onclick = function () {
+        if (!editable()) return; TB.draw = !TB.draw; dPage.classList.toggle('tbdraw', TB.draw); this.classList.toggle('on', TB.draw);
+        if (TB.draw) toast('Click and drag on the page to draw the text box. Press Esc to cancel.');
+      };
+      function tbEnd() { TB.draw = false; dPage.classList.remove('tbdraw'); $('doctbx').classList.remove('on'); if (TB.g) { TB.g.remove(); TB.g = null } }
+      dPage.addEventListener('pointerdown', function (e) {
+        if (!TB.draw || e.button) return; e.preventDefault(); e.stopPropagation(); TB.x0 = e.clientX; TB.y0 = e.clientY;
+        TB.g = document.createElement('div'); TB.g.id = 'tbghost'; document.body.appendChild(TB.g);
+      }, true);
+      document.addEventListener('pointermove', function (e) {
+        if (TB.mv) { var b = TB.sel, z = zoomOf(); b.style.left = TB.mv.l + (e.clientX - TB.mv.x) / z + 'px'; b.style.top = TB.mv.t + (e.clientY - TB.mv.y) / z + 'px'; tbPlace(); return }
+        if (!TB.g) return; var g = TB.g.style; g.left = Math.min(e.clientX, TB.x0) + 'px'; g.top = Math.min(e.clientY, TB.y0) + 'px'; g.width = Math.abs(e.clientX - TB.x0) + 'px'; g.height = Math.abs(e.clientY - TB.y0) + 'px';
+      });
+      document.addEventListener('pointerup', function (e) {
+        if (TB.mv) { TB.mv = null; markDirty(); return }
+        if (!TB.g) return;
+        var z = zoomOf(), pr = dPage.getBoundingClientRect(), w = Math.abs(e.clientX - TB.x0), h = Math.abs(e.clientY - TB.y0), l = Math.min(e.clientX, TB.x0), t = Math.min(e.clientY, TB.y0);
+        if (w < 14 && h < 14) { w = 240 * z; h = 100 * z }
+        var b = document.createElement('div'); b.className = 'tbx'; b.textContent = 'Type here';
+        b.style.cssText = 'position:absolute;margin:0;z-index:4;background:#fff;left:' + (l - pr.left) / z + 'px;top:' + (t - pr.top) / z + 'px;width:' + Math.max(60, w / z) + 'px;height:' + Math.max(40, h / z) + 'px';
+        tbEnd(); dPage.appendChild(b); markDirty();
+        dPage.focus({ preventScroll: true }); var r = document.createRange(); r.selectNodeContents(b); var s = getSelection(); s.removeAllRanges(); s.addRange(r); docRange = r.cloneRange(); tbUse(b);
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && TB.draw) { tbEnd(); e.stopPropagation(); e.preventDefault() } }, true);
+      var tbObs = new MutationObserver(function () { if (!docOpen || $('docs').hidden) tbUse(null) }); tbObs.observe($('docs'), { attributes: true, attributeFilter: ['hidden'] });
+
+      /* text boxes grow to fit what you type, so nothing is hidden or scrolls inside */
+      dPage.addEventListener('input', function (e) {
+        var n = getSelection().anchorNode; if (n && n.nodeType === 3) n = n.parentNode;
+        var b = n && n.closest ? n.closest('.tbx') : null; if (!b || !dPage.contains(b)) return;
+        if (b.scrollHeight > b.clientHeight + 1) { b.style.height = b.scrollHeight + (b.offsetHeight - b.clientHeight) + 'px'; tbPlace() }
+      });
+
+      /* ---------- real page steps: pages grow one full page at a time ---------- */
+      function pgFit() {
+        var d = docCur; if (!d || d.kind !== 'docx' || dPage.classList.contains('plain')) return;
+        var g = lyGet(), ph = Math.round(g.h * 96), m = Math.round(g.m * 96);
+        Array.prototype.forEach.call(dPage.querySelectorAll('.pbrk'), function (b) { b.style.height = '0'; b.style.margin = '0'; var y = b.offsetTop; b.style.height = ((Math.floor(y / ph) + 1) * ph - y + m) + 'px' });
+        dPage.style.minHeight = ph + 'px'; var H = dPage.scrollHeight; dPage.style.minHeight = Math.max(1, Math.ceil((H - 1) / ph)) * ph + 'px';
+      }
+      var pgRaf = 0; dPage.addEventListener('input', function () { if (!pgRaf) pgRaf = requestAnimationFrame(function () { pgRaf = 0; pgFit() }) });
+      $('docnp').onclick = function () {
+        if (!editable()) return;
+        var b = document.createElement('div'); b.className = 'pbrk'; b.setAttribute('style', 'break-after:page;page-break-after:always;border-top:1px dashed #b5b5b5;margin:0;height:0');
+        var p = document.createElement('p'); p.innerHTML = '<br>'; dPage.appendChild(b); dPage.appendChild(p); markDirty(); pgFit();
+        dPage.focus({ preventScroll: true }); var r = document.createRange(); r.setStart(p, 0); r.collapse(true); var s = getSelection(); s.removeAllRanges(); s.addRange(r); docRange = r.cloneRange();
+        p.scrollIntoView({ block: 'start', behavior: 'smooth' }); toast('Blank page added at the end.');
+      };
+
+      /* ---------- text box: hover the border to move it ---------- */
+      function tbEdge(e) {
+        var b = e.target.closest && e.target.closest('.tbx'); if (!b || !dPage.contains(b)) return null;
+        var r = b.getBoundingClientRect(), z = zoomOf(), m = Math.min(e.clientX - r.left, r.right - e.clientX, e.clientY - r.top, r.bottom - e.clientY);
+        if (m > 7 * z || (e.clientX > r.right - 18 * z && e.clientY > r.bottom - 18 * z)) return null; return b;
+      }
+      function edgeFlag(on) { var sc = $('docscroll'); if (on) sc.dataset.edge = 1; else delete sc.dataset.edge }
+      dPage.addEventListener('pointermove', function (e) { if (TB.draw || TB.mv || e.buttons) return; edgeFlag(!!tbEdge(e)) });
+      dPage.addEventListener('pointerleave', function () { if (!TB.mv) edgeFlag(false) });
+      dPage.addEventListener('pointerdown', function (e) {
+        if (TB.draw || e.button) return; var b = tbEdge(e); if (!b) return;
+        e.preventDefault(); e.stopPropagation(); tbUse(b); if (b.style.position !== 'absolute') tbFree(b);
+        TB.mv = { x: e.clientX, y: e.clientY, l: parseFloat(b.style.left) || 0, t: parseFloat(b.style.top) || 0 };
+      }, true);
+      document.addEventListener('pointerup', function () { edgeFlag(false) });
     })();
   </script>
 </body>
