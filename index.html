@@ -2449,6 +2449,151 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
     #fab.ra #fabmenu, #fab.r #fabmenu { left: auto; right: 0; transform-origin: bottom right }
     #fab.dn #fabmenu { bottom: auto; top: calc(100% + 10px); transform-origin: top left }
     #fab.dn.ra #fabmenu, #fab.dn.r #fabmenu { transform-origin: top right }
+
+    /* =====================================================================
+       RESPONSIVE LAYER  (tablets, phones, landscape phones)
+       Everything below sits inside media queries that only match screens
+       narrower than a laptop, so the laptop / desktop layout is unchanged.
+       ===================================================================== */
+
+    /* ---- small laptops and tablets in landscape: slimmer side list ---- */
+    @media (min-width: 861px) and (max-width: 1024px) {
+      body { grid-template-columns: minmax(0, 1fr) 340px }
+    }
+
+    /* ---- tablets and phones, portrait: the page scrolls, nothing is squeezed ---- */
+    @media (max-width: 860px) {
+      html, body { height: auto; min-height: 100% }
+      body {
+        min-height: 100vh; min-height: 100dvh;
+        grid-template-rows: auto auto auto;
+        padding: 8px; padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px))
+      }
+      header { padding: 8px 12px; gap: 8px; margin: -8px calc(-1 * max(8px, env(safe-area-inset-right, 0px))) 0 calc(-1 * max(8px, env(safe-area-inset-left, 0px))); padding-top: calc(8px + env(safe-area-inset-top, 0px)) }
+      #stage { height: clamp(240px, 58vw, 62vh); min-height: 240px }
+      aside { min-height: 0; overflow: visible; margin: 0 calc(-1 * max(8px, env(safe-area-inset-right, 0px))) -8px calc(-1 * max(8px, env(safe-area-inset-left, 0px))); padding-bottom: env(safe-area-inset-bottom, 0px) }
+      #list { flex: none; min-height: 160px; max-height: 70vh; max-height: 70dvh }
+      /* editor takes the whole screen, not a small box */
+      #ed.on { position: fixed; inset: 0; z-index: 65; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
+      #edv { padding: 8px }
+      #edp { width: auto; max-height: 52%; flex: none }
+      /* touch screens have no hover, so keep the small remove buttons visible */
+      .rm { opacity: 1 }
+      dialog { max-width: calc(100vw - 24px) }
+      #fabmenu { max-width: calc(100vw - 24px) }
+    }
+
+    /* ---- phones, portrait ---- */
+    @media (max-width: 640px) {
+      header { gap: 6px; padding-left: 10px; padding-right: 10px }
+      h1 { font-size: 15px; gap: 8px }
+      header > button, header .menu > button { padding: 6px 10px; font-size: 13px }
+      header > #galbtn, header > #docbtn, header > #setbtn, header > #theme { flex: 1 1 auto; text-align: center }
+      #openmenu { min-width: min(260px, calc(100vw - 20px)) }
+      .menu { position: static }
+      #openmenu { left: 10px; right: 10px; width: auto; max-width: none; top: auto; margin-top: 8px }
+      #stage { height: clamp(220px, 62vw, 56vh); min-height: 220px; border-radius: 14px }
+      /* the welcome card fits instead of being cut off */
+      #stage:has(#empty:not([style*="display: none"])) { height: auto; min-height: 260px }
+      #empty { padding: 22px 16px; max-width: 100% }
+      #empty .logo { width: 56px; height: 56px; border-radius: 17px; margin-bottom: 12px }
+      #empty .logo:after { left: 22px; top: 17px; border-left-width: 18px; border-top-width: 11px; border-bottom-width: 11px }
+      #empty h2 { font-size: 19px }
+      #empty p { font-size: 13px; margin-bottom: 14px }
+      #empty .row { gap: 6px }
+      #empty .row .btn, #empty .row button { padding: 7px 10px; font-size: 13px }
+      #info { left: 8px; right: 8px; top: 8px; max-width: none }
+      #ctl { padding: 30px 8px 6px }
+      #ctl .row { gap: 0 }
+      #ctl button { width: 36px; height: 36px }
+      #tm { margin: 0 6px; font-size: 12px }
+      #vol { width: 64px; flex: none }
+      .filters { padding: 10px }
+      .play { padding: 8px 10px 10px }
+      .bar { flex-wrap: wrap }
+      #foot { flex-wrap: wrap; gap: 6px }
+      /* Settings */
+      #sethd { flex-wrap: wrap; gap: 8px; padding: 10px 12px }
+      #setq { order: 3; flex: 1 1 100%; max-width: none; margin-left: 0 }
+      #setbody { padding: 14px 10px 90px }
+      .setr { padding: 12px 14px }
+      #sethd h2 { margin-right: auto }
+      .setr .accs { flex: 1 1 100% }
+      .accs { justify-content: flex-start }
+      /* Documents */
+      #docbody { grid-template-rows: minmax(0, 26%) minmax(0, 1fr) }
+      #docbar { padding: 8px 10px; gap: 6px }
+      #docbar button { padding: 5px 10px; font-size: 13px }
+      #docstat { padding: 5px 10px }
+      #docscroll { padding: 14px 6px 90px }
+      #docpage { padding: 28px 18px; min-height: 50vh }
+      #docmsg { margin: 20px 8px; padding: 16px }
+      #findbar input[type=text], #findbar input[type=search] { width: 100%; flex: 1 1 120px }
+      #tplmenu { left: 8px; right: 8px; min-width: 0; top: 50px }
+      /* Gallery */
+      #galbar { padding: 8px 10px; gap: 8px }
+      #galbar input[type=search] { width: 100%; flex: 1 1 100% }
+      #galsel { padding: 8px 10px }
+      /* dialogs */
+      .sdlg { width: calc(100vw - 20px); max-width: none }
+      #sigc { width: 100%; height: auto }
+    }
+
+    /* ---- very small phones ---- */
+    @media (max-width: 360px) {
+      h1 { font-size: 14px }
+      header > button, header .menu > button { padding: 6px 8px; font-size: 12.5px }
+      #empty h2 { font-size: 17px }
+      #vol { display: none }
+      .filters { grid-template-columns: 1fr }
+      .filters .full { grid-column: 1 }
+    }
+
+    /* ---- phones turned sideways (short screens): side-by-side like the laptop, just smaller ---- */
+    @media (orientation: landscape) and (max-height: 520px) and (max-width: 1000px) {
+      html, body { height: 100% }
+      body {
+        min-height: 0; height: 100%;
+        grid-template-columns: minmax(0, 1fr) clamp(250px, 38vw, 330px);
+        grid-template-rows: auto minmax(0, 1fr);
+        grid-template-areas: "top top" "stage list";
+        padding: 6px; gap: 6px;
+        padding-left: max(6px, env(safe-area-inset-left, 0px)); padding-right: max(6px, env(safe-area-inset-right, 0px))
+      }
+      header { margin: -6px calc(-1 * max(6px, env(safe-area-inset-right, 0px))) 0 calc(-1 * max(6px, env(safe-area-inset-left, 0px))); padding: 4px 10px; gap: 6px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scrollbar-width: none }
+      header::-webkit-scrollbar { display: none }
+      header > *, h1 { flex: none }
+      h1 { margin-right: auto; font-size: 14px }
+      header > button, header .menu > button { padding: 4px 10px; font-size: 12.5px; white-space: nowrap }
+      .menu { position: static }
+      #openmenu { position: fixed; top: 44px; left: 8px; right: auto; max-height: calc(100dvh - 54px); overflow-y: auto }
+      #stage { height: auto; min-height: 0; border-radius: 12px }
+      #empty { padding: 10px 14px; max-width: 520px }
+      #empty .logo { display: none }
+      #empty h2 { font-size: 17px; margin-bottom: 4px }
+      #empty p { font-size: 12px; margin-bottom: 8px }
+      #empty .row .btn, #empty .row button { padding: 5px 9px; font-size: 12px }
+      aside { margin: 0; min-height: 0; overflow-y: auto; border: 1px solid var(--line); border-radius: 12px; padding-bottom: 0 }
+      #list { flex: none; max-height: none; min-height: 140px }
+      .filters { padding: 8px }
+      #ctl { padding: 22px 10px 4px }
+      body.media #fab:not(.r) { bottom: calc(66px + env(safe-area-inset-bottom, 0px)) }
+      #ed.on { position: fixed; inset: 0; flex-direction: row }
+      #edp { width: clamp(240px, 40vw, 324px); max-height: none; border-top: 0; border-left: 1px solid var(--line) }
+      /* Settings / Documents / Gallery headers stay on one tidy row */
+      #sethd { flex-wrap: nowrap }
+      #setq { order: 0; flex: 1; margin-left: auto }
+      #docbody { grid-template-columns: 220px minmax(0, 1fr); grid-template-rows: none }
+      #docside { border-right: 1px solid var(--line); border-bottom: 0 }
+    }
+
+    /* ---- coarse pointers (any touch phone/tablet): comfortable tap targets ---- */
+    @media (hover: none) and (pointer: coarse) and (max-width: 860px) {
+      button, select, input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]) { min-height: 36px }
+      input[type=checkbox] { width: 18px; height: 18px }
+      /* 16px text stops iOS zooming the page when a field is tapped */
+      select, input, textarea { font-size: 16px }
+    }
   </style>
 </head>
 
