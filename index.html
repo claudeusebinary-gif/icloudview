@@ -2275,6 +2275,180 @@
 
     #docpage:not(.plain) { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--ph, 1056px) - 3px), rgba(120,128,150,.38) calc(var(--ph, 1056px) - 3px), rgba(120,128,150,.38) var(--ph, 1056px)) }
     #docscroll[data-edge] #docpage, #docscroll[data-edge] #docpage * { cursor: move !important }
+
+/* ===== polish layer (visual only, no ids/classes changed) ===== */
+::selection{background:color-mix(in srgb,var(--accent) 32%,transparent)}
+button,label.btn,select,input[type=search],input[type=text],input[type=date]{transition:transform .14s cubic-bezier(.3,1.4,.5,1),box-shadow .2s,background-color .2s,border-color .2s,filter .2s,color .2s}
+button:not(:disabled):active,label.btn:active{transform:translateY(1px) scale(.96)}
+button:not(.tb):not(.lbb):not(.di):not(.sw):hover,label.btn:hover{box-shadow:0 6px 16px -8px rgba(0,0,0,.35)}
+select:hover,input[type=search]:hover,input[type=text]:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+input:focus,select:focus{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent)!important;border-color:var(--accent)!important;outline:0}
+input[type=range]{accent-color:var(--accent)}
+#openmenu,#tplmenu,#clpop,#tbbar,#imgbar{border-radius:16px!important;backdrop-filter:blur(18px);box-shadow:0 24px 60px -16px rgba(0,0,0,.5)!important;animation:fxpop .2s cubic-bezier(.3,1.4,.5,1)}
+dialog{border-radius:20px!important;box-shadow:0 30px 80px -20px rgba(0,0,0,.55)!important}
+dialog[open]{animation:fxpop .24s cubic-bezier(.3,1.4,.5,1)}
+dialog::backdrop{background:rgba(8,10,16,.5);backdrop-filter:blur(5px)}
+#toast{border-radius:999px!important;backdrop-filter:blur(14px);box-shadow:0 14px 36px -10px rgba(0,0,0,.55)!important}
+#empty .logo{animation:fxfloat 4s ease-in-out infinite}
+#empty h2{letter-spacing:-.03em}
+aside{box-shadow:-12px 0 40px -28px rgba(0,0,0,.5)}
+#list li,#doclist li{transition:background-color .15s,transform .15s}
+#list li:hover,#doclist li:hover{transform:translateX(2px)}
+#docs:not([hidden]),#gal:not([hidden]){animation:fxfade .22s ease}
+#ed.on{animation:fxfade .22s ease}
+.rtabs>button.on::after{box-shadow:0 0 12px var(--accent)}
+@keyframes fxfade{from{opacity:0}to{opacity:1}}
+@keyframes fxpop{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes fxspin{to{transform:rotate(360deg)}}
+@keyframes fxfloat{50%{transform:translateY(-7px)}}
+@keyframes fxind{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+@keyframes fxtick{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.18)}100%{transform:scale(1);opacity:1}}
+
+/* ===== real gap between Word pages ===== */
+#docpage:not(.plain){--pp:calc(var(--ph,1056px) + var(--pgap,40px));background-color:transparent!important;box-shadow:none!important;border-radius:0;
+background-image:repeating-linear-gradient(to bottom,transparent 0,transparent var(--ph),rgba(0,0,0,.3) var(--ph),transparent calc(var(--ph) + 14px),transparent calc(var(--pp) - 10px),rgba(0,0,0,.14) var(--pp)),repeating-linear-gradient(to bottom,#fff 0,#fff var(--ph),transparent var(--ph),transparent var(--pp))!important}
+#docpage>[style*="--pgp"]{margin-top:var(--pgp)!important}
+@media print{#docpage:not(.plain){background-image:none!important;background-color:#fff!important}}
+/* PDF pages: clear space between pages */
+#pdfpages{gap:40px!important}
+.pgbox .pgstage{border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.14),0 22px 44px -16px rgba(0,0,0,.4)}
+
+/* ===== gallery speed ===== */
+#galgrid{contain:layout style}
+.tile{contain:layout paint style;transition:transform .15s}
+.tile:hover,.tile:focus-visible{filter:none!important;transform:scale(1.035);z-index:2}
+#galscroll,#list{scroll-behavior:auto;overscroll-behavior:contain}
+
+/* ===== floating quick access ===== */
+#fab{position:fixed;left:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:88;display:flex;flex-direction:column-reverse;align-items:flex-start;gap:10px}
+#fabmain{width:56px;height:56px;padding:0;border:0;border-radius:50%;font-size:28px;line-height:1;display:grid;place-items:center;color:var(--accent-ink);background:var(--accent)!important;box-shadow:0 14px 30px -8px color-mix(in srgb,var(--accent) 80%,#000),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+#fab.open #fabmain{transform:rotate(135deg)}
+#fabmenu{display:flex;flex-direction:column;gap:7px;opacity:0;transform:translateY(14px) scale(.95);transform-origin:bottom left;pointer-events:none;visibility:hidden;transition:opacity .18s,transform .22s cubic-bezier(.3,1.4,.5,1),visibility 0s .2s}
+#fab.open #fabmenu{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition-delay:0s}
+#fabmenu button{display:flex;align-items:center;gap:10px;height:40px;padding:0 16px 0 12px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(14px);color:var(--ink);font-weight:600;font-size:13px;white-space:nowrap;box-shadow:0 10px 26px -12px rgba(0,0,0,.5)}
+#fabmenu button span{width:22px;text-align:center;font-size:16px}
+#fabmenu button:hover{border-color:var(--accent);transform:translateX(3px)}
+#fabmenu button[hidden]{display:none}
+body:has(#lb:not([hidden])) #fab,body:has(#ed.on) #fab{display:none}
+
+/* ===== editor: processing / canceling / closing animation ===== */
+#fxov{position:absolute;inset:0;z-index:9;display:none;place-items:center;background:color-mix(in srgb,var(--bg) 60%,transparent);backdrop-filter:blur(8px)}
+#fxov.on{display:grid;animation:fxfade .18s ease}
+#fxov .fxc{min-width:290px;max-width:86%;padding:28px 30px 24px;border-radius:22px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;animation:fxpop .3s cubic-bezier(.3,1.4,.5,1)}
+#fxov .fxi{width:50px;height:50px;border-radius:50%;border:4px solid color-mix(in srgb,var(--accent) 20%,transparent);border-top-color:var(--accent);animation:fxspin .8s linear infinite;display:grid;place-items:center;font-size:24px;font-weight:800}
+#fxov .fxt{font-size:17px;letter-spacing:-.01em}
+#fxov .fxs{font-size:12.5px;color:var(--mute);min-height:1em}
+#fxov .fxb{width:100%;height:8px;border-radius:99px;background:var(--card);overflow:hidden;margin-top:4px}
+#fxov .fxb i{display:block;height:100%;width:0;border-radius:inherit;background:var(--accent);transition:width .2s}
+#fxov.ind .fxb i{width:38%!important;animation:fxind 1.1s ease-in-out infinite}
+#fxov .fxx{display:none;margin-top:6px}
+#fxov.work.v .fxx{display:inline-flex}
+#fxov.cancel .fxi,#fxov.bad .fxi{border-color:rgba(229,72,77,.22);border-top-color:#e5484d}
+#fxov.close .fxi{border-color:color-mix(in srgb,var(--mute) 25%,transparent);border-top-color:var(--mute);width:38px;height:38px}
+#fxov.cancel .fxb i{background:#e5484d}
+#fxov.ok .fxi,#fxov.bad .fxi{animation:fxtick .4s ease both;background:rgba(47,179,107,.14);border-color:#2fb36b;color:#2fb36b}
+#fxov.bad .fxi{background:rgba(229,72,77,.12);border-color:#e5484d;color:#e5484d}
+#fxov.ok .fxi::after{content:"✓"}#fxov.bad .fxi::after{content:"✕"}
+#fxov.ok .fxb,#fxov.bad .fxb,#fxov.close .fxb,#fxov.cancel .fxb:not(.k){display:none}
+
+html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::before,html.noanim :not(#fxov):not(#fxov *)::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+#fab.r{left:auto;right:18px;align-items:flex-end}#fab.r #fabmenu{transform-origin:bottom right}
+/* ===== settings page ===== */
+#set{position:fixed;inset:0;z-index:72;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);padding-top:env(safe-area-inset-top,0px)}
+#set[hidden]{display:none}
+#set:not([hidden]){animation:fxfade .2s ease}
+#sethd{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line)}
+#sethd h2{margin:0;font-size:18px;letter-spacing:-.02em}
+#setq{flex:1;max-width:420px;margin-left:auto;height:38px;padding:0 14px}
+#setbody{flex:1;overflow:auto;padding:22px 16px 80px}
+#setwrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.sets h3{margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.setc{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.setr{display:flex;align-items:center;gap:14px;padding:14px 18px;border-top:1px solid var(--line)}
+.setr:first-child{border-top:0}
+.setr .tx{flex:1;min-width:0}.setr b{display:block;font-weight:600;font-size:14px}.setr small{display:block;color:var(--mute);font-size:12.5px;margin-top:2px}
+.setr input[type=range]{width:170px}
+.sw{position:relative;width:46px;height:26px;padding:0;border-radius:999px;border:0;background:var(--line);flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s cubic-bezier(.3,1.4,.5,1)}
+.sw[aria-checked=true]{background:var(--accent)}.sw[aria-checked=true]::after{transform:translateX(20px)}
+.accs{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.accs button{width:28px;height:28px;padding:0;border-radius:50%;border:2px solid transparent;background:var(--c)}
+.accs button.on{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--c)}
+.accs button.def{background:conic-gradient(#3358e0 0 50%,#7b9bff 0)}
+#setnone{text-align:center;color:var(--mute);padding:40px 0}
+@media(max-width:640px){.setr{flex-wrap:wrap}.setr input[type=range]{width:100%}}
+
+/* ===== quick access button: centred icon, smaller, mobile friendly ===== */
+#fabmain{width:46px;height:46px;font-size:0;line-height:0;display:flex;align-items:center;justify-content:center}
+#fabmain svg{display:block;width:22px;height:22px;flex:none;pointer-events:none}
+#fab{left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+#fab.r{left:auto;right:calc(16px + env(safe-area-inset-right,0px))}
+#fabmenu{max-height:calc(100vh - 110px);max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:2px}
+#fabmenu::-webkit-scrollbar{display:none}
+@media (max-width:640px){
+#fab{left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));gap:8px}
+#fab.r{left:auto;right:calc(12px + env(safe-area-inset-right,0px))}
+#fabmain{width:42px;height:42px}
+#fabmain svg{width:20px;height:20px}
+#fabmenu{gap:6px;max-width:calc(100vw - 24px)}
+#fabmenu button{height:44px;font-size:14px;padding:0 16px 0 12px}
+}
+@media (max-width:640px) and (max-height:520px){#fabmenu button{height:38px}}
+@media (hover:none){#fabmenu button:hover{transform:none}}
+#fabmenu button{background:var(--panel)!important;backdrop-filter:none!important}
+
+    /* ===== sidebar playback options ===== */
+    .play { padding: 10px 12px 12px; border-bottom: 1px solid var(--line) }
+    .play summary { font-weight: 600; color: var(--ink) }
+    .play .prow { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 8px }
+    .play .prow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; align-items: end }
+    .play .prow2 label { display: flex; flex-direction: column; gap: 2px; font-size: 12px; color: var(--mute); min-width: 0 }
+    .play select, .play button { width: 100%; min-width: 0; background-color: var(--card); border-color: var(--line) }
+    .play button { height: 34px; padding-top: 0; padding-bottom: 0 }
+    .play select { height: 34px }
+
+    /* ===== quick access: no glow, and it stays clear of the player controls ===== */
+    #fabmain, #fabmenu button { box-shadow: none !important }
+    #fab:not(.r) { transition: bottom .2s }
+    @media (min-width: 861px) {
+      body.media #fab:not(.r) { bottom: calc(92px + env(safe-area-inset-bottom, 0px)) }
+    }
+
+    /* ===== Open menu: Videos / Photos / Documents open a Files-or-Folder choice ===== */
+    #openmenu button.sub { position: relative; padding-right: 34px }
+    #openmenu button.sub svg { position: absolute; right: 12px; top: 50%; width: 12px; height: 12px; margin-top: -6px; fill: none; stroke: var(--mute); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s }
+    #openmenu button.sub[aria-expanded="true"] { background: var(--soft) }
+    #openmenu button.sub[aria-expanded="true"] svg { transform: rotate(180deg) }
+    #openmenu .sopts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 2px 4px 8px }
+    #openmenu .sopts[hidden] { display: none }
+    #openmenu .sopts button { align-items: center; justify-content: center; padding: 9px 8px; border: 1px solid var(--line); background: var(--card); text-align: center }
+    #openmenu .sopts button:hover, #openmenu .sopts button:focus-visible { background: var(--soft); border-color: var(--accent) }
+
+    /* ===== x2 / x2 buttons: subscript sits low, superscript sits high ===== */
+    .tb .xs { display: inline-block; white-space: nowrap }
+    .tb .xs sub, .tb .xs sup { font-size: .7em; line-height: 0 }
+
+    /* ===== quick access: margin, movable, see-through, hide in place ===== */
+    #fab { left: calc(28px + env(safe-area-inset-left, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)) }
+    #fab.r { left: auto; right: calc(28px + env(safe-area-inset-right, 0px)) }
+    @media (max-width: 640px) {
+      #fab { left: calc(20px + env(safe-area-inset-left, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)) }
+      #fab.r { left: auto; right: calc(20px + env(safe-area-inset-right, 0px)) }
+    }
+    #fab.free { transition: none }
+    #fabmain { opacity: var(--fabo, 1); touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; transition: transform .3s cubic-bezier(.3, 1.5, .5, 1), opacity .2s }
+    #fabmain svg { transition: opacity .2s }
+    #fabmain:hover, #fabmain:focus-visible, #fab.open #fabmain, #fab.drag #fabmain { opacity: 1 }
+    #fab.drag #fabmain { transform: scale(1.12); outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 2px; cursor: grabbing }
+    #fab.hid:not(.open):not(.drag) #fabmain { transform: scale(.5); opacity: .35 }
+    #fab.hid:not(.open):not(.drag) #fabmain:hover { opacity: .8 }
+    #fab.hid:not(.open):not(.drag) #fabmain svg { opacity: 0 }
+    #fab.hid #fabmenu [data-a="hd"] { order: -1 }
+    /* the menu floats off the button, so the button can sit anywhere */
+    #fabmenu { position: absolute; left: 0; bottom: calc(100% + 10px); width: max-content }
+    #fab.ra #fabmenu, #fab.r #fabmenu { left: auto; right: 0; transform-origin: bottom right }
+    #fab.dn #fabmenu { bottom: auto; top: calc(100% + 10px); transform-origin: top left }
+    #fab.dn.ra #fabmenu, #fab.dn.r #fabmenu { transform-origin: top right }
   </style>
 </head>
 
@@ -2290,36 +2464,35 @@
       <div id="openmenu" role="menu" hidden>
         <button role="menuitem" data-for="afolder"><b>Open folder</b><span>Videos and photos together</span></button>
         <hr>
-        <button role="menuitem" data-for="folder"><b>Video folder</b><span>Only the videos in a folder</span></button>
-        <button role="menuitem" data-for="pfolder"><b>Photo folder</b><span>Only the photos in a folder</span></button>
-        <button role="menuitem" data-for="file"><b>Open videos</b><span>Pick individual video files</span></button>
+        <button type="button" role="menuitem" class="sub" aria-haspopup="true" aria-expanded="false"><b>Videos</b><span>Choose files or a folder</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+        <div class="sopts" role="group" aria-label="Videos" hidden>
+          <button role="menuitem" data-for="file"><b>Files</b></button>
+          <button role="menuitem" data-for="folder"><b>Folder</b></button>
+        </div>
+        <button type="button" role="menuitem" class="sub" aria-haspopup="true" aria-expanded="false"><b>Photos</b><span>Choose files or a folder</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+        <div class="sopts" role="group" aria-label="Photos" hidden>
+          <button role="menuitem" data-for="pfile"><b>Files</b></button>
+          <button role="menuitem" data-for="pfolder"><b>Folder</b></button>
+        </div>
         <hr>
-        <button role="menuitem" data-doc="folder"><b>Document folder</b><span>Word and PDF files in a folder, then pick one to edit</span></button>
-        <button role="menuitem" data-doc="files"><b>Open documents</b><span>Pick Word, PDF or text files</span></button>
+        <button type="button" role="menuitem" class="sub" aria-haspopup="true" aria-expanded="false"><b>Documents</b><span>Word, PDF or text files</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+        <div class="sopts" role="group" aria-label="Documents" hidden>
+          <button role="menuitem" data-doc="files"><b>Files</b></button>
+          <button role="menuitem" data-doc="folder"><b>Folder</b></button>
+        </div>
       </div>
     </div>
     <input id="file" type="file" accept="video/*,.mov,.mp4,.m4v,.hevc" multiple hidden>
     <input id="afolder" type="file" webkitdirectory multiple hidden>
     <input id="folder" type="file" webkitdirectory multiple hidden>
     <input id="pfolder" type="file" webkitdirectory multiple hidden>
+    <input id="pfile" type="file" accept="image/*,.heic,.heif,.avif" multiple hidden>
     <input id="dfolder" type="file" webkitdirectory multiple hidden>
     <input id="dfile" type="file" accept=".docx,.doc,.txt,.md,.pdf" multiple hidden>
-    <div class="opts"><label class="chk"><input type="checkbox" id="showinfo" checked> Info</label>
-      <label class="chk"><input type="checkbox" id="auto" checked> Play next</label>
-      <label class="chk"><input type="checkbox" id="loop"> Loop</label>
-      <select id="speed" aria-label="Playback speed">
-        <option>0.5</option>
-        <option>0.75</option>
-        <option selected>1</option>
-        <option>1.25</option>
-        <option>1.5</option>
-        <option>2</option>
-      </select>
-    </div>
-    <button id="edit" class="pb" title="Edit this video or photo (E)">✎ Edit</button>
+    <button id="edit" class="pb" title="Edit this video or photo (E)" hidden>✎ Edit</button>
     <button id="galbtn" title="See every file full screen (G)">▦ Gallery</button>
     <button id="docbtn" title="Open, create and edit Word documents and PDFs (D)">▤ Documents</button>
-    <button id="shot" title="Save current frame as PNG">Save frame</button>
+    <button id="setbtn" title="Settings">⚙ Settings</button>
     <button id="theme" title="Toggle light or dark">Theme</button>
   </header>
 
@@ -2481,6 +2654,27 @@
         </div>
       </details>
     </div>
+    <details class="play" open>
+      <summary>Playback</summary>
+      <div class="prow">
+        <label class="chk"><input type="checkbox" id="showinfo" checked> Info</label>
+        <label class="chk"><input type="checkbox" id="auto" checked> Play next</label>
+        <label class="chk"><input type="checkbox" id="loop"> Loop</label>
+      </div>
+      <div class="prow2">
+        <label>Speed
+          <select id="speed" aria-label="Playback speed">
+            <option>0.5</option>
+            <option>0.75</option>
+            <option selected>1</option>
+            <option>1.25</option>
+            <option>1.5</option>
+            <option>2</option>
+          </select>
+        </label>
+        <button id="shot" type="button" title="Save current frame as PNG">Save frame</button>
+      </div>
+    </details>
     <div class="bar"><span id="count">No videos</span><button id="view" style="margin-left:auto">List
         view</button><button id="clear">Clear all</button></div>
     <ul id="list" aria-label="Playlist"></ul>
@@ -2583,7 +2777,7 @@
           <select id="docstyle" aria-label="Text style"><option value="p">Normal</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="blockquote">Quote</option><option value="pre">Code</option></select>
           <select id="docfont" aria-label="Font"><option value="">Font</option><option>Calibri</option><option>Arial</option><option>Times New Roman</option><option>Georgia</option><option>Verdana</option><option>Courier New</option></select>
           <select id="docsize" aria-label="Size (pt)"><option value="">Size</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>24</option><option>28</option><option>36</option><option>48</option></select><i class="sep"></i>
-          <button class="tb" data-c="bold" title="Bold (Ctrl+B)"><b>B</b></button><button class="tb" data-c="italic" title="Italic (Ctrl+I)"><i>I</i></button><button class="tb" data-c="underline" title="Underline (Ctrl+U)"><u>U</u></button><button class="tb" data-c="strikeThrough" title="Strikethrough"><s>S</s></button><button class="tb" data-c="subscript" title="Subscript">x<sub>2</sub></button><button class="tb" data-c="superscript" title="Superscript">x<sup>2</sup></button>
+          <button class="tb" data-c="bold" title="Bold (Ctrl+B)"><b>B</b></button><button class="tb" data-c="italic" title="Italic (Ctrl+I)"><i>I</i></button><button class="tb" data-c="underline" title="Underline (Ctrl+U)"><u>U</u></button><button class="tb" data-c="strikeThrough" title="Strikethrough"><s>S</s></button><button class="tb" data-c="subscript" title="Subscript"><span class="xs">x<sub>2</sub></span></button><button class="tb" data-c="superscript" title="Superscript"><span class="xs">x<sup>2</sup></span></button>
           <label class="tb cl" title="Text colour"><span>A</span><input type="color" id="doccolor" value="#c00000" aria-label="Text colour"></label>
           <label class="tb cl hl" title="Highlight"><span>ab</span><input type="color" id="dochl" value="#ffff00" aria-label="Highlight colour"></label><i class="sep"></i>
           <button class="tb" data-c="justifyLeft" title="Align left"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 3h12M2 6.5h8M2 10h12M2 13.5h8"/></svg></button><button class="tb" data-c="justifyCenter" title="Centre"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 3h12M4 6.5h8M2 10h12M4 13.5h8"/></svg></button><button class="tb" data-c="justifyRight" title="Align right"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 3h12M6 6.5h8M2 10h12M6 13.5h8"/></svg></button><button class="tb" data-c="justifyFull" title="Justify"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 3h12M2 6.5h12M2 10h12M2 13.5h12"/></svg></button><i class="sep"></i>
@@ -2687,6 +2881,8 @@
     <div id="lbcap"><b id="lbname"></b><span id="lbmeta"></span></div>
   </div>
   <div id="toast" role="status"></div>
+  <div id="set" hidden role="dialog" aria-label="Settings"><div id="sethd"><h2>Settings</h2><input id="setq" type="search" placeholder="Search settings (sound, theme, zoom…)" aria-label="Search settings"><button id="setx" type="button">Close</button></div><div id="setbody"><div id="setwrap"></div></div></div>
+
 
   <script>
     (function () {
@@ -3071,7 +3267,7 @@
       }
       function remove(it) {
         var i = view.indexOf(it), next = view[i + 1] || view[i - 1];
-        URL.revokeObjectURL(it.url); dropConv(it); delete keys[it.key]; it.gone = true;
+        URL.revokeObjectURL(it.url); dropConv(it); dropThumb(it); delete keys[it.key]; it.gone = true;
         items.splice(items.indexOf(it), 1);
         var wasCur = cur === it; apply();
         if (wasCur) { next && next !== it ? play(next) : stopStage() }
@@ -3122,6 +3318,7 @@
       /* small info card on the player */
       function info() {
         ctl.style.display = cur ? 'block' : 'none'; ctl.classList.toggle('photo', !!cur && cur.type === 'p');
+        $('edit').hidden = !cur; document.body.classList.toggle('media', !!cur);
         if (!cur || !showInfo.checked) { infoEl.style.display = 'none'; return }
         var p = [cur.type === 'p' ? 'Photo' : 'Video', fmtDate(cur.date)];
         if (cur.dur) p.push(fmtDur(cur.dur));
@@ -3156,6 +3353,12 @@
           }
         },
         io = new IntersectionObserver(mkCb('vis'), { root: list, rootMargin: '400px' });
+      /* thumbnails live as tiny blob: URLs (decoded by the browser off the main thread), not huge base64 strings */
+      function blobThumb(d) {
+        try { var i = d.indexOf(','), bin = atob(d.slice(i + 1)), n = bin.length, u = new Uint8Array(n); for (var k = 0; k < n; k++) u[k] = bin.charCodeAt(k); return URL.createObjectURL(new Blob([u], { type: 'image/jpeg' })) }
+        catch (e) { return d }
+      }
+      function dropThumb(it) { if (it.thumb && it.thumb.slice(0, 5) === 'blob:') URL.revokeObjectURL(it.thumb); it.thumb = null }
       function thumbFrom(url, blob) {
         return new Promise(function (res) {
           var im = new Image(), done = false;
@@ -3216,7 +3419,7 @@
         });
       }
       function pump() {
-        while (active < 6) {
+        while (active < 3 && !SCR) {
           var it = null, wt = false, c;
           while (vq.length) { c = vq.pop(); c.qv = 0; if ((c.vis || c.gvis) && !c.thumb && !c.tried && !c.gone) { it = c; wt = true; break } }
           if (!it) while (mq.length) { c = mq.shift(); if (!c.dur && !c.mtried && !c.gone) { it = c; break } }
@@ -3230,13 +3433,13 @@
       var stt = 0;
       function done(it, d) {
         it.probing = 0;
-        if (d.thumb) it.thumb = d.thumb;
+        if (d.thumb) it.thumb = blobThumb(d.thumb);
         if (d.w) { it.w = d.w; it.h = d.h }
         if (d.dur) it.dur = d.dur;
         if (it.gt) galTileDone(it);
         if (it === cur) info();
         clearTimeout(stt); stt = setTimeout(stats, 250);
-        if (sortEl.value === 'dur' || orient.value !== 'all') { clearTimeout(tmr); tmr = setTimeout(apply, 300) }
+        if (sortEl.value === 'dur' || orient.value !== 'all') { clearTimeout(tmr); tmr = setTimeout(apply, 1500) }
         else if (it.li) { if (it.thumb) it.li.firstChild.style.backgroundImage = 'url(' + it.thumb + ')'; it.li.firstChild.classList.remove('sk'); setMeta(it) }
       }
       function runMeta() { items.forEach(function (it) { if (it.type === 'v' && !it.dur && !it.qm) { it.qm = 1; mq.push(it) } }); pump() }
@@ -3255,12 +3458,17 @@
       $('file').onchange = function (e) { add(e.target.files); e.target.value = '' };
       $('folder').onchange = function (e) { add(e.target.files, 'v'); e.target.value = '' };
       $('pfolder').onchange = function (e) { add(e.target.files, 'p'); e.target.value = '' };
+      $('pfile').onchange = function (e) { add(e.target.files, 'p'); e.target.value = '' };
       /* one folder, videos and photos together (the Type filter goes back to "all" so both show) */
       $('afolder').onchange = function (e) { typeEl.value = 'all'; add(e.target.files); e.target.value = '' };
 
       /* the Open dropdown */
       var ob = $('openbtn'), om = $('openmenu');
+      function subs(btn, on) {
+        Array.prototype.forEach.call(om.querySelectorAll('button.sub'), function (x) { var o = x === btn && on; x.setAttribute('aria-expanded', o ? 'true' : 'false'); x.nextElementSibling.hidden = !o })
+      }
       function openMenu(on) {
+        subs(null, false);
         om.hidden = !on; ob.setAttribute('aria-expanded', on ? 'true' : 'false');
         if (!on) return;
         om.style.left = ''; om.style.right = '';
@@ -3268,10 +3476,10 @@
         var f = om.querySelector('button'); if (f) f.focus();
       }
       ob.onclick = function () { openMenu(om.hidden) };
-      om.onclick = function (e) { var b = e.target.closest('button[data-for],button[data-doc]'); if (!b) return; openMenu(false); if (b.dataset.doc) { docShow(true); docPick(b.dataset.doc) } else $(b.dataset.for).click() };
+      om.onclick = function (e) { var sb = e.target.closest('button.sub'); if (sb) { subs(sb, sb.getAttribute('aria-expanded') !== 'true'); return } var b = e.target.closest('button[data-for],button[data-doc]'); if (!b) return; openMenu(false); if (b.dataset.doc) { docShow(true); docPick(b.dataset.doc) } else $(b.dataset.for).click() };
       document.addEventListener('mousedown', function (e) { if (!om.hidden && !om.contains(e.target) && !ob.contains(e.target)) openMenu(false) });
       om.addEventListener('keydown', function (e) {
-        var bs = Array.prototype.slice.call(om.querySelectorAll('button')), i = bs.indexOf(document.activeElement);
+        var bs = Array.prototype.slice.call(om.querySelectorAll('button')).filter(function (x) { return !x.closest('[hidden]') }), i = bs.indexOf(document.activeElement);
         e.stopPropagation();   /* page shortcuts (Space, G, E ...) must not fire while the menu has focus */
         if (e.key === 'Escape') { openMenu(false); ob.focus(); e.preventDefault() }
         else if (e.key === 'ArrowDown') { bs[(i + 1) % bs.length].focus(); e.preventDefault() }
@@ -3279,7 +3487,7 @@
         else if (e.key === 'Tab') openMenu(false);
       });
       $('clear').onclick = function () {
-        items.forEach(function (it) { URL.revokeObjectURL(it.url); it.gone = true });
+        items.forEach(function (it) { URL.revokeObjectURL(it.url); dropThumb(it); it.gone = true });
         items = []; view = []; keys = {}; stopStage(); render();
       };
       speed.onchange = function () { v.playbackRate = parseFloat(speed.value); store('speed', speed.value) };
@@ -3620,6 +3828,8 @@
         gio = new IntersectionObserver(mkCb('gvis'), { root: gscroll, rootMargin: '800px' }),
         /* the loading shimmer only runs for placeholders you can actually see */
         aio = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('an', e.isIntersecting) }) }, { root: gscroll, rootMargin: '0px' }),
+        /* only tiles within about one and a half screens hold their picture and labels; the rest stay as empty squares */
+        gwin = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) galFill(e.target); else galDrop(e.target) }) }, { root: gscroll, rootMargin: '1400px 0px' }),
         gs = $('galsort');
       Array.prototype.forEach.call(sortEl.options, function (o) { gs.appendChild(new Option(o.textContent, o.value)) });
       gs.onchange = function () { sortEl.value = this.value; store('sort', this.value); apply() };
@@ -3630,7 +3840,7 @@
       function toast(t) { var el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove('on') }, 4500) }
       function renderGal(keep) {
         var sc = gscroll.scrollTop, last = '', grouped = sortEl.value === 'new' || sortEl.value === 'old', fr = document.createDocumentFragment(), bytes = 0;
-        gio.disconnect(); aio.disconnect();
+        gio.disconnect(); aio.disconnect(); gwin.disconnect();
         items.forEach(function (it) { it.gt = null; it.gvis = false });
         view.forEach(function (it) {
           bytes += it.file.size;
@@ -3638,13 +3848,8 @@
             var g = it.date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
             if (g !== last) { last = g; var h = document.createElement('div'); h.className = 'gh'; h.textContent = g; fr.appendChild(h) }
           }
-          var t = document.createElement('div'), e = extLabel(extOf(it));
-          t.className = 'tile'; t.tabIndex = 0; t._it = it; t.setAttribute('data-e', e);
-          t.innerHTML = '<i class="d"></i><span class="nm"></span><b class="ck" role="checkbox" aria-label="Select"></b><em class="ex"></em>';
-          t.querySelector('.nm').textContent = it.file.name; t.querySelector('.ex').textContent = e; t.title = it.file.name;
-          if (it.sel) t.classList.add('on');
-          if (it.thumb) t.style.backgroundImage = 'url(' + it.thumb + ')'; else if (it.tried && !it.probing) t.classList.add('nt'); else t.classList.add('sk');
-          if (it.dur) t.firstChild.textContent = fmtDur(it.dur);
+          var t = document.createElement('div');
+          t.className = 'tile' + (it.sel ? ' on' : ''); t.tabIndex = 0; t._it = it; t.setAttribute('data-e', extLabel(extOf(it)));
           it.gt = t; fr.appendChild(t);
         });
         ggrid.textContent = ''; ggrid.appendChild(fr);
@@ -3653,11 +3858,25 @@
         $('galreset').hidden = !items.length;
         $('galcount').textContent = view.length + (view.length === 1 ? ' file' : ' files') + (view.length ? ' · ' + fmtSize(bytes) : '');
         updSel();
-        Array.prototype.forEach.call(ggrid.querySelectorAll('.tile'), function (t) { gio.observe(t); if (t.classList.contains('sk')) aio.observe(t) });
+        Array.prototype.forEach.call(ggrid.querySelectorAll('.tile'), function (t) { gio.observe(t); gwin.observe(t) });
         gscroll.scrollTop = keep ? sc : 0;
       }
+      function galFill(t) {
+        if (t._f) return; t._f = 1; var it = t._it;
+        t.innerHTML = '<i class="d"></i><span class="nm"></span><b class="ck" role="checkbox" aria-label="Select"></b><em class="ex"></em>';
+        t.querySelector('.nm').textContent = it.file.name; t.querySelector('.ex').textContent = t.getAttribute('data-e'); t.title = it.file.name;
+        if (it.dur) t.firstChild.textContent = fmtDur(it.dur);
+        t.classList.remove('sk', 'an', 'nt', 'ld');
+        if (it.thumb) t.style.backgroundImage = 'url(' + it.thumb + ')';
+        else if (it.tried && !it.probing) t.classList.add('nt');
+        else { t.classList.add('sk'); aio.observe(t) }
+      }
+      function galDrop(t) {
+        if (!t._f) return; t._f = 0; aio.unobserve(t);
+        t.textContent = ''; t.style.backgroundImage = ''; t.removeAttribute('title'); t.classList.remove('sk', 'an', 'nt', 'ld');
+      }
       function galTileDone(it) {
-        var g = it.gt; if (!g) return;
+        var g = it.gt; if (!g || !g._f) return;
         if (it.thumb) { g.style.backgroundImage = 'url(' + it.thumb + ')'; if (g.classList.contains('sk')) g.classList.add('ld') }
         else if (it.tried) g.classList.add('nt');
         if (it.thumb || it.tried) { g.classList.remove('sk', 'an'); aio.unobserve(g) }
@@ -3673,7 +3892,7 @@
           extSig = ''; refreshExt();
           renderGal(0);
           var f = ggrid.querySelector('.tile'); if (f) f.focus({ preventScroll: true }); else gscroll.focus();
-        } else { lbClose(); items.forEach(function (it) { it.gt = null; it.gvis = false }); gio.disconnect(); aio.disconnect() }
+        } else { lbClose(); items.forEach(function (it) { it.gt = null; it.gvis = false }); gio.disconnect(); aio.disconnect(); gwin.disconnect() }
       }
       $('galbtn').onclick = function () { galShow(true) };
       $('galx').onclick = function () { galShow(false) };
@@ -5575,7 +5794,7 @@
             WZ.px = e ? e.clientX - r.left : sc.clientWidth / 2; WZ.py = e ? e.clientY - r.top : sc.clientHeight / 2;
             WZ.ax = sc.scrollLeft + WZ.px; WZ.ay = sc.scrollTop + WZ.py; WZ.cx = sc.scrollLeft + WZ.px - (wr.left - r.left + sc.scrollLeft); WZ.cy = sc.scrollTop + WZ.py - (wr.top - r.top + sc.scrollTop);
           }
-          WZ.pct = Math.max(25, Math.min(400, WZ.pct * f));
+          WZ.pct = Math.max(10, Math.min(400, WZ.pct * f));
           w.style.transformOrigin = WZ.cx + 'px ' + WZ.cy + 'px'; w.style.transform = 'scale(' + (WZ.pct / (WZ.z0 * 75)) + ')';
           clearTimeout(WZ.t); WZ.t = setTimeout(function () {
             WZ.t = 0; w.style.transform = ''; w.style.transformOrigin = '';
@@ -5583,7 +5802,7 @@
             var rr = P.z / WZ.z0; sc.scrollLeft = WZ.ax * rr - WZ.px; sc.scrollTop = WZ.ay * rr - WZ.py;
           }, 150);
         } else {
-          var z = parseFloat(dPage.style.zoom) || 1, nz = Math.max(.4, Math.min(3, z * f));
+          var z = parseFloat(dPage.style.zoom) || 1, nz = Math.max(.1, Math.min(3, z * f));
           var px = e ? e.clientX - r.left : sc.clientWidth / 2, py = e ? e.clientY - r.top : sc.clientHeight / 2, ax = sc.scrollLeft + px, ay = sc.scrollTop + py;
           try { imgSelect(null) } catch (x) { } dPage.style.zoom = nz;
           sc.scrollLeft = ax * nz / z - px; sc.scrollTop = ay * nz / z - py; zoomOpt($('dzoom'), Math.round(nz * 100));
@@ -5827,6 +6046,239 @@
         TB.mv = { x: e.clientX, y: e.clientY, l: parseFloat(b.style.left) || 0, t: parseFloat(b.style.top) || 0 };
       }, true);
       document.addEventListener('pointerup', function () { edgeFlag(false) });
+
+/* ===== added: gallery speed, zoom range, page gaps, sounds, quick access, editor feedback ===== */
+var SCR = false;
+(function () {
+  var st = 0, on = function () { if (!SET.smooth) return; SCR = true; clearTimeout(st); st = setTimeout(function () { SCR = false; pump() }, 160) };
+  gscroll.addEventListener('scroll', on, { passive: true }); list.addEventListener('scroll', on, { passive: true });
+  /* decode photos straight to thumbnail size (no full-size Image decode on the main thread) */
+  var t0 = thumbFrom;
+  thumbFrom = function (url, blob) {
+    if (!blob || !window.createImageBitmap) return t0(url, blob);
+    return createImageBitmap(blob, { resizeWidth: 300, resizeQuality: 'low' }).then(function (bm) {
+      var c = document.createElement('canvas'); c.width = bm.width; c.height = bm.height; c.getContext('2d').drawImage(bm, 0, 0); if (bm.close) bm.close();
+      return { thumb: c.toDataURL('image/jpeg', 0.7) };
+    }).catch(function () { return t0(url, blob) });
+  };
+  /* zoom out further */
+  var s = $('dzoom'), f = s.options[0]; [10, 25, 50].forEach(function (p) { s.insertBefore(new Option(p + '%', p), f) });
+  var x = $('pxzoom'), a = x.querySelector('option[value="50"]'); [10, 25].forEach(function (p) { x.insertBefore(new Option(p + '%', p), a) });
+  ZL.unshift('10', '25');
+})();
+
+/* Word pages with a real gap, blocks never sit across a page edge */
+var PGAP = 40;
+pgFit = function () {
+  var d = docCur; if (!d || d.kind !== 'docx' || dPage.classList.contains('plain')) return;
+  var g = lyGet(), ph = Math.round(g.h * 96), m = Math.round(g.m * 96), pp = ph + PGAP, kids = dPage.children, n = kids.length, big = n > 700, i, el, y, h, k, end, push, mt, y2;
+  dPage.style.setProperty('--ph', ph + 'px'); dPage.style.minHeight = ph + 'px';
+  for (i = 0; i < n; i++) kids[i].style.removeProperty('--pgp');
+  for (i = 0; i < n; i++) {
+    el = kids[i];
+    if (el.classList.contains('pbrk')) { el.style.height = '0'; el.style.margin = '0'; y = el.offsetTop; el.style.height = ((Math.floor(y / pp) + 1) * pp - y + m) + 'px'; continue }
+    if (big || el.style.position === 'absolute' || el.getAttribute('data-wrap') === 'free') continue;
+    y = el.offsetTop; h = el.offsetHeight; k = Math.floor(y / pp); end = k * pp + ph - m; push = 0;
+    if (k > 0 && y < k * pp + m) push = k * pp + m - y;
+    else if (y + h > end && h <= ph - 2 * m) push = (k + 1) * pp + m - y;
+    if (push > 0) {
+      mt = parseFloat(getComputedStyle(el).marginTop) || 0; el.style.setProperty('--pgp', (mt + push) + 'px');
+      y2 = el.offsetTop; if (Math.abs(y2 - (y + push)) > 1) el.style.setProperty('--pgp', (mt + push + (y + push - y2)) + 'px');
+    }
+  }
+  dPage.style.minHeight = Math.max(1, Math.ceil((dPage.scrollHeight - 1) / pp)) * pp - PGAP + 'px';
+};
+window.addEventListener('beforeprint', function () { Array.prototype.forEach.call(dPage.children, function (c) { c.style.removeProperty('--pgp') }) });
+window.addEventListener('afterprint', function () { pgFit() });
+
+/* sounds */
+var SND = { ctx: null, on: store('snd') !== '0', last: 0 };
+function snd(k) {
+  if (!SND.on) return; if (SET.mode === 'key' && (k === 'tap' || k === 'soft' || k === 'tick')) return; if (k === 'tick' && !SET.tick) return; var now = performance.now(); if (now - SND.last < 35) return; SND.last = now;
+  try {
+    var c = SND.ctx || (SND.ctx = new (window.AudioContext || window.webkitAudioContext)()); if (c.state === 'suspended') c.resume();
+    var T = c.currentTime, S = { tap: [[640, .05, 0]], soft: [[480, .045, 0]], tick: [[900, .025, 0]], open: [[420, .07, 0], [660, .1, .06]], close: [[640, .06, 0], [380, .1, .05]], ok: [[523, .1, 0], [659, .1, .08], [784, .2, .16]], bad: [[240, .14, 0], [170, .22, .1]] }[k]; if (!S) return;
+    S.forEach(function (nt) {
+      var o = c.createOscillator(), gn = c.createGain(), t = T + nt[2]; o.type = k === 'bad' ? 'triangle' : 'sine'; o.frequency.setValueAtTime(nt[0], t);
+      gn.gain.setValueAtTime(.0001, t); gn.gain.exponentialRampToValueAtTime(.08 * SET.vol + .001, t + .008); gn.gain.exponentialRampToValueAtTime(.0001, t + nt[1]);
+      o.connect(gn); gn.connect(c.destination); o.start(t); o.stop(t + nt[1] + .03);
+    });
+  } catch (e) { }
+}
+document.addEventListener('click', function (e) {
+  var t = e.target.closest && e.target.closest('button,.btn,summary,.tile,#list li,.chip,[role=menuitem],label.chk'); if (!t || t.disabled || t.closest('#fxov')) return;
+  var id = t.id || '';
+  snd(/^(docclose|galx|lbx|edx|fabmain)$/.test(id) ? 'close' : /^(galbtn|docbtn|edit|openbtn)$/.test(id) ? 'open' : (t.classList.contains('tile') || t.tagName === 'LI') ? 'soft' : 'tap');
+}, true);
+document.addEventListener('change', function (e) { var t = e.target; if (t.matches && t.matches('select,input[type=checkbox]')) snd('tick') }, true);
+
+/* floating quick access */
+(function () {
+  var fab = document.createElement('div'); fab.id = 'fab';
+  fab.innerHTML = '<button id="fabmain" type="button" aria-label="Quick access" aria-expanded="false" title="Quick access"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><div id="fabmenu" role="menu">' +
+    [['nd', '📄', 'New blank document'], ['np', '🧾', 'New blank PDF'], ['pg', '➕', 'Add page'], ['of', '📁', 'Open folder'], ['ga', '▦', 'Gallery'], ['dc', '▤', 'Documents'], ['sv', '💾', 'Save'], ['sn', '🔊', 'Sound'], ['th', '◐', 'Light / dark'], ['se', '⚙', 'Settings'], ['rp', '↩', 'Back to its place'], ['hd', '👁', 'Hide button']]
+      .map(function (a) { return '<button type="button" role="menuitem" data-a="' + a[0] + '"><span>' + a[1] + '</span><em style="font-style:normal">' + a[2] + '</em></button>' }).join('') + '</div>';
+  document.body.appendChild(fab);
+  function q(a) { return fab.querySelector('[data-a=' + a + ']') }
+  function sync() {
+    var open = !$('docs').hidden, d = docCur;
+    q('pg').hidden = !(open && d && (d.kind === 'docx' || d.kind === 'pdf')); q('sv').hidden = !(open && d && !$('docsave').disabled);
+    q('dc').hidden = open; q('rp').hidden = !SET.fabpos; q('hd').querySelector('em').textContent = SET.fabhide ? 'Unhide button' : 'Hide button';
+    q('sn').querySelector('span').textContent = SND.on ? '🔊' : '🔇'; q('sn').querySelector('em').textContent = SND.on ? 'Sound on' : 'Sound off';
+  }
+  function tog(on) { on = on === undefined ? !fab.classList.contains('open') : on; if (on) { sync(); menuPlace() } fab.classList.toggle('open', on); $('fabmain').setAttribute('aria-expanded', on) }
+  function docsUp(fn) { if ($('docs').hidden) $('docbtn').click(); setTimeout(fn, 80) }
+  fab.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; if (b.id === 'fabmain') { tog(); return }
+    var a = b.dataset.a, d = docCur; tog(false);
+    if (a === 'nd') docsUp(function () { newDoc('blank') }); else if (a === 'np') docsUp(function () { newDoc('pdf-a4') });
+    else if (a === 'pg') { if (d && d.kind === 'docx') $('docnp').click(); else if (d && d.kind === 'pdf') $('pxaddpg').click() }
+    else if (a === 'of') $('afolder').click(); else if (a === 'ga') { if (!$('docs').hidden) $('docclose').click(); $('galbtn').click() } else if (a === 'dc') { if ($('docs').hidden) $('docbtn').click() }
+    else if (a === 'sv') $('docsave').click(); else if (a === 'th') $('theme').click(); else if (a === 'se') openSet(); else if (a === 'rp') { SET.fabpos = null; ssave(); fabApply() } else if (a === 'hd') { SET.fabhide = SET.fabhide ? 0 : 1; ssave(); fabApply() }
+    else if (a === 'sn') { SND.on = !SND.on; store('snd', SND.on ? '1' : '0'); if (SND.on) snd('ok') }
+  });
+  document.addEventListener('click', function (e) { if (!fab.contains(e.target)) tog(false) });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') tog(false) });
+
+  /* look (opacity, hide in place), free position, long-press drag */
+  var fm = $('fabmain'), fmenu = $('fabmenu'), hold = 0, dr = null, lastDrag = 0;
+  function clampXY(x, y) { var w = fm.offsetWidth || 46, h = fm.offsetHeight || 46, m = 8; return [Math.min(Math.max(x, m), Math.max(m, innerWidth - w - m)), Math.min(Math.max(y, m), Math.max(m, innerHeight - h - m))] }
+  function putAt(x, y) { var c = clampXY(x, y); fab.classList.add('free'); fab.style.left = c[0] + 'px'; fab.style.top = c[1] + 'px'; fab.style.right = 'auto'; fab.style.bottom = 'auto'; return c }
+  window.fabApply = function () {
+    var p = SET.fabpos;
+    if (p && typeof p.x === 'number' && typeof p.y === 'number') putAt(p.x, p.y);
+    else { fab.classList.remove('free'); fab.style.left = fab.style.top = fab.style.right = fab.style.bottom = '' }
+    fab.style.setProperty('--fabo', Math.min(1, Math.max(.2, (+SET.fabo || 100) / 100)));
+    fab.classList.toggle('hid', !!SET.fabhide);
+  };
+  /* open the menu up or down, left or right, whichever has room */
+  function menuPlace() {
+    var r = fm.getBoundingClientRect(), up = r.top - 16, dn = innerHeight - r.bottom - 16, down = up < 330 && dn > up;
+    fab.classList.toggle('dn', down); fab.classList.toggle('ra', r.left + 250 > innerWidth - 8);
+    fmenu.style.maxHeight = Math.max(120, (down ? dn : up) - 12) + 'px';
+  }
+  fm.title = 'Quick access (press and hold, then drag to move)';
+  fm.addEventListener('contextmenu', function (e) { e.preventDefault() });
+  function dragBegin() { if (!dr || dr.on) return; dr.on = 1; fab.classList.add('drag'); tog(false); try { fm.setPointerCapture(dr.id) } catch (e) { } try { navigator.vibrate && navigator.vibrate(12) } catch (e) { } }
+  fm.addEventListener('pointerdown', function (e) {
+    if (e.button) return; var r = fab.getBoundingClientRect();
+    dr = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: e.clientX - r.left, oy: e.clientY - r.top, on: 0, mouse: e.pointerType === 'mouse' };
+    clearTimeout(hold); if (!dr.mouse) hold = setTimeout(dragBegin, 380);
+  });
+  fm.addEventListener('pointermove', function (e) {
+    if (!dr || e.pointerId !== dr.id) return;
+    if (!dr.on) {
+      var d = Math.hypot(e.clientX - dr.sx, e.clientY - dr.sy);
+      if (dr.mouse) { if (d > 6) dragBegin() } else if (d > 10) { clearTimeout(hold); dr = null }
+      if (!dr || !dr.on) return;
+    }
+    e.preventDefault(); var c = putAt(e.clientX - dr.ox, e.clientY - dr.oy); dr.x = c[0]; dr.y = c[1];
+  });
+  function dragEnd() {
+    clearTimeout(hold);
+    if (dr && dr.on) { fab.classList.remove('drag'); lastDrag = Date.now(); if (dr.x != null) { SET.fabpos = { x: dr.x, y: dr.y }; ssave() } }
+    dr = null;
+  }
+  fm.addEventListener('pointerup', dragEnd); fm.addEventListener('pointercancel', dragEnd);
+  /* the click that follows a drag must not open the menu */
+  fab.addEventListener('click', function (e) { if (Date.now() - lastDrag < 350) { e.stopPropagation(); e.preventDefault() } }, true);
+  window.addEventListener('resize', function () { var p = SET.fabpos; if (p && typeof p.x === 'number') putAt(p.x, p.y) });
+})();
+
+/* editor: show that saving / canceling / closing is working */
+(function () {
+  var fx = document.createElement('div'); fx.id = 'fxov'; fx.setAttribute('role', 'status');
+  fx.innerHTML = '<div class="fxc"><div class="fxi"></div><b class="fxt"></b><span class="fxs"></span><div class="fxb"><i></i></div><button type="button" class="fxx">Cancel export</button></div>';
+  ED.appendChild(fx);
+  var T = fx.querySelector('.fxt'), S = fx.querySelector('.fxs'), B = fx.querySelector('.fxb i'), ht = 0, tick = 0, closing = 0;
+  function show(mode, title, sub, pct) {
+    clearTimeout(ht); var c = 'on ' + mode + (E.v && mode === 'work' ? ' v' : '') + (pct == null ? ' ind' : ''); if (fx.className !== c) fx.className = c;
+    T.textContent = title; S.textContent = sub || ''; if (pct != null) B.style.width = pct + '%';
+  }
+  function end(mode, title, sub) { show(mode, title, sub, 100); snd(mode === 'ok' ? 'ok' : 'bad'); clearTimeout(ht); ht = setTimeout(function () { fx.className = '' }, mode === 'ok' ? 1300 : 1100) }
+  function watch() {
+    clearInterval(tick); var seen = 0, t0 = Date.now();
+    tick = setInterval(function () {
+      if (busy) { seen = 1; if (!fx.classList.contains('cancel')) { var m = /\((\d+)%\)/.exec($('edsave').textContent), p = m ? +m[1] : 0; show('work', 'Processing video…', p + '% · keep this tab open', p) } }
+      else if (seen || Date.now() - t0 > 1500) { clearInterval(tick); if (fx.classList.contains('work') || fx.classList.contains('cancel')) { clearTimeout(ht); ht = setTimeout(function () { fx.className = '' }, 700) } }
+    }, 120);
+  }
+  $('edsave').addEventListener('click', function () {
+    if (E.v) { if (busy) { show('cancel', 'Canceling…', 'Stopping the export safely', null); snd('bad') } else { show('work', 'Starting export…', 'Getting your video ready', 0); snd('open'); watch() } }
+    else show('work', 'Saving photo…', '', null);
+  }, true);
+  fx.querySelector('.fxx').onclick = function () { $('edsave').click() };
+  new MutationObserver(function () {
+    var t = $('edmsg').textContent; if (!fx.classList.contains('on') || fx.classList.contains('close')) return;
+    if (/^(Done\.|Saved to)/.test(t)) end('ok', 'Saved!', t.replace(/^Done\. /, ''));
+    else if (/stopped/i.test(t)) end('bad', 'Canceled', 'Export stopped. Nothing was saved.');
+    else if (/Couldn|needs Chrome|can’t/.test(t)) end('bad', 'Couldn’t finish', t);
+  }).observe($('edmsg'), { childList: true, characterData: true, subtree: true });
+  $('edx').addEventListener('click', function (e) {
+    e.stopImmediatePropagation(); e.preventDefault(); if (closing) return; closing = 1; var wb = busy;
+    show(wb ? 'cancel' : 'close', wb ? 'Canceling export…' : 'Closing editor…', wb ? 'Nothing will be saved' : '', null); snd(wb ? 'bad' : 'close');
+    setTimeout(function () { closing = 0; clearInterval(tick); clearTimeout(ht); fx.className = ''; exitEd() }, wb ? 700 : 400);
+  }, true);
+})();
+
+/* ===== settings ===== */
+var SETD = { mode: 'all', vol: .7, tick: 1, acc: 'default', anim: 1, fab: 1, side: 'left', pgap: 40, smooth: 1, fabo: 100, fabhide: 0, fabpos: null };
+var SET = (function () { var o = {}; try { o = JSON.parse(store('set') || '{}') } catch (e) { } return Object.assign({}, SETD, o) })();
+var ACC = { blue: '#1a73e8', green: '#1f9d55', teal: '#0d9488', orange: '#e8710a', red: '#d93025', pink: '#d6336c' };
+function ssave() { store('set', JSON.stringify(SET)) }
+function sApply() {
+  var r = document.documentElement, f = $('fab');
+  if (SET.acc === 'default' || !ACC[SET.acc]) ['--accent', '--accent-ink', '--soft'].forEach(function (k) { r.style.removeProperty(k) });
+  else { var c = ACC[SET.acc]; r.style.setProperty('--accent', c); r.style.setProperty('--accent-ink', '#fff'); r.style.setProperty('--soft', 'color-mix(in srgb,' + c + ' 16%,var(--panel))') }
+  r.classList.toggle('noanim', !SET.anim);
+  f.style.display = SET.fab ? '' : 'none'; f.classList.toggle('r', SET.side === 'right'); if (window.fabApply) fabApply();
+  PGAP = +SET.pgap || 40; dPage.style.setProperty('--pgap', PGAP + 'px'); try { pgFit() } catch (e) { }
+}
+function chk(id) { return { get: function () { return $(id).checked }, set: function (v) { $(id).checked = v; $(id).dispatchEvent(new Event('change', { bubbles: true })) } } }
+var ROWS = [
+  { s: 'Sound', l: 'Sound effects', d: 'Play small sounds when you click things', k: 'audio click beep mute', t: 'sw', get: function () { return SND.on }, set: function (v) { SND.on = v; store('snd', v ? '1' : '0'); if (v) snd('ok') } },
+  { s: 'Sound', l: 'When to play sounds', d: 'Every click, or only when something opens, closes or finishes', k: 'every click important', t: 'sel', o: [['all', 'Every click'], ['key', 'Only important']], get: function () { return SET.mode }, set: function (v) { SET.mode = v } },
+  { s: 'Sound', l: 'Volume', d: 'How loud the sounds are', k: 'loud quiet', t: 'rng', min: 10, max: 100, get: function () { return Math.round(SET.vol * 100) }, set: function (v) { SET.vol = v / 100 }, after: function () { snd('tap') } },
+  { s: 'Sound', l: 'Dropdown and tick-box sounds', d: 'A tiny tick when you change a dropdown or checkbox', k: 'select checkbox tick', t: 'sw', get: function () { return !!SET.tick }, set: function (v) { SET.tick = v ? 1 : 0 } },
+  { s: 'Appearance', l: 'Theme', d: 'Light, dark, or follow your computer', k: 'dark light mode night color scheme', t: 'sel', o: [['auto', 'Automatic'], ['light', 'Light'], ['dark', 'Dark']], get: function () { return document.documentElement.dataset.theme || 'auto' }, set: function (v) { var r = document.documentElement; if (v === 'auto') { delete r.dataset.theme; store('theme', '') } else { r.dataset.theme = v; store('theme', v) } } },
+  { s: 'Appearance', l: 'Accent colour', d: 'The colour of buttons and highlights. Default is the original blue', k: 'theme color colour blue green teal orange red pink', t: 'acc', get: function () { return SET.acc }, set: function (v) { SET.acc = v } },
+  { s: 'Appearance', l: 'Smooth animations', d: 'Fades, pops and sliding. Turn off for the plainest, fastest feel', k: 'motion effects reduce transitions', t: 'sw', get: function () { return !!SET.anim }, set: function (v) { SET.anim = v ? 1 : 0 } },
+  { s: 'Quick access', l: 'Show the floating button', d: 'The round + button with New document, Gallery and more', k: 'fab floating shortcut menu', t: 'sw', get: function () { return !!SET.fab }, set: function (v) { SET.fab = v ? 1 : 0 } },
+  { s: 'Quick access', l: 'Button side', d: 'Which corner the floating button sits in', k: 'left right position', t: 'sel', o: [['left', 'Bottom left'], ['right', 'Bottom right']], get: function () { return SET.side }, set: function (v) { SET.side = v } },
+  { s: 'Quick access', l: 'Button opacity', d: 'Make the button see-through so it is less in the way. It turns solid when you touch it', k: 'transparent fade faint dim see-through', t: 'rng', min: 20, max: 100, get: function () { return +SET.fabo || 100 }, set: function (v) { SET.fabo = v } },
+  { s: 'Quick access', l: 'Hide until tapped', d: 'Shrinks the button to a tiny faint dot where it sits. Tap the dot and the button comes back', k: 'hide invisible dot minimise', t: 'sw', get: function () { return !!SET.fabhide }, set: function (v) { SET.fabhide = v ? 1 : 0 } },
+  { s: 'Quick access', l: 'Move the button', d: 'Press and hold the button, then drag it anywhere. Use this to put it back in its corner', k: 'drag position reset corner', t: 'btn', b: 'Reset position', go: function () { SET.fabpos = null; ssave(); fabApply() } },
+  { s: 'Documents', l: 'Gap between Word pages', d: 'Space shown between one page and the next', k: 'margin page spacing', t: 'sel', o: [['20', 'Small'], ['40', 'Normal'], ['60', 'Large'], ['80', 'Extra large']], get: function () { return String(SET.pgap) }, set: function (v) { SET.pgap = +v } },
+  { s: 'Documents', l: 'Page zoom', d: 'Zoom the open Word page (also Ctrl + mouse wheel, down to 10%)', k: 'zoom size scale', t: 'sel', o: [['10', '10%'], ['25', '25%'], ['50', '50%'], ['75', '75%'], ['100', '100%'], ['125', '125%'], ['150', '150%']], get: function () { return $('dzoom').value }, set: function (v) { var z = $('dzoom'); z.value = v; z.dispatchEvent(new Event('change', { bubbles: true })) } },
+  { s: 'Gallery', l: 'Smooth scrolling', d: 'Pause thumbnail loading while you scroll, so big folders stay fast', k: 'lag speed performance thumbnails photos videos', t: 'sw', get: function () { return !!SET.smooth }, set: function (v) { SET.smooth = v ? 1 : 0 } },
+  { s: 'Gallery', l: 'Thumbnail size', d: 'How big the gallery pictures are', k: 'size grid tiles', t: 'rng', min: 90, max: 340, get: function () { return +$('galsize').value }, set: function (v) { $('galsize').value = v; $('galsize').dispatchEvent(new Event('input', { bubbles: true })) } },
+  { s: 'Playback', l: 'Play next video automatically', d: 'Start the next video when one ends', k: 'autoplay queue', t: 'sw', get: chk('auto').get, set: chk('auto').set },
+  { s: 'Playback', l: 'Loop', d: 'Repeat the current video', k: 'repeat', t: 'sw', get: chk('loop').get, set: chk('loop').set },
+  { s: 'Playback', l: 'Show info card', d: 'File name and details over the video or photo', k: 'name details overlay', t: 'sw', get: chk('showinfo').get, set: chk('showinfo').set },
+  { s: 'Other', l: 'Keyboard shortcuts', d: 'See every key you can press', k: 'keys hotkeys help', t: 'btn', b: 'Show', go: function () { $('keys').click() } },
+  { s: 'Other', l: 'Reset all settings', d: 'Put every option on this page back to how it started', k: 'default restore clear', t: 'btn', b: 'Reset', go: function () { SET = Object.assign({}, SETD); SND.on = true; store('snd', '1'); ssave(); sApply(); sRender() } }
+];
+function sRender() {
+  var w = $('setwrap'), q = $('setq').value.toLowerCase().trim().split(/\s+/).filter(Boolean), cur = '', box = null, n = 0; w.textContent = '';
+  ROWS.forEach(function (r) {
+    var hay = (r.s + ' ' + r.l + ' ' + r.d + ' ' + r.k).toLowerCase(); if (!q.every(function (x) { return hay.indexOf(x) > -1 })) return; n++;
+    if (r.s !== cur) { cur = r.s; var sec = document.createElement('div'); sec.className = 'sets'; sec.innerHTML = '<h3></h3><div class="setc"></div>'; sec.firstChild.textContent = cur; w.appendChild(sec); box = sec.lastChild }
+    var row = document.createElement('div'); row.className = 'setr'; row.innerHTML = '<div class="tx"><b></b><small></small></div>'; row.querySelector('b').textContent = r.l; row.querySelector('small').textContent = r.d;
+    var c, done = function () { ssave(); sApply(); if (r.after) r.after() };
+    if (r.t === 'sw') { c = document.createElement('button'); c.type = 'button'; c.className = 'sw'; c.setAttribute('role', 'switch'); c.setAttribute('aria-label', r.l); c.setAttribute('aria-checked', !!r.get()); c.onclick = function () { var v = c.getAttribute('aria-checked') !== 'true'; r.set(v); c.setAttribute('aria-checked', v); done() } }
+    else if (r.t === 'sel') { c = document.createElement('select'); c.setAttribute('aria-label', r.l); r.o.forEach(function (o) { c.appendChild(new Option(o[1], o[0])) }); c.value = r.get(); c.onchange = function () { r.set(c.value); done() } }
+    else if (r.t === 'rng') { c = document.createElement('input'); c.type = 'range'; c.min = r.min; c.max = r.max; c.value = r.get(); c.setAttribute('aria-label', r.l); c.onchange = function () { r.set(+c.value); done() } }
+    else if (r.t === 'acc') { c = document.createElement('div'); c.className = 'accs'; [['default', '']].concat(Object.keys(ACC).map(function (k) { return [k, ACC[k]] })).forEach(function (a) { var b = document.createElement('button'); b.type = 'button'; b.title = a[0]; b.setAttribute('aria-label', a[0]); if (a[1]) b.style.setProperty('--c', a[1]); else b.className = 'def'; if (r.get() === a[0]) b.classList.add('on'), b.style.setProperty('--c', a[1] || '#3358e0'); b.onclick = function () { r.set(a[0]); done(); sRender() }; c.appendChild(b) }) }
+    else { c = document.createElement('button'); c.type = 'button'; c.textContent = r.b; c.onclick = r.go }
+    row.appendChild(c); box.appendChild(row);
+  });
+  if (!n) { var m = document.createElement('div'); m.id = 'setnone'; m.textContent = 'No settings match that search.'; w.appendChild(m) }
+}
+function openSet() { $('setq').value = ''; sRender(); $('set').hidden = false; $('setq').focus() }
+function closeSet() { $('set').hidden = true }
+$('setbtn').onclick = openSet; $('setx').onclick = closeSet; $('setq').oninput = sRender;
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('set').hidden) { e.stopImmediatePropagation(); e.preventDefault(); closeSet() } }, true);
+sApply();
     })();
   </script>
 </body>
