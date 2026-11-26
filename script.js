@@ -3540,7 +3540,7 @@
             list.forEach(function (n) { var a = n === r.startContainer ? r.startOffset : 0, b = n === r.endContainer ? r.endOffset : n.length; if (b > a) n.replaceData(a, b - a, cs(n.data.slice(a, b))) });
         });
     };
-    $('docbrk').onclick = function () { rich(function () { document.execCommand('insertHTML', false, '<div class="pbrk" style="break-after:page;page-break-after:always;border-top:1px dashed #b5b5b5;margin:14px 0;height:0"></div><p><br></p>') }) };
+    $('docbrk').onclick = function () { rich(function () { document.execCommand('insertHTML', false, '<div class="pbrk" style="break-after:page;page-break-after:always;border-top:0;margin:14px 0;height:0"></div><p><br></p>') }) };
 
     /* ---------- Word-style colour picker ---------- */
     var CPOP = null, CREC = [];
@@ -3709,7 +3709,7 @@
     var pgRaf = 0; dPage.addEventListener('input', function () { if (!pgRaf) pgRaf = requestAnimationFrame(function () { pgRaf = 0; pgFit() }) });
     $('docnp').onclick = function () {
         if (!editable()) return;
-        var b = document.createElement('div'); b.className = 'pbrk'; b.setAttribute('style', 'break-after:page;page-break-after:always;border-top:1px dashed #b5b5b5;margin:0;height:0');
+        var b = document.createElement('div'); b.className = 'pbrk'; b.setAttribute('style', 'break-after:page;page-break-after:always;border-top:0;margin:0;height:0');
         var p = document.createElement('p'); p.innerHTML = '<br>'; dPage.appendChild(b); dPage.appendChild(p); markDirty(); pgFit();
         dPage.focus({ preventScroll: true }); var r = document.createRange(); r.setStart(p, 0); r.collapse(true); var s = getSelection(); s.removeAllRanges(); s.addRange(r); docRange = r.cloneRange();
         p.scrollIntoView({ block: 'start', behavior: 'smooth' }); toast('Blank page added at the end.');

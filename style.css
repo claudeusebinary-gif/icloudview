@@ -2837,3 +2837,6 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
 #pdfpgs.min .pgh { justify-content: center; padding-left: 0; padding-right: 0; }
 #pgstrip.min .pgh button,
 #pdfpgs.min .pgh button { margin-left: 0; }
+
+/* page breaks: no dotted line (also hides it on pages added earlier) */
+.pbrk, #docpage .pbrk { border: 0 !important; background: none !important; }
