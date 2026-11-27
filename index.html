@@ -2065,6 +2065,7 @@
     .di .ex { flex: none; box-sizing: border-box; width: 44px; text-align: center; font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: .03em; padding: 3px 0; border-radius: 6px; background: var(--card); color: var(--mute); overflow: hidden; text-overflow: clip; white-space: nowrap }
     .di .ex.docx, .di .ex.doc { background: #2b579a; color: #fff }
     .di .ex.pdf { background: #c8372d; color: #fff }
+    .di .ex.pptx { background: #c43e1c; color: #fff }
     .di .dn { flex: 1; min-width: 0; display: flex; flex-direction: column }
     .di .dn b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
     .di .dn small { color: var(--mute); font-size: 11px }
@@ -2282,10 +2283,12 @@
 
     #docs .cl input[type=color] { pointer-events: none }
     #clpop { position: fixed; z-index: 95; width: 252px; padding: 10px; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow) }
-    #clpop .g { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; margin-bottom: 8px }
-    #clpop .sw { height: 20px; padding: 0; border-radius: 4px; border: 1px solid rgba(128,128,128,.35) }
-    #clpop .sw:hover { outline: 2px solid var(--accent); outline-offset: 1px }
-    #clpop .t { font-size: 12px; color: var(--mute); margin: 2px 0 5px }
+    #clpop .g { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-bottom: 8px }
+    #clpop .sw { position: static; width: auto; height: auto; aspect-ratio: 1; min-width: 0; padding: 0; border-radius: 2px; border: 1px solid rgba(128,128,128,.4); box-shadow: none }
+    #clpop .sw::after { display: none !important }
+    #clpop .sw:hover { outline: 2px solid var(--accent); outline-offset: 0; z-index: 1; position: relative }
+    #clpop .g.tn { margin-top: -4px }
+    #clpop .t { font-size: 13px; font-weight: 700; color: var(--ink); margin: 4px 0 6px }
     #clpop .w { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 6px 8px; border-radius: 7px }
     #clpop .w:hover { background: var(--card) }
     #clpop input.hex { width: 100%; height: 30px; margin-top: 6px; font-family: ui-monospace, Consolas, monospace }
@@ -2876,7 +2879,7 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
           <button role="menuitem" data-for="pfolder"><b>Folder</b></button>
         </div>
         <hr>
-        <button type="button" role="menuitem" class="sub" aria-haspopup="true" aria-expanded="false"><b>Documents</b><span>Word, PDF or text files</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+        <button type="button" role="menuitem" class="sub" aria-haspopup="true" aria-expanded="false"><b>Documents</b><span>Word, PDF, PowerPoint or text files</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
         <div class="sopts" role="group" aria-label="Documents" hidden>
           <button role="menuitem" data-doc="files"><b>Files</b></button>
           <button role="menuitem" data-doc="folder"><b>Folder</b></button>
@@ -2889,10 +2892,10 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
     <input id="pfolder" type="file" webkitdirectory multiple hidden>
     <input id="pfile" type="file" accept="image/*,.heic,.heif,.avif" multiple hidden>
     <input id="dfolder" type="file" webkitdirectory multiple hidden>
-    <input id="dfile" type="file" accept=".docx,.doc,.txt,.md,.pdf" multiple hidden>
+    <input id="dfile" type="file" accept=".docx,.doc,.txt,.md,.pdf,.pptx" multiple hidden>
     <button id="edit" class="pb" title="Edit this video or photo (E)" hidden>✎ Edit</button>
     <button id="galbtn" title="See every file full screen (G)">▦ Gallery</button>
-    <button id="docbtn" title="Open, create and edit Word documents and PDFs (D)">▤ Documents</button>
+    <button id="docbtn" title="Open, create and edit Word documents, PDFs and PowerPoint slides (D)">▤ Documents</button>
     <button id="setbtn" title="Settings">⚙ Settings</button>
     <button id="theme" title="Toggle light or dark">Theme</button>
   </header>
@@ -2900,10 +2903,10 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
   <main id="stage">
     <div id="empty">
       <i class="logo"></i>
-      <h2>Your videos and photos, in one place</h2>
-      <p>Drop files or folders anywhere, or pick them below. Word and PDF files open in Documents. Everything stays on your laptop.</p>
+      <h2>Your videos, photos and documents, in one place</h2>
+      <p>Drop files or folders anywhere, or pick them below. Word, PDF and PowerPoint files open in Documents, where you can edit them and present your slides. Everything stays on your laptop.</p>
       <div class="row"><label class="btn primary" for="afolder">Open folder</label><label class="btn primary" for="file">Open videos</label><label class="btn primary"
-          for="folder">Video folder</label><label class="btn primary" for="pfolder">Photo folder</label><button id="emptydocf" class="primary">Document folder</button><button id="emptydocx" class="primary">Word / PDF files</button></div>
+          for="folder">Video folder</label><label class="btn primary" for="pfolder">Photo folder</label><button id="emptydocf" class="primary">Document folder</button><button id="emptydocx" class="primary">Word / PDF / PowerPoint</button><button id="emptyppt" class="primary">+ New presentation</button></div>
     </div>
     <video id="v" playsinline></video>
     <img id="pic" alt="">
@@ -3216,8 +3219,8 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
         </div>
         <div id="docscroll">
           <div id="docempty">
-            <h3>Documents &amp; PDFs</h3>
-            <p id="docemptyp">Open a folder to see every Word and PDF file inside it, then click one to read and edit it. Or pick individual files, or start a new document with <b>New</b>.</p>
+            <h3>Documents, PDFs &amp; Slides</h3>
+            <p id="docemptyp">Open a folder to see every Word, PDF and PowerPoint file inside it, then click one to read and edit it (or present it). Or pick individual files, or start something new with <b>New</b>.</p>
             <div class="row"><button id="docemptynew" class="primary">New document</button><button id="docemptypdf">Blank PDF</button><button id="docemptyf">Open folder</button><button id="docemptyx">Open files</button></div>
             <p class="fine">Chrome won’t let a page save into your Documents, Desktop or Downloads folder itself. If a folder is refused, <button id="docviewf" type="button">open it view-only</button> — you can still edit and use Save a copy.</p>
           </div>
@@ -3955,11 +3958,11 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
     });
     /* smart drop: pictures open the Photos list, videos the Videos list, Word / PDF / text files open Documents */
     function routeDrop(list) {
-        var all = Array.prototype.slice.call(list), DR = /\.(docx|doc|pdf|txt|md)$/i,
+        var all = Array.prototype.slice.call(list), DR = /\.(docx|doc|pdf|pptx|txt|md)$/i,
             dd = all.filter(function (f) { return DR.test(f.name) && !/^~\$/.test(f.name) }),
             ph = all.filter(function (f) { return dd.indexOf(f) < 0 && isPhoto(f) }), vd = all.filter(function (f) { return dd.indexOf(f) < 0 && isVideo(f) }),
             md = ph.concat(vd);
-        if (!dd.length && !md.length) { if (all.length) toast('Mediadesk can’t open ' + all.slice(0, 2).map(function (f) { return f.name }).join(', ') + (all.length > 2 ? '…' : '') + '. It handles photos, videos, Word, PDF and text files.'); return }
+        if (!dd.length && !md.length) { if (all.length) toast('Mediadesk can’t open ' + all.slice(0, 2).map(function (f) { return f.name }).join(', ') + (all.length > 2 ? '…' : '') + '. It handles photos, videos, Word, PDF, PowerPoint and text files.'); return }
         var docsFirst = dd.length >= md.length;
         if (docsFirst) {
             var n = addDocs(dd, true, false); if (!n) { var ex = docs.filter(function (x) { return x.name === dd[0].name && x.file.size === dd[0].size })[0]; if (ex) docSelect(ex) }
@@ -4800,10 +4803,10 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
             var path = o.path || f.webkitRelativePath || f.name, k = path + '|' + f.size + '|' + f.lastModified;
             if (docKeys[k]) return; docKeys[k] = 1;
             var ext = docExt(f.name);
-            added.push({ id: ++docSeq, key: k, file: f, handle: o.handle || null, name: f.name, path: path, dir: path.indexOf('/') >= 0 ? path.replace(/\/[^\/]*$/, '') : '', ext: ext, kind: ext === 'docx' ? 'docx' : ext === 'pdf' ? 'pdf' : ext === 'doc' ? 'legacy' : 'text', date: new Date(f.lastModified), dirty: false, loaded: false });
+            added.push({ id: ++docSeq, key: k, file: f, handle: o.handle || null, name: f.name, path: path, dir: path.indexOf('/') >= 0 ? path.replace(/\/[^\/]*$/, '') : '', ext: ext, kind: ext === 'docx' ? 'docx' : ext === 'pdf' ? 'pdf' : ext === 'pptx' ? 'pptx' : ext === 'doc' ? 'legacy' : 'text', date: new Date(f.lastModified), dirty: false, loaded: false });
         });
         if (open) docShow(true);
-        if (!added.length) { if (open) toast(seen ? 'Those documents are already in the list.' : 'No Word or PDF documents found there.'); return 0 }
+        if (!added.length) { if (open) toast(seen ? 'Those documents are already in the list.' : 'No Word, PDF or PowerPoint documents found there.'); return 0 }
         docs = docs.concat(added); sortDocs(); renderDocList();
         if (added.length === 1) docSelect(added[0]);
         else if (open && !docCur) toast('Found ' + added.length + ' documents. Choose one from the list.');
@@ -4896,7 +4899,7 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
         else {
             if (!window.showOpenFilePicker) { $('dfile').click(); return }
             var hs;
-            try { hs = await window.showOpenFilePicker({ multiple: true, types: [{ description: 'Word, PDF and text files', accept: { 'application/pdf': ['.pdf'], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'], 'application/msword': ['.doc'], 'text/plain': ['.txt', '.md'] } }] }) }
+            try { hs = await window.showOpenFilePicker({ multiple: true, types: [{ description: 'Word, PDF, PowerPoint and text files', accept: { 'application/pdf': ['.pdf'], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'], 'application/msword': ['.doc'], 'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'], 'text/plain': ['.txt', '.md'] } }] }) }
             catch (e) { if (e && e.name === 'AbortError') return; $('dfile').click(); return }
             var out = []; for (var i = 0; i < hs.length; i++) { try { out.push({ file: await hs[i].getFile(), handle: hs[i], path: hs[i].name }) } catch (e) { } }
             addDocs(out, true, false);
@@ -4909,6 +4912,7 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
     $('docviewf').onclick = function () { docPick('viewfolder') };
     $('emptydocf').onclick = function () { docShow(true); docPick('folder') };
     $('emptydocx').onclick = function () { docShow(true); docPick('files') };
+    $('emptyppt').onclick = function () { docShow(true); var b = [].filter.call(document.querySelectorAll('#docempty .row button'), function (x) { return x.textContent.trim() === 'Blank presentation' })[0]; if (b) b.click(); else toast('Presentations are still loading, try again in a moment.') };
     dBtn.onclick = function () { docShow(true) };
     $('docclose').onclick = function () { docShow(false) };
     $('docnew').onclick = function () {
@@ -6842,11 +6846,12 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
 
     /* ---------- Word-style colour picker ---------- */
     var CPOP = null, CREC = [];
-    var CTH = ['#000000', '#ffffff', '#44546a', '#e7e6e6', '#4472c4', '#ed7d31', '#a5a5a5', '#ffc000', '#5b9bd5', '#70ad47'], CST = ['#c00000', '#ff0000', '#ffc000', '#ffff00', '#92d050', '#00b050', '#00b0f0', '#0070c0', '#002060', '#7030a0'];
+    var CTH = ['#ffffff', '#000000', '#eeece1', '#1f497d', '#4f81bd', '#c0504d', '#9bbb59', '#8064a2', '#4bacc6', '#f79646'], CST = ['#c00000', '#ff0000', '#ffc000', '#ffff00', '#92d050', '#00b050', '#00b0f0', '#0070c0', '#002060', '#7030a0'];
     function cmix(h, t, k) { var n = parseInt(h.slice(1), 16); return '#' + [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { return ('0' + Math.round(v + (t - v) * k).toString(16)).slice(-2) }).join('') }
     function sws(a) { return a.map(function (c) { return '<button type="button" class="sw" data-col="' + c + '" title="' + c.toUpperCase() + '" style="background:' + c + '"></button>' }).join('') }
     function colApply(id, val) {
         var inp = $(id), lab = inp.parentNode;
+        if (val === '' && /^pxp/.test(id)) { inp.dispatchEvent(new Event('ppclear')); return }
         if (val === '') {
             rich(function () { document.execCommand('styleWithCSS', false, true); if (id === 'doccolor') document.execCommand('foreColor', false, '#111111'); else if (!document.execCommand('hiliteColor', false, 'transparent')) document.execCommand('backColor', false, 'transparent'); document.execCommand('styleWithCSS', false, false) });
             lab.style.setProperty('--sw', id === 'doccolor' ? '#111111' : 'transparent'); return;
@@ -6856,9 +6861,11 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
     function colClose() { if (CPOP) { CPOP.remove(); CPOP = null } }
     function colOpen(id, lab) {
         colClose(); var inp = $(id), doc = id.indexOf('px') !== 0, p = CPOP = document.createElement('div'); p.id = 'clpop';
-        var th = sws(CTH);[.8, .6, .4].forEach(function (k) { th += sws(CTH.map(function (c) { return cmix(c, 255, k) })) });[.25, .5].forEach(function (k) { th += sws(CTH.map(function (c) { return cmix(c, 0, k) })) });
-        p.innerHTML = (doc ? '<button type="button" class="w" data-col="">' + (id === 'dochl' ? 'No highlight' : 'Automatic') + '</button>' : '') + '<div class="t">Theme colours</div><div class="g">' + th + '</div><div class="t">Standard colours</div><div class="g">' + sws(CST) + '</div>' + (CREC.length ? '<div class="t">Recent</div><div class="g">' + sws(CREC) + '</div>' : '') + '<button type="button" class="w" data-more="1">More colours…</button><input class="hex" placeholder="#RRGGBB" aria-label="Hex colour" maxlength="7">';
-        $('docs').appendChild(p); var r = lab.getBoundingClientRect(); p.style.top = Math.min(r.bottom + 6, innerHeight - p.offsetHeight - 8) + 'px'; p.style.left = Math.max(8, Math.min(r.left, innerWidth - 262)) + 'px';
+        var tn = '';
+        for (var ri = 0; ri < 5; ri++) tn += sws(CTH.map(function (c) { return c === '#ffffff' ? cmix(c, 0, [.05, .15, .25, .35, .5][ri]) : c === '#000000' ? cmix(c, 255, [.5, .35, .25, .15, .05][ri]) : ri < 3 ? cmix(c, 255, [.8, .6, .4][ri]) : cmix(c, 0, [.25, .5][ri - 3]) }));
+        var th = sws(CTH) + '</div><div class="g tn">' + tn;
+        p.innerHTML = (doc ? '<button type="button" class="w" data-col="">' + (id === 'dochl' ? 'No highlight' : 'Automatic') + '</button>' : '') + '<div class="t">Theme Colors</div><div class="g">' + th + '</div><div class="t">Standard Colors</div><div class="g">' + sws(CST) + '</div>' + (CREC.length ? '<div class="t">Recent</div><div class="g">' + sws(CREC) + '</div>' : '') + '<button type="button" class="w" data-more="1">More Colors…</button><input class="hex" placeholder="#RRGGBB" aria-label="Hex colour" maxlength="7">';
+        if (/^pxp/.test(id)) p.insertAdjacentHTML('afterbegin', '<button type="button" class="w" data-col="">' + ({ pxptxt: 'Automatic', pxphl: 'No highlight', pxpfill: 'No fill', pxpline: 'No outline' })[id] + '</button>'); $('docs').appendChild(p); var r = lab.getBoundingClientRect(); p.style.top = Math.min(r.bottom + 6, innerHeight - p.offsetHeight - 8) + 'px'; p.style.left = Math.max(8, Math.min(r.left, innerWidth - 262)) + 'px';
         p.addEventListener('mousedown', function (e) { if (e.target.tagName !== 'INPUT') e.preventDefault() });
         p.addEventListener('click', function (e) {
             var b = e.target.closest('button'); if (!b) return;
@@ -7476,6 +7483,1033 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
     $('setbtn').onclick = openSet; $('setx').onclick = closeSet; $('setq').oninput = sRender;
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('set').hidden) { e.stopImmediatePropagation(); e.preventDefault(); closeSet() } }, true);
     sApply();
+    /* ================= PowerPoint (.pptx): view, edit, add slides, present, save ================= */
+    (function () {
+        var A = 'http://schemas.openxmlformats.org/drawingml/2006/main', PN = 'http://schemas.openxmlformats.org/presentationml/2006/main', R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+        var RT = R + '/', EMU = 9525, MIME_P = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+        var DP = new DOMParser(), XS = new XMLSerializer(), zipP = null, ed = null, drag = null, lastTap = { i: -1, t: 0 }, root, sl, th, stg, WRAP = 'xmlns:a="' + A + '" xmlns:p="' + PN + '" xmlns:r="' + R + '"';
+        var IMGM = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', svg: 'image/svg+xml', bmp: 'image/bmp', webp: 'image/webp' };
+        function T(v) { return v === '1' || v === 'true' }
+        function px(s) { return DP.parseFromString(s, 'application/xml') }
+        function ser(doc) { return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + XS.serializeToString(doc).replace(/^(\s*<\?xml[^>]*\?>\s*)+/, '') }
+        function ns(el, n) { return el.getElementsByTagNameNS('*', n) }
+        function kid(el, n) { for (var c = el && el.firstElementChild; c; c = c.nextElementSibling) if (c.localName === n) return c; return null }
+        function kids(el, n) { var o = []; for (var c = el && el.firstElementChild; c; c = c.nextElementSibling) if (c.localName === n) o.push(c); return o }
+        function at(el, n, def) { var v = el && el.getAttribute(n); return v === null || v === undefined ? def : v }
+        function resolve(base, t) { if (t[0] === '/') return t.slice(1); var p = base.split('/'); p.pop(); t.split('/').forEach(function (s) { if (s === '..') p.pop(); else if (s !== '.') p.push(s) }); return p.join('/') }
+        function rels(d, name) {
+            var x = d.pp.P[name.replace(/([^\/]+)$/, '_rels/$1.rels')], m = {}; if (!x) return m;
+            [].forEach.call(ns(px(x).documentElement, 'Relationship'), function (r) { m[r.getAttribute('Id')] = { t: resolve(name, r.getAttribute('Target')), ty: r.getAttribute('Type').split('/').pop(), raw: r.getAttribute('Target') } }); return m;
+        }
+        function rv(m, ty) { for (var k in m) if (m[k].ty === ty) return m[k]; return null }
+        function slideList(d) { var pr = rels(d, 'ppt/presentation.xml'); return [].map.call(ns(px(d.pp.P['ppt/presentation.xml']).documentElement, 'sldId'), function (s) { var r = pr[s.getAttributeNS(R, 'id')]; return r && r.t }).filter(Boolean) }
+        function sldSize(d) { var s = ns(px(d.pp.P['ppt/presentation.xml']).documentElement, 'sldSz')[0]; return { w: +at(s, 'cx', 9144000) / EMU, h: +at(s, 'cy', 6858000) / EMU } }
+        function needZip() {
+            if (window.JSZip) return Promise.resolve();
+            if (!zipP) zipP = loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js').catch(function () { return loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js') });
+            return zipP.then(function () { zipP = null }, function (e) { zipP = null; throw e });
+        }
+
+        /* ---- colours ---- */
+        function theme(d) {
+            if (d.pp.th) return d.pp.th; var m = {}, n = Object.keys(d.pp.P).filter(function (k) { return /^ppt\/theme\/theme\d+\.xml$/.test(k) })[0];
+            if (n) { var cs = ns(px(d.pp.P[n]).documentElement, 'clrScheme')[0]; kids(cs, '').length; [].forEach.call(cs ? cs.children : [], function (c) { var v = c.firstElementChild; if (v) m[c.localName] = v.getAttribute('val') && v.localName === 'srgbClr' ? v.getAttribute('val') : at(v, 'lastClr', '000000') }) }
+            return d.pp.th = m;
+        }
+        function clr(d, el) {
+            var c = el && (kid(el, 'srgbClr') || kid(el, 'schemeClr') || kid(el, 'sysClr') || kid(el, 'prstClr')); if (!c) return null; var hex, v = c.getAttribute('val') || '';
+            if (c.localName === 'srgbClr') hex = v; else if (c.localName === 'sysClr') hex = at(c, 'lastClr', '000000'); else if (c.localName === 'prstClr') hex = ({ black: '000000', white: 'ffffff', red: 'ff0000', blue: '0000ff', green: '008000', yellow: 'ffff00' })[v] || '000000';
+            else hex = theme(d)[({ tx1: 'dk1', bg1: 'lt1', tx2: 'dk2', bg2: 'lt2' })[v] || v] || '000000';
+            var rgb = [0, 2, 4].map(function (i) { return parseInt(hex.substr(i, 2), 16) || 0 }), lm = kid(c, 'lumMod'), lo = kid(c, 'lumOff'), al = kid(c, 'alpha');
+            if (lm || lo) { var m = lm ? +lm.getAttribute('val') / 100000 : 1, o = lo ? +lo.getAttribute('val') / 100000 * 255 : 0; rgb = rgb.map(function (x) { return Math.max(0, Math.min(255, Math.round(x * m + o))) }) }
+            var a = al ? +al.getAttribute('val') / 100000 : 1; return a < 1 ? 'rgba(' + rgb.join(',') + ',' + a.toFixed(3) + ')' : 'rgb(' + rgb.join(',') + ')';
+        }
+        /* gradients, picture fills and cropping (Canva decks lean on all three) */
+        function gradCss(d, g) {
+            var st = kids(kid(g, 'gsLst'), 'gs').map(function (s) { return (clr(d, s) || '#000') + ' ' + (+s.getAttribute('pos') / 1000) + '%' }), lin = kid(g, 'lin');
+            return kid(g, 'path') ? 'radial-gradient(circle,' + st.join(',') + ')' : 'linear-gradient(' + ((lin ? +at(lin, 'ang', 0) / 60000 : 90) + 90) + 'deg,' + st.join(',') + ')';
+        }
+        function blipUrl(d, path, bf) { var bl = bf && ns(bf, 'blip')[0]; if (!bl) return null; var rm = rels(d, path), sv = ns(bl, 'svgBlip')[0], r = sv && rm[sv.getAttributeNS(R, 'embed')]; if (r && d.pp.urls[r.t]) return d.pp.urls[r.t]; r = rm[bl.getAttributeNS(R, 'embed')]; return r && d.pp.urls[r.t] }
+        function cropBg(u, bf) {
+            var sr = bf && kid(bf, 'srcRect'), fr = bf && kid(kid(bf, 'stretch'), 'fillRect'), l = +at(sr, 'l', 0) / 1e5, tp = +at(sr, 't', 0) / 1e5, r = +at(sr, 'r', 0) / 1e5, b = +at(sr, 'b', 0) / 1e5, fl = +at(fr, 'l', 0) / 1e5, ft = +at(fr, 't', 0) / 1e5, fR = +at(fr, 'r', 0) / 1e5, fb = +at(fr, 'b', 0) / 1e5;
+            if (1 - l - r < .01 || 1 - tp - b < .01) { l = tp = r = b = 0 } if (1 - fl - fR < .01 || 1 - ft - fb < .01) { fl = ft = fR = fb = 0 }
+            var w = (1 - fl - fR) / (1 - l - r), h = (1 - ft - fb) / (1 - tp - b), ox = fl - l * w, oy = ft - tp * h, px_ = Math.abs(1 - w) > 1e-6 ? ox / (1 - w) * 100 : 0, py_ = Math.abs(1 - h) > 1e-6 ? oy / (1 - h) * 100 : 0;
+            return 'background:url(' + u + ') ' + px_ + '% ' + py_ + '%/' + w * 100 + '% ' + h * 100 + '% no-repeat;';
+        }
+        function opac(bf) { var am = bf && ns(bf, 'alphaModFix')[0]; return am ? 'opacity:' + (+am.getAttribute('amt') / 100000) + ';' : '' }
+        function fillBg(d, path, host) {
+            var f = kid(host, 'solidFill'); if (f) return 'background:' + clr(d, f) + ';'; var g = kid(host, 'gradFill'); if (g) return 'background:' + gradCss(d, g) + ';';
+            var b = kid(host, 'blipFill'); if (b) { var u = blipUrl(d, path, b); return u ? cropBg(u, b) : 'background:transparent;' } return kid(host, 'noFill') ? 'background:transparent;' : null;
+        }
+        function fillDecl(d, path, el) {
+            var sp = kid(el, 'spPr') || el, r = fillBg(d, path, sp); if (r) return r;
+            var st = kid(el, 'style'), fr = st && kid(st, 'fillRef'); if (fr && at(fr, 'idx', '0') !== '0') return 'background:' + clr(d, fr) + ';'; return 'background:transparent;';
+        }
+        function lnOf(d, el) {
+            var sp = kid(el, 'spPr'), ln = sp && kid(sp, 'ln'), st = kid(el, 'style'), lr = st && kid(st, 'lnRef');
+            if (ln && kid(ln, 'noFill')) return null; var c = ln && kid(ln, 'solidFill') ? clr(d, kid(ln, 'solidFill')) : (lr && at(lr, 'idx', '0') !== '0' ? clr(d, lr) : null);
+            if (!c && ln && kid(ln, 'gradFill')) c = clr(d, ns(kid(ln, 'gradFill'), 'gs')[0]); if (!c) return null;
+            var pd = ln && kid(ln, 'prstDash'); return { w: Math.max(.5, (+at(ln, 'w', 12700)) / EMU), c: c, cap: at(ln, 'cap', ''), dash: pd && pd.getAttribute('val') };
+        }
+        function lineCss(d, el) { var o = lnOf(d, el); if (!o) return null; return Math.max(1, o.w).toFixed(1) + 'px ' + (o.dash && /dot/i.test(o.dash) ? 'dotted' : o.dash && /dash/i.test(o.dash) ? 'dashed' : 'solid') + ' ' + o.c }
+
+        /* ---- shapes ---- */
+        function shapesOf(doc) { var t = ns(doc.documentElement, 'spTree')[0], o = []; (function w(e) { for (var c = e.firstElementChild; c; c = c.nextElementSibling) { var n = c.localName; if (n === 'grpSp') w(c); else if (n === 'AlternateContent') { var ch = kid(c, 'Choice'); if (ch) w(ch) } else if (n === 'sp' || n === 'pic' || n === 'graphicFrame' || n === 'cxnSp') o.push(c) } })(t); return o }
+        function phOf(el) { var nv = el.firstElementChild, pr = nv && kid(nv, 'nvPr'); return pr && kid(pr, 'ph') }
+        /* group transforms: a shape inside a group is positioned in the group's own child space */
+        function gtf(g) {
+            var x = kid(kid(g, 'grpSpPr'), 'xfrm'), o = x && kid(x, 'off'), e = x && kid(x, 'ext'), co = x && kid(x, 'chOff'), ce = x && kid(x, 'chExt'); if (!o || !e || !co || !ce) return null;
+            return { sx: +e.getAttribute('cx') / (+ce.getAttribute('cx') || 1), sy: +e.getAttribute('cy') / (+ce.getAttribute('cy') || 1), ox: +o.getAttribute('x'), oy: +o.getAttribute('y'), cx: +co.getAttribute('x'), cy: +co.getAttribute('y') };
+        }
+        function ungrp(el, v) {
+            var gs = [], r = { x: v.x, y: v.y, w: v.w, h: v.h }, k; for (var g = el.parentNode; g && g.localName === 'grpSp'; g = g.parentNode) gs.push(g);
+            for (k = gs.length - 1; k >= 0; k--) { var q = gtf(gs[k]); if (q) { r.x = (r.x - q.ox) / q.sx + q.cx; r.y = (r.y - q.oy) / q.sy + q.cy; r.w /= q.sx; r.h /= q.sy } } return r;
+        }
+        function xfOf(el) {
+            var sp = kid(el, 'spPr'), x = sp ? kid(sp, 'xfrm') : kid(el, 'xfrm'), o = x && kid(x, 'off'), e = x && kid(x, 'ext'); if (!o || !e) return null;
+            var r = { x: +o.getAttribute('x'), y: +o.getAttribute('y'), w: +e.getAttribute('cx'), h: +e.getAttribute('cy'), rot: +at(x, 'rot', 0), fh: T(at(x, 'flipH', '0')), fv: T(at(x, 'flipV', '0')) };
+            for (var g = el.parentNode; g && g.localName === 'grpSp'; g = g.parentNode) { var q = gtf(g); if (q) { r.x = q.ox + (r.x - q.cx) * q.sx; r.y = q.oy + (r.y - q.cy) * q.sy; r.w *= q.sx; r.h *= q.sy } }
+            return r;
+        }
+        function lsp(pp, base) {
+            var o = '', ln = pp && kid(pp, 'lnSpc'), sb = pp && kid(pp, 'spcBef'), sa = pp && kid(pp, 'spcAft'), v;
+            if (ln) { if ((v = kid(ln, 'spcPct'))) o += ';line-height:' + (+v.getAttribute('val') / 100000 * 1.2).toFixed(3); else if ((v = kid(ln, 'spcPts'))) o += ';line-height:calc(' + (+v.getAttribute('val') / 100 * 1.3333 * base.fs).toFixed(1) + 'px*var(--tf,1))' }
+            if (sb && (v = kid(sb, 'spcPts'))) o += ';margin-top:' + (+v.getAttribute('val') / 100 * 1.3333 * base.fs).toFixed(1) + 'px';
+            if (sa && (v = kid(sa, 'spcPts'))) o += ';margin-bottom:' + (+v.getAttribute('val') / 100 * 1.3333 * base.fs).toFixed(1) + 'px';
+            return o;
+        }
+        function phInfo(d, path, el) {
+            var ph = phOf(el); if (!ph) return null; var chain = [], L = rv(rels(d, path), 'slideLayout'), res = {};
+            if (L) { chain.push(L.t); var M = rv(rels(d, L.t), 'slideMaster'); if (M) chain.push(M.t) }
+            var idx = ph.getAttribute('idx'), ty = ph.getAttribute('type') || 'body', tt = /^(title|ctrTitle)$/.test(ty);
+            chain.forEach(function (n, k) {
+                if (!d.pp.P[n]) return;
+                shapesOf(px(d.pp.P[n])).forEach(function (s) {
+                    var p = phOf(s); if (!p) return; var pi = p.getAttribute('idx'), pt = p.getAttribute('type') || 'body', ok;
+                    if (k === 0) ok = (idx !== null && pi === idx) || (tt && /^(title|ctrTitle)$/.test(pt)) || (idx === null && pt === ty); else ok = tt ? /^(title|ctrTitle)$/.test(pt) : pt === 'body';
+                    if (!ok) return; var xf = xfOf(s); if (xf && res.x === undefined) for (var q in xf) res[q] = xf[q];
+                    var l1 = kid(kid(kid(s, 'txBody'), 'lstStyle'), 'lvl1pPr'), dr = l1 && kid(l1, 'defRPr');
+                    if (res.sz === undefined && dr && dr.getAttribute('sz')) res.sz = +dr.getAttribute('sz'); if (res.algn === undefined && l1 && l1.getAttribute('algn')) res.algn = l1.getAttribute('algn');
+                });
+            });
+            if (res.sz === undefined) res.sz = tt ? 4000 : ty === 'subTitle' ? 2400 : ty === 'body' || ty === 'obj' ? 2400 : 1800; res.ty = ty; res.body = !tt && (ty === 'body' || ty === 'obj' || ty === 'subTitle' && false); return res;
+        }
+        var AL = { l: 'left', ctr: 'center', r: 'right', just: 'justify' };
+        function paras(d, tb, base) {
+            var out = '', num = 0;
+            kids(tb, 'p').forEach(function (p) {
+                var pp = kid(p, 'pPr'), al = at(pp, 'algn', base.algn || 'l'), bu = pp && kid(pp, 'buChar'), an = pp && kid(pp, 'buAutoNum'), none = pp && kid(pp, 'buNone');
+                var mar = +at(pp, 'marL', 0), ind = +at(pp, 'indent', 0), h = '', has = false, lead = '';
+                if (!bu && !an && !none && base.body) { bu = { getAttribute: function () { return '•' } }; if (!mar) { mar = 342900; ind = -342900 } }
+                if (bu) { lead = bu.getAttribute('char') || '•'; num = 0 } else if (an) lead = (++num) + '.'; else num = 0;
+                [].forEach.call(p.children, function (c) {
+                    var n = c.localName; if (n === 'br') { h += '<br>'; return } if (n !== 'r' && n !== 'fld') return;
+                    var t = kid(c, 't'), rp = kid(c, 'rPr'), sz = +at(rp, 'sz', base.sz), st = 'font-size:calc(' + (sz / 100 * 1.3333 * base.fs).toFixed(1) + 'px*var(--tf,1));';
+                    if (rp) {
+                        if (T(at(rp, 'b', '0'))) st += 'font-weight:700;'; if (T(at(rp, 'i', '0'))) st += 'font-style:italic;'; if (at(rp, 'cap', 'none') === 'all') st += 'text-transform:uppercase;'; { var tdc = (at(rp, 'u', 'none') !== 'none' ? 'underline ' : '') + (at(rp, 'strike', 'noStrike') !== 'noStrike' ? 'line-through' : ''); if (tdc) st += 'text-decoration:' + tdc + ';'; } if (rp.getAttribute('spc')) st += 'letter-spacing:' + (+rp.getAttribute('spc') / 100 * 1.3333 * base.fs).toFixed(2) + 'px;';
+                        var f = kid(rp, 'solidFill'), c2 = f && clr(d, f); if (c2) st += 'color:' + c2 + ';'; var hlt = kid(rp, 'highlight'), hlc = hlt && clr(d, hlt); if (hlc) st += 'background-color:' + hlc + ';'; var lt = kid(rp, 'latin'); if (lt && lt.getAttribute('typeface')[0] !== '+') st += 'font-family:\'' + lt.getAttribute('typeface') + '\',sans-serif;';
+                    }
+                    h += '<span style="' + st + '">' + dEsc(t ? t.textContent : '') + '</span>'; has = true;
+                });
+                if (!has) { lead = ''; var ep = kid(p, 'endParaRPr'); h = '<span style="font-size:calc(' + (+at(ep, 'sz', base.sz) / 100 * 1.3333 * base.fs).toFixed(1) + 'px*var(--tf,1))"><br></span>' }
+                out += '<div class="pp" ' + (lead ? 'data-bu="' + dEsc(lead) + '" ' : '') + 'style="text-align:' + (AL[al] || 'left') + ';padding-left:' + Math.max(0, mar / EMU) + 'px;text-indent:' + ind / EMU + 'px' + lsp(pp, base) + '">' + h + '</div>';
+            });
+            return out;
+        }
+        function tblHtml(d, gf) {
+            var t = ns(gf, 'tbl')[0], cols = kids(kid(t, 'tblGrid'), 'gridCol'), h = '<table class="pptbl"><colgroup>' + cols.map(function (c) { return '<col style="width:' + (+c.getAttribute('w') / EMU) + 'px">' }).join('') + '</colgroup>';
+            kids(t, 'tr').forEach(function (tr) {
+                h += '<tr style="height:' + (+at(tr, 'h', 370840) / EMU) + 'px">';
+                kids(tr, 'tc').forEach(function (tc) { if (T(at(tc, 'hMerge', '0')) || T(at(tc, 'vMerge', '0'))) return; var pr = kid(tc, 'tcPr'), f = pr && kid(pr, 'solidFill'); h += '<td' + (tc.getAttribute('gridSpan') ? ' colspan="' + tc.getAttribute('gridSpan') + '"' : '') + (tc.getAttribute('rowSpan') ? ' rowspan="' + tc.getAttribute('rowSpan') + '"' : '') + (f ? ' style="background:' + clr(d, f) + '"' : '') + '>' + paras(d, kid(tc, 'txBody'), { sz: 1800, fs: 1 }) + '</td>' });
+                h += '</tr>';
+            });
+            return h + '</table>';
+        }
+        var CLIP = { triangle: '50% 0,100% 100%,0 100%', diamond: '50% 0,100% 50%,50% 100%,0 50%', hexagon: '25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%', pentagon: '50% 0,100% 38%,82% 100%,18% 100%,0 38%', star5: '50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%', rightArrow: '0 25%,60% 25%,60% 0,100% 50%,60% 100%,60% 75%,0 75%', plus: '35% 0,65% 0,65% 35%,100% 35%,100% 65%,65% 65%,65% 100%,35% 100%,35% 65%,0 65%,0 35%,35% 35%' };
+        var gid = 0;
+        function geoCss(pg, xf) { var s = ''; if (pg === 'ellipse') s += 'border-radius:50%;'; else if (pg === 'roundRect') s += 'border-radius:' + Math.min(xf.w, xf.h) / EMU * .16 + 'px;'; if (CLIP[pg]) s += 'clip-path:polygon(' + CLIP[pg] + ');'; return s }
+        /* custom geometry (Canva's vector shapes, masked photos, drawn ink) -> inline SVG */
+        function geoSvg(d, path, el, xf, host, lo, extra) {
+            var cg = kid(kid(el, 'spPr'), 'custGeom'), pl = cg && kid(cg, 'pathLst'); if (!pl) return ''; var W = xf.w / EMU || 1, out = '';
+            kids(pl, 'path').forEach(function (p) {
+                var pw = +at(p, 'w', 0) || xf.w || 1, ph = +at(p, 'h', 0) || xf.h || 1, cx = 0, cy = 0, dd = '', id = 'g' + (++gid), nk = 1000 / Math.max(pw, ph), defs = '', fill = 'none', img = '';
+                var pt = function (q) { return q.getAttribute('x') + ' ' + q.getAttribute('y') };
+                [].forEach.call(p.children, function (c) {
+                    var nm = c.localName, ps = kids(c, 'pt'), l = ps[ps.length - 1];
+                    if (nm === 'moveTo') dd += 'M' + pt(ps[0]); else if (nm === 'lnTo') dd += 'L' + pt(ps[0]);
+                    else if (nm === 'cubicBezTo') dd += 'C' + ps.map(pt).join(' '); else if (nm === 'quadBezTo') dd += 'Q' + ps.map(pt).join(' ');
+                    else if (nm === 'close') { dd += 'Z'; return }
+                    else if (nm === 'arcTo') { var wr = +c.getAttribute('wR'), hr = +c.getAttribute('hR'), a0 = +c.getAttribute('stAng') / 60000, sw = +c.getAttribute('swAng') / 60000, r0 = a0 * Math.PI / 180, r1 = (a0 + sw) * Math.PI / 180, ox = cx - wr * Math.cos(r0), oy = cy - hr * Math.sin(r0); cx = ox + wr * Math.cos(r1); cy = oy + hr * Math.sin(r1); dd += 'A' + wr + ' ' + hr + ' 0 ' + (Math.abs(sw) > 180 ? 1 : 0) + ' ' + (sw > 0 ? 1 : 0) + ' ' + cx + ' ' + cy }
+                    if (l) { cx = +l.getAttribute('x'); cy = +l.getAttribute('y') }
+                });
+                var isB = host && host.localName === 'blipFill', bfe = isB ? host : host && kid(host, 'blipFill'), sfe = !isB && host && kid(host, 'solidFill'), gfe = !isB && host && kid(host, 'gradFill'), u = bfe && blipUrl(d, path, bfe);
+                if (p.getAttribute('fill') === 'none') fill = 'none';
+                else if (u) {
+                    var sr = kid(bfe, 'srcRect'), l0 = +at(sr, 'l', 0) / 1e5, t0 = +at(sr, 't', 0) / 1e5, r0_ = +at(sr, 'r', 0) / 1e5, b0 = +at(sr, 'b', 0) / 1e5; if (1 - l0 - r0_ < .01 || 1 - t0 - b0 < .01) { l0 = t0 = r0_ = b0 = 0 } var fr0 = kid(kid(bfe, 'stretch'), 'fillRect'), fl = +at(fr0, 'l', 0) / 1e5, ft = +at(fr0, 't', 0) / 1e5, fR = +at(fr0, 'r', 0) / 1e5, fb = +at(fr0, 'b', 0) / 1e5; if (1 - fl - fR < .01 || 1 - ft - fb < .01) { fl = ft = fR = fb = 0 } var IW = pw * (1 - fl - fR) / (1 - l0 - r0_), IH = ph * (1 - ft - fb) / (1 - t0 - b0), IX = fl * pw - l0 * IW, IY = ft * ph - t0 * IH;
+                    defs += '<clipPath id="c' + id + '" transform="scale(' + nk + ')"><path d="' + dd + '"/></clipPath>'; img = '<image href="' + u + '" x="' + IX * nk + '" y="' + IY * nk + '" width="' + IW * nk + '" height="' + IH * nk + '" preserveAspectRatio="none" clip-path="url(#c' + id + ')"' + opac(bfe).replace('opacity:', ' opacity="').replace(';', '"') + '/>';
+                } else if (sfe) fill = clr(d, sfe) || 'none';
+                else if (gfe) {
+                    var lin = kid(gfe, 'lin'), a = (lin ? +at(lin, 'ang', 0) / 60000 : 90) * Math.PI / 180;
+                    defs += '<linearGradient id="' + id + '" x1="' + (.5 - Math.cos(a) / 2) + '" y1="' + (.5 - Math.sin(a) / 2) + '" x2="' + (.5 + Math.cos(a) / 2) + '" y2="' + (.5 + Math.sin(a) / 2) + '">' + kids(kid(gfe, 'gsLst'), 'gs').map(function (s) { return '<stop offset="' + (+s.getAttribute('pos') / 1000) + '%" stop-color="' + (clr(d, s) || '#000') + '"/>' }).join('') + '</linearGradient>'; fill = 'url(#' + id + ')';
+                } else if (!isB && !(host && kid(host, 'noFill'))) { var st = kid(el, 'style'), fr = st && kid(st, 'fillRef'); if (fr && at(fr, 'idx', '0') !== '0') fill = clr(d, fr) || 'none' }
+                var strk = lo && p.getAttribute('stroke') !== '0' ? ' stroke="' + lo.c + '" stroke-width="' + lo.w * pw / W + '" stroke-linecap="' + (lo.cap === 'rnd' ? 'round' : 'butt') + '" stroke-linejoin="round"' : '';
+                /* keep the SVG's own units small (EMU-sized coordinates get culled/clipped by Chrome and show cut-off artwork) */
+                var gs = '<g transform="scale(' + nk + ')">';
+                out += '<svg class="ppsvg" viewBox="0 0 ' + (pw * nk) + ' ' + (ph * nk) + '" preserveAspectRatio="none" style="' + (extra || '') + '"><defs>' + defs + '</defs>' + (img || gs + '<path d="' + dd + '" fill="' + fill + '"' + strk + '/></g>') + (img && strk ? gs + '<path d="' + dd + '" fill="none"' + strk + '/></g>' : '') + '</svg>';
+            });
+            return out;
+        }
+        function txHtml(d, el, info) {
+            var tb = kid(el, 'txBody'); if (!tb) return ''; var bp = kid(tb, 'bodyPr'), fs = 1, af = bp && kid(bp, 'normAutofit'); if (af && af.getAttribute('fontScale')) fs = +af.getAttribute('fontScale') / 100000;
+            var base = { sz: info ? info.sz : 1800, algn: info && info.algn, fs: fs, body: info && info.body }, an = at(bp, 'anchor', info && /^(title|ctrTitle)$/.test(info.ty) ? 'ctr' : 't');
+            return '<div class="pptxt' + (at(bp, 'wrap', 'square') === 'none' ? ' nw' : '') + (af || (bp && kid(bp, 'spAutoFit')) || (info && !(bp && (kid(bp, 'noAutofit') || kid(bp, 'spAutoFit')))) ? ' af' : '') + '" style="justify-content:' + ({ t: 'flex-start', ctr: 'center', b: 'flex-end' }[an] || 'flex-start') + ';padding:' + (+at(bp, 'tIns', 45720) / EMU) + 'px ' + (+at(bp, 'rIns', 91440) / EMU) + 'px ' + (+at(bp, 'bIns', 45720) / EMU) + 'px ' + (+at(bp, 'lIns', 91440) / EMU) + 'px">' + paras(d, tb, base) + '</div>';
+        }
+        function shHtml(d, path, el, i, layer) {
+            var n = el.localName, ph = phOf(el); if (layer && ph) return ''; var info = ph ? phInfo(d, path, el) : null, xf = xfOf(el) || info;
+            if (!xf || xf.w === undefined) return '';
+            var W = xf.w / EMU, H = xf.h / EMU, st = 'left:' + xf.x / EMU + 'px;top:' + xf.y / EMU + 'px;width:' + W + 'px;height:' + H + 'px;' + (xf.rot ? 'transform:rotate(' + xf.rot / 60000 + 'deg);' : ''), inner = '';
+            var fx = xf.fh || xf.fv ? 'transform:scale(' + (xf.fh ? -1 : 1) + ',' + (xf.fv ? -1 : 1) + ');' : '';
+            var cn = ns(el, 'cNvPr')[0], attrs = layer ? ' class="ppsh ly"' : ' class="ppsh" data-i="' + i + '" data-id="' + at(cn, 'id', '') + '" data-nm="' + dEsc(at(cn, 'name', '')) + '"';
+            var sp = kid(el, 'spPr'), cg = sp && kid(sp, 'custGeom'), pg = at(sp && kid(sp, 'prstGeom'), 'prst', 'rect');
+            if (n === 'pic') {
+                var bf = kid(el, 'blipFill'), u = blipUrl(d, path, bf);
+                if (!u) inner = '<div class="ppph">Picture</div>'; else if (cg) inner = geoSvg(d, path, el, xf, bf, null, fx);
+                else inner = '<div class="ppimg" style="' + cropBg(u, bf) + geoCss(pg, xf) + opac(bf) + fx + '"></div>';
+            } else if (n === 'graphicFrame') {
+                inner = ns(el, 'tbl').length ? tblHtml(d, el) : '<div class="ppph">Chart or diagram<br><small>shown as a placeholder</small></div>';
+            } else if (cg) {
+                inner = geoSvg(d, path, el, xf, sp, lnOf(d, el), fx) + txHtml(d, el, info);
+            } else if (n === 'cxnSp' || (sp && /^(line|straightConnector1)$/.test(pg))) {
+                var lo = lnOf(d, el) || { w: 1, c: '#444' };
+                if (W > 2 && H > 2) { var x1 = xf.fh ? W : 0, y1 = xf.fv ? H : 0; inner = '<svg class="ppsvg" viewBox="0 0 ' + W + ' ' + H + '"><line x1="' + x1 + '" y1="' + y1 + '" x2="' + (W - x1) + '" y2="' + (H - y1) + '" stroke="' + lo.c + '" stroke-width="' + lo.w + '"/></svg>' }
+                else inner = '<div class="ppline" style="' + (H < W ? 'border-top:' : 'border-left:') + (lineCss(d, el) || '1px solid #444') + '"></div>';
+            } else {
+                var ln = lineCss(d, el), s2 = geoCss(pg, xf); if (!CLIP[pg] && ln) s2 += 'border:' + ln + ';'; s2 += fillDecl(d, path, el) + fx;
+                inner = '<div class="ppfill" style="' + s2 + '"></div>' + txHtml(d, el, info);
+            }
+            return '<div' + attrs + ' style="' + st + '">' + inner + '</div>';
+        }
+        function bgOf(d, path) {
+            var doc = px(d.pp.P[path]), b = ns(doc.documentElement, 'bg')[0]; if (!b) return null;
+            var bp = kid(b, 'bgPr'); if (bp) return fillBg(d, path, bp); var br = kid(b, 'bgRef'), c = br && clr(d, br); return c ? 'background:' + c + ';' : null;
+        }
+        function slideHtml(d, idx) {
+            var path = slideList(d)[idx], sz = sldSize(d), P = d.pp.P, L = rv(rels(d, path), 'slideLayout'), M = L && rv(rels(d, L.t), 'slideMaster'), h = '';
+            var sd = px(P[path]), bg = bgOf(d, path) || (L && bgOf(d, L.t)) || (M && bgOf(d, M.t)) || 'background:#fff;';
+            var noM = !T(at(sd.documentElement, 'showMasterSp', '1')), noL = L && !T(at(px(P[L.t]).documentElement, 'showMasterSp', '1'));
+            if (M && !noM && !noL) shapesOf(px(P[M.t])).forEach(function (s) { h += shHtml(d, M.t, s, 0, true) });
+            if (L && !noM) shapesOf(px(P[L.t])).forEach(function (s) { h += shHtml(d, L.t, s, 0, true) });
+            shapesOf(sd).forEach(function (s, i) { h += shHtml(d, path, s, i, false) });
+            return '<div class="ppsl" style="width:' + sz.w + 'px;height:' + sz.h + 'px;' + bg + '">' + h + '</div>';
+        }
+
+        /* ---- state, history, drawing ---- */
+        function cur() { return docCur && docCur.kind === 'pptx' && docCur === dShown ? docCur : null }
+        function snap(d) { var p = d.pp; p.undo.push({ P: Object.assign({}, p.P), cur: p.cur }); if (p.undo.length > 60) p.undo.shift(); p.redo = [] }
+        function mut(fn) { var d = cur(); if (!d) return; commitEd(); snap(d); var ok; try { ok = fn(d) } catch (e) { d.pp.undo.pop(); toast('Couldn’t do that: ' + ((e && e.message) || e)); return } if (ok === false) { d.pp.undo.pop(); return } draw(true); markDirty() }
+        function editSlide(fn) { mut(function (d) { var path = slideList(d)[d.pp.cur], doc = px(d.pp.P[path]); fn(doc, shapesOf(doc), d, path); d.pp.P[path] = ser(doc) }) }
+        function fit() {
+            var d = cur(); if (!d || root.hidden) return; var sz = sldSize(d), s = Math.max(.1, Math.min((stg.clientWidth - 48) / sz.w, (stg.clientHeight - 48) / sz.h));
+            sl.style.cssText = 'width:' + sz.w * s + 'px;height:' + sz.h * s + 'px'; sl.firstElementChild && (sl.firstElementChild.style.transform = 'scale(' + s + ')'); d.pp.s = s;
+        }
+        function draw(thumbs) {
+            var d = cur(); if (!d) return; var p = d.pp, n = slideList(d).length; p.cur = Math.max(0, Math.min(n - 1, p.cur));
+            sl.innerHTML = slideHtml(d, p.cur); fit();
+            if (p.sel !== null) { var e = sl.querySelector('[data-i="' + p.sel + '"]'); if (e) { e.classList.add('sel'); e.insertAdjacentHTML('beforeend', ['nw', 'ne', 'sw', 'se'].map(function (k) { return '<i class="hd ' + k + '" data-h="' + k + '"></i>' }).join('')) } else p.sel = null }
+            if (thumbs || th.children.length !== n) {
+                var sz = sldSize(d), t = 148 / sz.w; th.innerHTML = '';
+                for (var i = 0; i < n; i++) th.insertAdjacentHTML('beforeend', '<div class="ppth' + (i === p.cur ? ' on' : '') + '" data-n="' + i + '"><b>' + (i + 1) + '</b><div class="ppthb" style="width:148px;height:' + sz.h * t + 'px"><div style="width:' + sz.w + 'px;height:' + sz.h + 'px;transform:scale(' + t + ');transform-origin:0 0">' + slideHtml(d, i) + '</div></div></div>');
+            } else [].forEach.call(th.children, function (c, i) { c.classList.toggle('on', i === p.cur) });
+            var c = th.children[p.cur]; if (c) { if (c.offsetTop < th.scrollTop) th.scrollTop = c.offsetTop - 8; else if (c.offsetTop + c.offsetHeight > th.scrollTop + th.clientHeight) th.scrollTop = c.offsetTop + c.offsetHeight - th.clientHeight + 8 }
+            $('docwords').textContent = n + (n === 1 ? ' slide' : ' slides'); fitAll(root); sel2ui();
+        }
+        function selectEl(d, i) { [].forEach.call(sl.querySelectorAll('.hd'), function (h) { h.remove() }); [].forEach.call(sl.querySelectorAll('.sel'), function (x) { x.classList.remove('sel') }); d.pp.sel = i; var e = sl.querySelector('[data-i="' + i + '"]'); if (e) { e.classList.add('sel'); e.insertAdjacentHTML('beforeend', ['nw', 'ne', 'sw', 'se'].map(function (k) { return '<i class="hd ' + k + '" data-h="' + k + '"></i>' }).join('')) } sel2ui(); return e }
+        function sel2ui() { var d = cur(), on = d && d.pp.sel !== null;[].forEach.call(root.querySelectorAll('[data-need]'), function (b) { b.disabled = !on }); $('ppun').disabled = !d || !d.pp.undo.length; $('pprd').disabled = !d || !d.pp.redo.length; try { rbSync() } catch (x) { } }
+        function pp_restore(d, a, b) { var p = d.pp; if (!a.length) return; commitEd(); b.push({ P: Object.assign({}, p.P), cur: p.cur }); var s = a.pop(); p.P = s.P; p.cur = s.cur; p.sel = null; draw(true); markDirty() }
+
+        /* ---- loading, saving ---- */
+        async function ppInit(d, buf) {
+            var zip = await JSZip.loadAsync(buf), P = {}, urls = {}; if (!zip.file('ppt/presentation.xml')) throw new Error('not a presentation');
+            await Promise.all(Object.keys(zip.files).map(async function (n) {
+                if (zip.files[n].dir) return; if (/\.(xml|rels)$/i.test(n)) P[n] = await zip.file(n).async('string');
+                else if (/^ppt\/media\//i.test(n)) { var b = await zip.file(n).async('arraybuffer'); urls[n] = URL.createObjectURL(new Blob([b], { type: IMGM[docExt(n)] || '' })) }
+            }));
+            d.pp = { zip: zip, P: P, orig: Object.assign({}, P), urls: urls, media: {}, undo: [], redo: [], cur: 0, sel: null, th: null };
+        }
+        async function ppBlob(d) {
+            commitEd(); var p = d.pp, z = p.zip;
+            Object.keys(p.P).forEach(function (n) { if (p.P[n] !== p.orig[n]) z.file(n, p.P[n]) });
+            Object.keys(p.orig).forEach(function (n) { if (!(n in p.P)) z.remove(n) });
+            Object.keys(p.media).forEach(function (n) { z.file(n, p.media[n]) });
+            p.orig = Object.assign({}, p.P); return await z.generateAsync({ type: 'blob', mimeType: MIME_P, compression: 'DEFLATE' });
+        }
+        function blankDeck() {
+            var X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n', z = new JSZip(), RN = 'xmlns="http://schemas.openxmlformats.org/package/2006/relationships"', ct = 'application/vnd.openxmlformats-officedocument.', rel = function (a) { return X + '<Relationships ' + RN + '>' + a.map(function (r, i) { return '<Relationship Id="rId' + (i + 1) + '" Type="' + RT + r[0] + '" Target="' + r[1] + '"/>' }).join('') + '</Relationships>' };
+            var tree = '<p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr/>';
+            function tbx(id, nm, y, h, sz, txt, b) { return '<p:sp><p:nvSpPr><p:cNvPr id="' + id + '" name="' + nm + '"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="838200" y="' + y + '"/><a:ext cx="10515600" cy="' + h + '"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr><p:txBody><a:bodyPr wrap="square" anchor="ctr"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="' + sz + '"' + (b ? ' b="1"' : '') + '/><a:t>' + txt + '</a:t></a:r></a:p></p:txBody></p:sp>' }
+            var clrs = ['dk1:000000', 'lt1:FFFFFF', 'dk2:1F2937', 'lt2:E7E6E6', 'accent1:0B72D1', 'accent2:ED7D31', 'accent3:70AD47', 'accent4:FFC000', 'accent5:5B9BD5', 'accent6:A5A5A5', 'hlink:0563C1', 'folHlink:954F72'].map(function (c) { c = c.split(':'); return '<a:' + c[0] + '><a:srgbClr val="' + c[1] + '"/></a:' + c[0] + '>' }).join(''), sf = '<a:solidFill><a:schemeClr val="phClr"/></a:solidFill>', f3 = sf + sf + sf, ft = '<a:latin typeface="Calibri"/><a:ea typeface=""/><a:cs typeface=""/>';
+            z.file('[Content_Types].xml', X + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/ppt/presentation.xml" ContentType="' + ct + 'presentationml.presentation.main+xml"/><Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="' + ct + 'presentationml.slideMaster+xml"/><Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="' + ct + 'presentationml.slideLayout+xml"/><Override PartName="/ppt/theme/theme1.xml" ContentType="' + ct + 'theme+xml"/><Override PartName="/ppt/slides/slide1.xml" ContentType="' + ct + 'presentationml.slide+xml"/></Types>');
+            z.file('_rels/.rels', rel([['officeDocument', 'ppt/presentation.xml']]));
+            z.file('ppt/presentation.xml', X + '<p:presentation ' + WRAP + '><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst><p:sldIdLst><p:sldId id="256" r:id="rId2"/></p:sldIdLst><p:sldSz cx="12192000" cy="6858000"/><p:notesSz cx="6858000" cy="9144000"/></p:presentation>');
+            z.file('ppt/_rels/presentation.xml.rels', rel([['slideMaster', 'slideMasters/slideMaster1.xml'], ['slide', 'slides/slide1.xml'], ['theme', 'theme/theme1.xml']]));
+            z.file('ppt/slideMasters/slideMaster1.xml', X + '<p:sldMaster ' + WRAP + '><p:cSld><p:bg><p:bgPr><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:effectLst/></p:bgPr></p:bg>' + tree + '</p:spTree></p:cSld><p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/><p:sldLayoutIdLst><p:sldLayoutId id="2147483649" r:id="rId1"/></p:sldLayoutIdLst></p:sldMaster>');
+            z.file('ppt/slideMasters/_rels/slideMaster1.xml.rels', rel([['slideLayout', '../slideLayouts/slideLayout1.xml'], ['theme', '../theme/theme1.xml']]));
+            z.file('ppt/slideLayouts/slideLayout1.xml', X + '<p:sldLayout ' + WRAP + ' type="blank"><p:cSld name="Blank">' + tree + '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sldLayout>');
+            z.file('ppt/slideLayouts/_rels/slideLayout1.xml.rels', rel([['slideMaster', '../slideMasters/slideMaster1.xml']]));
+            z.file('ppt/theme/theme1.xml', X + '<a:theme xmlns:a="' + A + '" name="Mediadesk"><a:themeElements><a:clrScheme name="M">' + clrs + '</a:clrScheme><a:fontScheme name="M"><a:majorFont>' + ft + '</a:majorFont><a:minorFont>' + ft + '</a:minorFont></a:fontScheme><a:fmtScheme name="M"><a:fillStyleLst>' + f3 + '</a:fillStyleLst><a:lnStyleLst>' + [1, 2, 3].map(function () { return '<a:ln w="9525">' + sf + '</a:ln>' }).join('') + '</a:lnStyleLst><a:effectStyleLst>' + [1, 2, 3].map(function () { return '<a:effectStyle><a:effectLst/></a:effectStyle>' }).join('') + '</a:effectStyleLst><a:bgFillStyleLst>' + f3 + '</a:bgFillStyleLst></a:fmtScheme></a:themeElements></a:theme>');
+            z.file('ppt/slides/slide1.xml', X + '<p:sld ' + WRAP + '><p:cSld>' + tree + tbx(2, 'Title', 2000000, 1300000, 5400, 'Presentation title', 1) + tbx(3, 'Subtitle', 3500000, 800000, 2400, 'Click to edit this text') + '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>');
+            z.file('ppt/slides/_rels/slide1.xml.rels', rel([['slideLayout', '../slideLayouts/slideLayout1.xml']]));
+            return z.generateAsync({ type: 'uint8array', compression: 'DEFLATE' });
+        }
+
+        /* ---- editing operations ---- */
+        function getXf(d, doc, path, el) { var x = xfOf(el) || phInfo(d, path, el); return x && x.w !== undefined ? { x: x.x, y: x.y, w: x.w, h: x.h } : { x: 914400, y: 914400, w: 4000000, h: 1000000 } }
+        function setXf(doc, el, v0) { var v = ungrp(el, v0);
+            var par = kid(el, 'spPr'), x = par ? kid(par, 'xfrm') : kid(el, 'xfrm');
+            if (!x) { x = doc.createElementNS(A, 'a:xfrm'); x.appendChild(doc.createElementNS(A, 'a:off')); x.appendChild(doc.createElementNS(A, 'a:ext')); par.insertBefore(x, par.firstChild) }
+            var o = kid(x, 'off'), e = kid(x, 'ext'); o.setAttribute('x', Math.round(v.x)); o.setAttribute('y', Math.round(v.y)); e.setAttribute('cx', Math.max(1, Math.round(v.w))); e.setAttribute('cy', Math.max(1, Math.round(v.h)));
+        }
+        function frag(doc, xml) { return doc.importNode(px('<r ' + WRAP + '>' + xml + '</r>').documentElement.firstElementChild, true) }
+        function nextId(doc) { var m = 1;[].forEach.call(ns(doc.documentElement, 'cNvPr'), function (c) { m = Math.max(m, +c.getAttribute('id') || 0) }); return m + 1 }
+        function setText(doc, sp, lines) {
+            var tb = kid(sp, 'txBody'), ps = kids(tb, 'p'), last = ps[ps.length - 1];
+            while (ps.length < lines.length) { var c = last.cloneNode(true); tb.appendChild(c); ps.push(c) } while (ps.length > lines.length) tb.removeChild(ps.pop());
+            ps.forEach(function (p, i) {
+                var rs = kids(p, 'r'), r = rs[0];
+                if (!r) { r = frag(doc, '<a:r><a:rPr lang="en-US"/><a:t></a:t></a:r>'); var ep = kid(p, 'endParaRPr'); if (ep) { var rp = ep.cloneNode(true); r.replaceChild(doc.importNode(rp, true), kid(r, 'rPr')); r.firstElementChild.localName = r.firstElementChild.localName } p.insertBefore(r, kid(p, 'endParaRPr')) }
+                [].slice.call(p.children).forEach(function (c) { if (c !== r && (c.localName === 'r' || c.localName === 'br' || c.localName === 'fld')) p.removeChild(c) }); kid(r, 't').textContent = lines[i];
+            });
+        }
+        function commitEd() {
+            if (!ed) return; var e = ed; ed = null; e.tb.contentEditable = 'false'; e.tb.removeEventListener('input', e.fn);
+            if (!e.ch) return; var d = cur(); if (!d) return; var t = e.tb.innerText.replace(/\n$/, '').split('\n'); snap(d);
+            var path = slideList(d)[d.pp.cur], doc = px(d.pp.P[path]), sh = shapesOf(doc)[e.i]; if (sh && kid(sh, 'txBody')) { setText(doc, sh, t); d.pp.P[path] = ser(doc) } draw(true); markDirty();
+        }
+        function startEd(el) {
+            var tb = el.querySelector('.pptxt'); if (!tb) return; commitEd(); var e = { i: +el.dataset.i, tb: tb, ch: false }; e.fn = function () { e.ch = true }; tb.addEventListener('input', e.fn);
+            tb.contentEditable = 'true'; tb.classList.add('ed'); ed = e; tb.addEventListener('blur', function f() { tb.removeEventListener('blur', f); tb.classList.remove('ed'); commitEd() }); tb.focus();
+            var r = document.createRange(); r.selectNodeContents(tb); r.collapse(false); var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        }
+        function addShape(kind) {
+            editSlide(function (doc, shs, d) {
+                var tree = ns(doc.documentElement, 'spTree')[0], id = nextId(doc), sz = sldSize(d), tx = kind === 'text', lnk = kind === 'line', w = tx ? 4200000 : lnk ? 3600000 : 2600000, h = tx ? 700000 : lnk ? 12700 : 1600000, x = Math.round(sz.w * EMU / 2 - w / 2), y = Math.round(sz.h * EMU / 2 - h / 2);
+                if (lnk) { tree.appendChild(frag(doc, '<p:cxnSp><p:nvCxnSpPr><p:cNvPr id="' + id + '" name="Line ' + id + '"/><p:cNvCxnSpPr/><p:nvPr/></p:nvCxnSpPr><p:spPr><a:xfrm><a:off x="' + x + '" y="' + y + '"/><a:ext cx="' + w + '" cy="' + h + '"/></a:xfrm><a:prstGeom prst="line"><a:avLst/></a:prstGeom><a:ln w="28575"><a:solidFill><a:srgbClr val="084F93"/></a:solidFill></a:ln></p:spPr></p:cxnSp>')); cur().pp.sel = shs.length; return }
+                var geo = tx ? 'rect' : kind, fl = tx ? '<a:noFill/>' : '<a:solidFill><a:srgbClr val="0B72D1"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="084F93"/></a:solidFill></a:ln>';
+                tree.appendChild(frag(doc, '<p:sp><p:nvSpPr><p:cNvPr id="' + id + '" name="' + (tx ? 'TextBox ' : 'Shape ') + id + '"/><p:cNvSpPr' + (tx ? ' txBox="1"' : '') + '/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="' + x + '" y="' + y + '"/><a:ext cx="' + w + '" cy="' + h + '"/></a:xfrm><a:prstGeom prst="' + geo + '"><a:avLst/></a:prstGeom>' + fl + '</p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0" anchor="' + (tx ? 't' : 'ctr') + '"/><a:lstStyle/><a:p><a:pPr algn="' + (tx ? 'l' : 'ctr') + '"/><a:r><a:rPr lang="en-US" sz="2400">' + (tx ? '' : '<a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill>') + '</a:rPr><a:t>' + (tx ? 'Type here' : '') + '</a:t></a:r></a:p></p:txBody></p:sp>'));
+                cur().pp.sel = shs.length;
+            });
+        }
+        async function addPicture(file) {
+            var d = cur(); if (!d) return; var ext = (docExt(file.name) || 'png').replace('jpeg', 'jpg'); if (!IMGM[ext] || ext === 'svg') { toast('Pictures must be PNG, JPG, GIF or WebP.'); return }
+            var buf = new Uint8Array(await file.arrayBuffer()), url = URL.createObjectURL(new Blob([buf], { type: IMGM[ext] })), dim = await new Promise(function (res) { var im = new Image(); im.onload = function () { res([im.naturalWidth, im.naturalHeight]) }; im.onerror = function () { res([800, 600]) }; im.src = url });
+            var n = 1; while (d.pp.P['ppt/media/mediaMD' + n + '.' + ext] !== undefined || d.pp.media['ppt/media/mediaMD' + n + '.' + ext] || d.pp.zip.file('ppt/media/mediaMD' + n + '.' + ext)) n++; var mp = 'ppt/media/mediaMD' + n + '.' + ext;
+            mut(function (d) {
+                d.pp.media[mp] = buf; d.pp.urls[mp] = url; var path = slideList(d)[d.pp.cur], rn = path.replace(/([^\/]+)$/, '_rels/$1.rels'), rx = d.pp.P[rn] || '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>', k = 1;
+                while (rx.indexOf('Id="rId' + k + '"') >= 0) k++; d.pp.P[rn] = rx.replace('</Relationships>', '<Relationship Id="rId' + k + '" Type="' + RT + 'image" Target="../media/' + mp.split('/').pop() + '"/></Relationships>');
+                var ctn = '[Content_Types].xml', ctx = d.pp.P[ctn], ct = IMGM[ext]; if (ctx.indexOf('Extension="' + ext + '"') < 0) d.pp.P[ctn] = ctx.replace(/(<Types[^>]*>)/, '$1<Default Extension="' + ext + '" ContentType="' + ct + '"/>');
+                var doc = px(d.pp.P[path]), tree = ns(doc.documentElement, 'spTree')[0], sz = sldSize(d), sc = Math.min(1, sz.w * .6 / dim[0], sz.h * .6 / dim[1]), w = Math.round(dim[0] * sc * EMU), h = Math.round(dim[1] * sc * EMU), id = nextId(doc);
+                tree.appendChild(frag(doc, '<p:pic><p:nvPicPr><p:cNvPr id="' + id + '" name="Picture ' + id + '"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="rId' + k + '"/><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr><a:xfrm><a:off x="' + Math.round((sz.w * EMU - w) / 2) + '" y="' + Math.round((sz.h * EMU - h) / 2) + '"/><a:ext cx="' + w + '" cy="' + h + '"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>'));
+                d.pp.P[path] = ser(doc); d.pp.sel = shapesOf(doc).length - 1;
+            });
+        }
+        function fmt(kind, val) {
+            var d = cur(); if (!d || d.pp.sel === null) { toast('Click a shape on the slide first.'); return }
+            editSlide(function (doc, shs, d2, path) {
+                var el = shs[d.pp.sel]; if (!el) return;
+                if (kind === 'fill') { setFill(doc, el, val); return } if (kind === 'line') { setLine(doc, el, val); return }
+                if (kind === 'fill_old') {
+                    var sp = kid(el, 'spPr'); if (!sp) return; ['noFill', 'solidFill', 'gradFill', 'blipFill', 'pattFill'].forEach(function (n) { kids(sp, n).forEach(function (c) { sp.removeChild(c) }) });
+                    var after = kid(sp, 'prstGeom') || kid(sp, 'custGeom') || kid(sp, 'xfrm'); sp.insertBefore(frag(doc, '<a:solidFill><a:srgbClr val="' + val + '"/></a:solidFill>'), after ? after.nextSibling : sp.firstChild); return;
+                }
+                var tb = kid(el, 'txBody'); if (!tb) return; var rps = [], anyOff = false;
+                kids(tb, 'p').forEach(function (p) { kids(p, 'r').forEach(function (r) { var rp = kid(r, 'rPr'); if (!rp) { rp = doc.createElementNS(A, 'a:rPr'); r.insertBefore(rp, r.firstChild) } rps.push(rp) }); var ep = kid(p, 'endParaRPr'); if (ep) rps.push(ep) });
+                if (kind === 'b' || kind === 'i') { rps.forEach(function (r) { if (!T(at(r, kind, '0'))) anyOff = true }); rps.forEach(function (r) { r.setAttribute(kind, anyOff ? '1' : '0') }) }
+                else if (kind === 'u') { rps.forEach(function (r) { if (at(r, 'u', 'none') === 'none') anyOff = true }); rps.forEach(function (r) { r.setAttribute('u', anyOff ? 'sng' : 'none') }) }
+                else if (kind === 'sz') rps.forEach(function (r) { r.setAttribute('sz', Math.round(val * 100)) });
+                else if (kind === 'color') rps.forEach(function (r) { ['solidFill', 'gradFill', 'noFill'].forEach(function (n) { kids(r, n).forEach(function (c) { r.removeChild(c) }) }); r.insertBefore(frag(doc, '<a:solidFill><a:srgbClr val="' + val + '"/></a:solidFill>'), kid(r, 'ln') ? kid(r, 'ln').nextSibling : r.firstChild) });
+                else if (kind !== 'al') textKinds(doc, tb, rps, kind, val, d, path, el);
+                else kids(tb, 'p').forEach(function (p) { var pp = kid(p, 'pPr'); if (!pp) { pp = doc.createElementNS(A, 'a:pPr'); p.insertBefore(pp, p.firstChild) } pp.setAttribute('algn', val) });
+            });
+        }
+        function delShape() { var d = cur(); if (!d || d.pp.sel === null) return; var i = d.pp.sel; editSlide(function (doc, shs) { var el = shs[i]; if (el) { var cid = at(ns(el, 'cNvPr')[0], 'id', ''); el.parentNode.removeChild(el); dropAnim(doc, cid) } d.pp.sel = null }) }
+        function dupShape() {
+            var d = cur(); if (!d || d.pp.sel === null) return; var i = d.pp.sel;
+            editSlide(function (doc, shs) { var el = shs[i], c = el.cloneNode(true), id = nextId(doc), cn = ns(c, 'cNvPr')[0]; cn.setAttribute('id', id); var xf = getXf(d, doc, slideList(d)[d.pp.cur], el); el.parentNode.appendChild(c); setXf(doc, c, { x: xf.x + 228600, y: xf.y + 228600, w: xf.w, h: xf.h }); d.pp.sel = shapesOf(doc).indexOf(c) });
+        }
+        function slideOp(op) {
+            mut(function (d) {
+                var p = d.pp, P = p.P, list = slideList(d), cs = list[p.cur], pk = 'ppt/presentation.xml', rk = 'ppt/_rels/presentation.xml.rels', doc = px(P[pk]), lst = ns(doc.documentElement, 'sldIdLst')[0], ids = kids(lst, 'sldId'), i = p.cur;
+                if (op === 'add' || op === 'dup') {
+                    var n = 1; while (P['ppt/slides/slide' + n + '.xml'] !== undefined) n++; var np = 'ppt/slides/slide' + n + '.xml', nr = 'ppt/slides/_rels/slide' + n + '.xml.rels', sr = P[cs.replace(/([^\/]+)$/, '_rels/$1.rels')] || '';
+                    if (op === 'dup') { P[np] = P[cs]; P[nr] = sr.replace(/<Relationship [^>]*notesSlide[^>]*\/>/g, '') }
+                    else {
+                        var L = rv(rels(d, cs), 'slideLayout'), raw = L ? L.raw : '../slideLayouts/slideLayout1.xml';
+                        var sps = '', nid = 2; (L && P[L.t] ? shapesOf(px(P[L.t])) : []).forEach(function (s) {
+                            var q = phOf(s); if (!q) return; var ty = q.getAttribute('type') || 'body', ix = q.getAttribute('idx'); if (!/^(title|ctrTitle|subTitle|body|obj)$/.test(ty)) return; var tt = /^(title|ctrTitle)$/.test(ty);
+                            sps += '<p:sp><p:nvSpPr><p:cNvPr id="' + nid + '" name="' + (tt ? 'Title ' : 'Content Placeholder ') + nid + '"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph' + (ty !== 'body' ? ' type="' + ty + '"' : '') + (ix !== null ? ' idx="' + ix + '"' : '') + '/></p:nvPr></p:nvSpPr><p:spPr/><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang="en-US"/><a:t>' + (tt ? 'New slide' : 'Click to edit text') + '</a:t></a:r></a:p></p:txBody></p:sp>'; nid++;
+                        });
+                        if (!sps) sps = '<p:sp><p:nvSpPr><p:cNvPr id="2" name="TextBox 2"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="838200" y="365125"/><a:ext cx="10515600" cy="900000"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr><p:txBody><a:bodyPr wrap="square"/><a:lstStyle/><a:p><a:r><a:rPr lang="en-US" sz="3600" b="1"/><a:t>New slide</a:t></a:r></a:p></p:txBody></p:sp>';
+                        P[np] = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<p:sld ' + WRAP + '><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr/>' + sps + '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>';
+                        P[nr] = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="' + RT + 'slideLayout" Target="' + raw + '"/></Relationships>';
+                    }
+                    var k = 1; while (P[rk].indexOf('Id="rId' + k + '"') >= 0) k++; P[rk] = P[rk].replace('</Relationships>', '<Relationship Id="rId' + k + '" Type="' + RT + 'slide" Target="slides/slide' + n + '.xml"/></Relationships>');
+                    P['[Content_Types].xml'] = P['[Content_Types].xml'].replace('</Types>', '<Override PartName="/ppt/slides/slide' + n + '.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/></Types>');
+                    var mx = 255; ids.forEach(function (s) { mx = Math.max(mx, +s.getAttribute('id')) }); var ne = doc.createElementNS(PN, 'p:sldId'); ne.setAttribute('id', mx + 1); ne.setAttributeNS(R, 'r:id', 'rId' + k); lst.insertBefore(ne, ids[i + 1] || null); p.cur = i + 1; secOp(doc, ids[i].getAttribute('id'), mx + 1); toast((op === 'dup' ? 'Duplicated' : 'Added') + ' — now slide ' + (i + 2) + ' of ' + (ids.length + 1) + '.');
+                } else if (op === 'del') {
+                    if (ids.length < 2) { toast('A presentation needs at least one slide.'); return }
+                    var rid = ids[i].getAttributeNS(R, 'id'); secOp(doc, ids[i].getAttribute('id'), null); lst.removeChild(ids[i]); P[rk] = P[rk].replace(new RegExp('<Relationship [^>]*Id="' + rid + '"[^>]*/>'), '');
+                    delete P[cs]; delete P[cs.replace(/([^\/]+)$/, '_rels/$1.rels')]; P['[Content_Types].xml'] = P['[Content_Types].xml'].replace(new RegExp('<Override PartName="/' + cs.replace(/\./g, '\\.') + '"[^>]*/>'), ''); p.cur = Math.max(0, i - 1);
+                } else { var j = op === 'up' ? i - 1 : i + 1; if (j < 0 || j >= ids.length) return; lst.insertBefore(ids[i], op === 'up' ? ids[j] : ids[j].nextSibling); p.cur = j; dropSections(doc) }
+                P[pk] = ser(doc); p.sel = null;
+            });
+        }
+        /* PowerPoint's section list names slide ids too: keep it in step, or PowerPoint has to "repair" the file */
+        function secIds(doc) { return [].filter.call(ns(doc.documentElement, 'sldId'), function (e) { return e.parentNode.localName === 'sldIdLst' && e.parentNode.namespaceURI !== PN }) }
+        function secOp(doc, oldId, newId) { secIds(doc).forEach(function (e) { if (e.getAttribute('id') !== oldId) return; if (newId === null) e.parentNode.removeChild(e); else { var c = e.cloneNode(true); c.setAttribute('id', newId); e.parentNode.insertBefore(c, e.nextSibling) } }) }
+        function dropSections(doc) { [].slice.call(ns(doc.documentElement, 'sectionLst')).forEach(function (s) { var x = s.parentNode; if (x.localName === 'ext' && x.parentNode) x.parentNode.removeChild(x); else s.parentNode.removeChild(s) }) }
+        /* ---- transitions and animations (stored in the slide XML, so PowerPoint reads them too) ---- */
+        function transOf(d, idx) {
+            var t = ns(px(d.pp.P[slideList(d)[idx]]).documentElement, 'transition')[0]; if (!t) return null;
+            var f = [].filter.call(t.children, function (c) { return c.localName !== 'sndAc' })[0]; return { type: f && f.localName !== 'cut' ? f.localName : 'none', spd: at(t, 'spd', 'med') };
+        }
+        function setTrXml(doc, type, spd) {
+            [].slice.call(ns(doc.documentElement, 'transition')).forEach(function (tr) { var p = tr.parentNode, rm = p && (p.localName === 'Choice' || p.localName === 'Fallback') ? p.parentNode : tr; if (rm && rm.parentNode) rm.parentNode.removeChild(rm) });
+            if (type === 'none') return; var r = doc.documentElement, ref = kid(r, 'clrMapOvr') || kid(r, 'cSld');
+            r.insertBefore(frag(doc, '<p:transition spd="' + spd + '"><p:' + type + '/></p:transition>'), ref.nextSibling);
+        }
+        function animsDoc(doc) {
+            var o = []; [].forEach.call(ns(doc.documentElement, 'cTn'), function (c) { var pc = c.getAttribute('presetClass'), sp = pc && ns(c, 'spTgt')[0]; if (!sp) return; o.push({ id: sp.getAttribute('spid'), pc: pc, fx: ({ 1: 'appear', 10: 'fade', 22: 'wipe', 9: 'dissolve' })[c.getAttribute('presetID')] || 'other' }) }); return o;
+        }
+        function animsOf(d, idx) { return animsDoc(px(d.pp.P[slideList(d)[idx]])) }
+        function isPic(doc, id) { var c = [].filter.call(ns(doc.documentElement, 'cNvPr'), function (x) { return x.getAttribute('id') === id })[0]; return !!c && c.parentNode.parentNode.localName === 'pic' }
+        function timingXml(doc, list) {
+            var n = 3, s = '', bl = '';
+            list.forEach(function (a) {
+                var pid = { appear: 1, fade: 10, wipe: 22, dissolve: 9 }[a.fx], flt = { fade: 'fade', wipe: 'wipe(left)', dissolve: 'dissolve' }[a.fx], pic = isPic(doc, a.id), tg = '<p:tgtEl><p:spTgt spid="' + a.id + '"/></p:tgtEl>';
+                s += '<p:par><p:cTn id="' + (n++) + '" fill="hold"><p:stCondLst><p:cond delay="indefinite"/></p:stCondLst><p:childTnLst><p:par><p:cTn id="' + (n++) + '" fill="hold"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst><p:par><p:cTn id="' + (n++) + '" presetID="' + pid + '" presetClass="entr" presetSubtype="' + (a.fx === 'wipe' ? 8 : 0) + '" fill="hold"' + (pic ? '' : ' grpId="0"') + ' nodeType="clickEffect"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst><p:set><p:cBhvr><p:cTn id="' + (n++) + '" dur="1" fill="hold"><p:stCondLst><p:cond delay="0"/></p:stCondLst></p:cTn>' + tg + '<p:attrNameLst><p:attrName>style.visibility</p:attrName></p:attrNameLst></p:cBhvr><p:to><p:strVal val="visible"/></p:to></p:set>' + (flt ? '<p:animEffect transition="in" filter="' + flt + '"><p:cBhvr><p:cTn id="' + (n++) + '" dur="500"/>' + tg + '</p:cBhvr></p:animEffect>' : '') + '</p:childTnLst></p:cTn></p:par></p:childTnLst></p:cTn></p:par></p:childTnLst></p:cTn></p:par>';
+                if (!pic) bl += '<p:bldP spid="' + a.id + '" grpId="0" animBg="1"/>';
+            });
+            return '<p:timing><p:tnLst><p:par><p:cTn id="1" dur="indefinite" restart="never" nodeType="tmRoot"><p:childTnLst><p:seq concurrent="1" nextAc="seek"><p:cTn id="2" dur="indefinite" nodeType="mainSeq"><p:childTnLst>' + s + '</p:childTnLst></p:cTn><p:prevCondLst><p:cond evt="onPrev" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:prevCondLst><p:nextCondLst><p:cond evt="onNext" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:nextCondLst></p:seq></p:childTnLst></p:cTn></p:par></p:tnLst>' + (bl ? '<p:bldLst>' + bl + '</p:bldLst>' : '') + '</p:timing>';
+        }
+        function putTiming(doc, list) {
+            [].slice.call(ns(doc.documentElement, 'timing')).forEach(function (x) { x.parentNode.removeChild(x) });
+            if (list.length) doc.documentElement.insertBefore(frag(doc, timingXml(doc, list)), kid(doc.documentElement, 'extLst'));
+        }
+        function dropAnim(doc, id) {
+            var t = ns(doc.documentElement, 'timing')[0]; if (!t || ![].some.call(ns(t, 'spTgt'), function (s) { return s.getAttribute('spid') === id })) return;
+            putTiming(doc, animsDoc(doc).filter(function (a) { return a.id !== id && a.pc === 'entr' && a.fx !== 'other' }));
+        }
+        function playTr(el, t, k) {
+            if (!el || !t || t.type === 'none' || !el.animate) return; var f = k < 0 ? -1 : 1, o = { duration: { slow: 1200, med: 700, fast: 350 }[t.spd] || 700, easing: 'ease-out' };
+            var kf = { fade: [{ opacity: 0 }, { opacity: 1 }], dissolve: [{ opacity: 0 }, { opacity: 1 }], push: [{ transform: 'translateX(' + f * 100 + '%)' }, { transform: 'none' }], cover: [{ transform: 'translateX(' + f * 100 + '%)' }, { transform: 'none' }], wipe: [{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0)' }], split: [{ clipPath: 'inset(0 50% 0 50%)' }, { clipPath: 'inset(0)' }], zoom: [{ transform: 'scale(.4)', opacity: 0 }, { transform: 'none', opacity: 1 }] }[t.type] || [{ opacity: 0 }, { opacity: 1 }];
+            el.animate(kf, o);
+        }
+        function playFx(e, fx) { if (!e || !e.animate || fx === 'appear' || fx === 'other') return; e.animate(fx === 'wipe' ? [{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0)' }] : [{ opacity: 0 }, { opacity: 1 }], { duration: 500, easing: 'ease-out' }) }
+        /* shrink text that would overflow its box, like PowerPoint's "shrink text on overflow" */
+        function fitAll(r) {
+            [].forEach.call(r.querySelectorAll('.pptxt.af'), function (b) {
+                var cs = getComputedStyle(b), room = b.clientHeight - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0);
+                var fits = function () { var h = 0; for (var c = b.firstElementChild; c; c = c.nextElementSibling) h += c.offsetHeight + (parseFloat(getComputedStyle(c).marginTop) || 0) + (parseFloat(getComputedStyle(c).marginBottom) || 0); return h <= room + 1 };
+                b.style.setProperty('--tf', 1); if (room <= 0 || fits()) return;
+                var lo = .25, hi = 1, k, m; for (k = 0; k < 7; k++) { m = (lo + hi) / 2; b.style.setProperty('--tf', m); if (fits()) lo = m; else hi = m } b.style.setProperty('--tf', lo);
+            });
+        }
+        function present() {
+            var d = cur(); if (!d) return; commitEd();
+            var i = d.pp.cur, n = slideList(d).length, sz = sldSize(d), st = 0, an = [], hideT = 0, sx = null, swiped = false;
+            var ov = document.createElement('div'), stg = document.createElement('div'), bar = document.createElement('div'), cv = document.createElement('canvas'), ctx = cv.getContext('2d');
+            var gridEl = null, menuEl = null, capEl = null, camEl = null, camStream = null, rec = null, recOn = false, zoomOn = false, blackEl = null;
+            var tool = null, inkCol = '#ff2d2d', inkStore = {}, stroke = null, lastTool = 'pen';
+            ov.id = 'ppshow';
+            /* ---- PowerPoint-style control bar: back, next, pen, all slides, zoom, captions, camera, more ---- */
+            var IC = {
+                prev: '<svg viewBox="0 0 24 24"><path d="M15.5 6v12l-8-6z" fill="currentColor" stroke="none"/></svg>',
+                next: '<svg viewBox="0 0 24 24"><path d="M8.5 6v12l8-6z" fill="currentColor" stroke="none"/></svg>',
+                pen: '<svg viewBox="0 0 24 24"><path d="M4 20l1.2-4.2L16.6 4.4a2.1 2.1 0 0 1 3 3L8.2 18.8z"/><path d="M14.5 6.5l3 3"/></svg>',
+                grid: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1" fill="currentColor"/></svg>',
+                zoom: '<svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>',
+                cc: '<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 11h3M12 11h5M7 14.5h5M14 14.5h3"/></svg>',
+                cam: '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="2"/><path d="M15 11l6-3v8l-6-3z"/></svg>',
+                more: '<svg viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18.5" cy="12" r="1.6" fill="currentColor"/></svg>'
+            };
+            var BT = [['prev', 'Previous (\u2190)'], ['next', 'Next (\u2192 or click)'], ['pen', 'Pen and laser options'], ['grid', 'See all slides'], ['zoom', 'Zoom into the slide'], ['cc', 'Turn on live captions'], ['cam', 'Show or hide camera'], ['more', 'More slide show options']];
+            bar.id = 'ppbar'; bar.innerHTML = BT.map(function (b) { return '<button type="button" data-a="' + b[0] + '" title="' + b[1] + '" aria-label="' + b[1] + '">' + IC[b[0]] + '</button>' }).join('');
+            var ct = document.createElement('div'); ct.id = 'ppct';
+            cv.id = 'ppink'; ov.appendChild(stg); ov.appendChild(cv); ov.appendChild(bar); ov.appendChild(ct);
+            function B(a) { return bar.querySelector('[data-a="' + a + '"]') }
+            function wake() { bar.classList.remove('off'); ct.classList.remove('off'); ov.classList.remove('idle'); clearTimeout(hideT); hideT = setTimeout(function () { if (menuEl || gridEl) return; bar.classList.add('off'); ct.classList.add('off'); ov.classList.add('idle') }, 2600) }
+            function sizeInk() { var r = devicePixelRatio || 1, old = inkStore[i]; cv.width = Math.round(innerWidth * r); cv.height = Math.round(innerHeight * r); cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px'; ctx.setTransform(r, 0, 0, r, 0, 0); ctx.lineCap = ctx.lineJoin = 'round'; if (old) paintInk(old) }
+            function paintInk(url) { var im = new Image(); im.onload = function () { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(im, 0, 0, cv.width, cv.height); ctx.restore() }; im.src = url }
+            function leave() { if (inkStore['dirty' + i]) { inkStore[i] = cv.toDataURL(); inkStore['dirty' + i] = 0 } }
+            function show(tr, k) {
+                var s = Math.min(innerWidth / sz.w, innerHeight / sz.h);
+                stg.innerHTML = '<div style="position:absolute;left:' + (innerWidth - sz.w * s) / 2 + 'px;top:' + (innerHeight - sz.h * s) / 2 + 'px;width:' + sz.w * s + 'px;height:' + sz.h * s + 'px"><div style="transform:scale(' + s + ');transform-origin:0 0;width:' + sz.w + 'px;height:' + sz.h + 'px">' + slideHtml(d, i) + '</div></div>';
+                fitAll(stg); an = animsOf(d, i).filter(function (a) { return a.pc === 'entr' });
+                an.forEach(function (a, q) { if (q >= st) { var e = stg.querySelector('[data-id="' + a.id + '"]'); if (e) e.style.visibility = 'hidden' } });
+                ct.textContent = (i + 1) + ' / ' + n; B('prev').disabled = i === 0; B('next').disabled = i === n - 1 && st >= an.length;
+                if (tr) playTr(stg.firstElementChild, transOf(d, i), k);
+            }
+            function paintCurrentInk() { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.restore(); if (inkStore[i]) paintInk(inkStore[i]) }
+            function go(k) {
+                if (k > 0 && st < an.length) { var a = an[st++], e = stg.querySelector('[data-id="' + a.id + '"]'); if (e) { e.style.visibility = 'visible'; playFx(e, a.fx) } show(false); return }
+                var j = Math.max(0, Math.min(n - 1, i + k)); if (j === i) return; leave(); i = j; st = 0; show(true, k); paintCurrentInk();
+            }
+            function jump(j) { leave(); var k = j >= i ? 1 : -1; i = j; st = 0; show(true, k); paintCurrentInk() }
+            function rs() { show(false); sizeInk(); if (gridEl) fitGrid() }
+            /* ---- small pop-up menus above the bar (pen options, more) ---- */
+            function closeMenu() { if (menuEl) { menuEl.remove(); menuEl = null } }
+            function openMenu(btn, html) {
+                var same = menuEl && menuEl.dataset.for === btn.dataset.a; closeMenu(); if (same) return;
+                menuEl = document.createElement('div'); menuEl.id = 'ppmenu'; menuEl.dataset.for = btn.dataset.a; menuEl.innerHTML = html; ov.appendChild(menuEl);
+                var br = btn.getBoundingClientRect(), mw = menuEl.offsetWidth; menuEl.style.left = Math.max(8, Math.min(innerWidth - mw - 8, br.left)) + 'px'; menuEl.style.bottom = (innerHeight - bar.getBoundingClientRect().top + 10) + 'px';
+            }
+            function penMenu(btn) {
+                var cols = ['#ff2d2d', '#ffb300', '#ffe600', '#22c55e', '#2f9bff', '#a855f7', '#ffffff', '#111111'];
+                openMenu(btn, '<button data-m="arrow">' + (tool ? '' : '\u2713 ') + 'Arrow (no ink)</button><button data-m="pen">' + (tool === 'pen' ? '\u2713 ' : '') + 'Pen</button><button data-m="hl">' + (tool === 'hl' ? '\u2713 ' : '') + 'Highlighter</button><button data-m="er">' + (tool === 'er' ? '\u2713 ' : '') + 'Eraser</button><button data-m="clear">Erase all ink on this slide</button><div class="sw">' + cols.map(function (c) { return '<i data-c="' + c + '" style="background:' + c + (c === inkCol ? ';outline:2px solid #fff;outline-offset:2px' : '') + '"></i>' }).join('') + '</div>');
+            }
+            function setTool(t) {
+                tool = t === 'arrow' ? null : t; if (tool && tool !== 'er') lastTool = tool; cv.classList.toggle('on', !!tool); ov.classList.toggle('tool', !!tool); B('pen').classList.toggle('on', !!tool);
+                if (tool) { zoomOn = false; B('zoom').classList.remove('on'); stg.style.transform = '' }
+            }
+            function clearInk() { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.restore(); inkStore[i] = ''; inkStore['dirty' + i] = 0 }
+            cv.addEventListener('pointerdown', function (e) {
+                if (!tool) return; e.preventDefault(); e.stopPropagation(); closeMenu(); cv.setPointerCapture(e.pointerId);
+                stroke = { x: e.clientX, y: e.clientY }; ctx.save();
+                if (tool === 'er') { ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = 36; ctx.strokeStyle = '#000' }
+                else if (tool === 'hl') { ctx.globalAlpha = .38; ctx.lineWidth = 22; ctx.strokeStyle = inkCol; ctx.lineCap = 'butt' }
+                else { ctx.lineWidth = 4; ctx.strokeStyle = inkCol; ctx.lineCap = 'round' }
+                ctx.beginPath(); ctx.moveTo(e.clientX, e.clientY); ctx.lineTo(e.clientX + .01, e.clientY); ctx.stroke(); inkStore['dirty' + i] = 1;
+            });
+            cv.addEventListener('pointermove', function (e) { if (!stroke) return; ctx.beginPath(); ctx.moveTo(stroke.x, stroke.y); ctx.lineTo(e.clientX, e.clientY); ctx.stroke(); stroke.x = e.clientX; stroke.y = e.clientY });
+            function endStroke() { if (stroke) { stroke = null; ctx.restore(); inkStore['dirty' + i] = 1 } }
+            cv.addEventListener('pointerup', endStroke); cv.addEventListener('pointercancel', endStroke);
+            /* ---- zoom (magnifier follows the pointer) ---- */
+            function setZoom(on) {
+                zoomOn = on; B('zoom').classList.toggle('on', on); ov.classList.toggle('zm', on); if (on) setTool('arrow'); else stg.style.transform = '';
+                if (on) { stg.style.transition = 'transform .15s ease-out'; stg.style.transform = 'scale(2.2)'; stg.style.transformOrigin = '50% 50%' }
+            }
+            ov.addEventListener('pointermove', function (e) { if (zoomOn) { stg.style.transformOrigin = e.clientX + 'px ' + e.clientY + 'px' } });
+            /* ---- live captions (speech recognition, Chrome / Edge / Safari) ---- */
+            function setCC(on) {
+                var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (on && !SR) { toast('Live captions need Chrome, Edge or Safari with a microphone.'); return }
+                recOn = on; B('cc').classList.toggle('on', on);
+                if (!on) { try { rec && rec.stop() } catch (e) { } rec = null; if (capEl) { capEl.remove(); capEl = null } return }
+                capEl = document.createElement('div'); capEl.id = 'ppcap'; capEl.textContent = 'Listening\u2026'; ov.appendChild(capEl);
+                rec = new SR(); rec.continuous = true; rec.interimResults = true; rec.lang = document.documentElement.lang || navigator.language || 'en-US';
+                rec.onresult = function (ev) { var t = ''; for (var q = Math.max(0, ev.results.length - 2); q < ev.results.length; q++) t += ev.results[q][0].transcript + ' '; if (capEl) capEl.textContent = t.trim() || 'Listening\u2026' };
+                rec.onerror = function (ev) { if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') { toast('Microphone permission is needed for captions.'); setCC(false) } };
+                rec.onend = function () { if (recOn && rec) { try { rec.start() } catch (e) { } } };
+                try { rec.start() } catch (e) { }
+            }
+            /* ---- camera bubble ---- */
+            function setCam(on) {
+                if (on && !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) { toast('Camera is not available in this browser.'); return }
+                B('cam').classList.toggle('on', on);
+                if (!on) { if (camStream) camStream.getTracks().forEach(function (t) { t.stop() }); camStream = null; if (camEl) { camEl.remove(); camEl = null } return }
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false }).then(function (s) {
+                    if (!B('cam').classList.contains('on') || !ov.parentNode) { s.getTracks().forEach(function (t) { t.stop() }); return }
+                    camStream = s; camEl = document.createElement('video'); camEl.id = 'ppcam'; camEl.muted = true; camEl.playsInline = true; camEl.srcObject = s; camEl.play().catch(function () { }); ov.appendChild(camEl);
+                }, function () { B('cam').classList.remove('on'); toast('Could not open the camera. Check the browser permission.') });
+            }
+            /* ---- SEE ALL SLIDES: dark overview grid, like PowerPoint ---- */
+            function fitGrid() { if (!gridEl) return; [].forEach.call(gridEl.querySelectorAll('.pgb'), function (b) { var k = b.clientWidth / sz.w; b.firstElementChild.style.transform = 'scale(' + k + ')' }); fitAll(gridEl) }
+            function openGrid() {
+                if (gridEl) return; closeMenu(); wake(); leave();
+                gridEl = document.createElement('div'); gridEl.id = 'ppgrid';
+                var h = '<button type="button" class="pgback" data-g="back" title="Back to the slide show (Esc)" aria-label="Back to the slide show"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><div class="pgin">';
+                for (var q = 0; q < n; q++) h += '<div class="pgc' + (q === i ? ' on' : '') + '" data-g="' + q + '" tabindex="0" role="button" aria-label="Slide ' + (q + 1) + '"><div class="pgb" style="aspect-ratio:' + sz.w + '/' + sz.h + '"><div class="pgs" style="width:' + sz.w + 'px;height:' + sz.h + 'px">' + slideHtml(d, q) + '</div></div><span class="pgn">' + (q + 1) + '</span></div>';
+                gridEl.innerHTML = h + '</div>'; ov.appendChild(gridEl); bar.classList.add('off'); ct.classList.add('off'); fitGrid();
+                var cur_ = gridEl.querySelector('.pgc.on'); if (cur_) cur_.scrollIntoView({ block: 'center' });
+                gridEl.addEventListener('click', function (e) {
+                    e.stopPropagation(); var t = e.target.closest('[data-g]'); if (!t) return;
+                    if (t.dataset.g === 'back') { closeGrid(); return }
+                    var j = +t.dataset.g; closeGrid(); if (j !== i) jump(j); else show(false);
+                });
+                gridEl.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.dataset && e.target.dataset.g) { e.preventDefault(); e.target.click() } });
+                gridEl.addEventListener('pointerdown', function (e) { e.stopPropagation() }); gridEl.addEventListener('pointerup', function (e) { e.stopPropagation() });
+            }
+            function closeGrid() { if (!gridEl) return; gridEl.remove(); gridEl = null; wake() }
+            /* ---- more menu ---- */
+            function moreMenu(btn) {
+                openMenu(btn, '<button data-m="first">First slide</button><button data-m="last">Last slide</button><button data-m="black">' + (blackEl ? 'Show the slide' : 'Black screen') + '</button><button data-m="fs">' + (document.fullscreenElement ? 'Leave full screen' : 'Full screen') + '</button><button data-m="end">End slide show</button>');
+            }
+            function toggleBlack() { if (blackEl) { blackEl.remove(); blackEl = null } else { blackEl = document.createElement('div'); blackEl.id = 'ppblack'; ov.insertBefore(blackEl, cv) } }
+            function end() {
+                clearTimeout(hideT); document.removeEventListener('keydown', key, true); removeEventListener('resize', rs); setCC(false); setCam(false);
+                if (document.fullscreenElement) document.exitFullscreen().catch(function () { }); ov.remove(); d.pp.cur = i; draw(false)
+            }
+            function key(e) {
+                var k = e.key; wake();
+                if (gridEl) { if (k === 'Escape') { closeGrid(); e.preventDefault(); e.stopPropagation() } return }
+                if (k === 'Escape') { if (menuEl) closeMenu(); else if (tool) setTool('arrow'); else if (zoomOn) setZoom(false); else end() }
+                else if (k === 'ArrowRight' || k === 'ArrowDown' || k === ' ' || k === 'PageDown' || k === 'Enter') go(1);
+                else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || k === 'Backspace') go(-1);
+                else if (k === 'Home') jump(0); else if (k === 'End') jump(n - 1);
+                else if (k === 'b' || k === 'B' || k === '.') toggleBlack();
+                else if (k === 'e' || k === 'E') clearInk();
+                else return; e.preventDefault(); e.stopPropagation()
+            }
+            bar.addEventListener('click', function (e) {
+                e.stopPropagation(); var b = e.target.closest('button'); if (!b) return; var a = b.dataset.a;
+                if (a !== 'pen' && a !== 'more') closeMenu();
+                if (a === 'prev') go(-1); else if (a === 'next') go(1);
+                else if (a === 'pen') penMenu(b); else if (a === 'grid') openGrid();
+                else if (a === 'zoom') setZoom(!zoomOn); else if (a === 'cc') setCC(!recOn);
+                else if (a === 'cam') setCam(!B('cam').classList.contains('on')); else if (a === 'more') moreMenu(b);
+                wake()
+            });
+            ov.addEventListener('click', function (e) {
+                var m = e.target.closest('#ppmenu');
+                if (m) {
+                    e.stopPropagation(); var it = e.target.closest('[data-m],[data-c]'); if (!it) return;
+                    if (it.dataset.c) { inkCol = it.dataset.c; if (!tool || tool === 'er') setTool(lastTool); closeMenu(); return }
+                    var a = it.dataset.m; closeMenu();
+                    if (a === 'arrow' || a === 'pen' || a === 'hl' || a === 'er') setTool(a); else if (a === 'clear') clearInk();
+                    else if (a === 'first') jump(0); else if (a === 'last') jump(n - 1); else if (a === 'black') toggleBlack();
+                    else if (a === 'fs') { if (document.fullscreenElement) document.exitFullscreen().catch(function () { }); else if (ov.requestFullscreen) ov.requestFullscreen().catch(function () { }) }
+                    else if (a === 'end') end();
+                    return;
+                }
+            });
+            ov.addEventListener('pointermove', wake);
+            ov.addEventListener('pointerdown', function (e) { if (e.target.closest('#ppbar,#ppmenu,#ppgrid,#ppcam') || tool || zoomOn) { sx = null; return } sx = e.clientX; swiped = false; wake() });
+            ov.addEventListener('pointerup', function (e) { if (sx !== null && Math.abs(e.clientX - sx) > 60) { swiped = true; go(e.clientX < sx ? 1 : -1) } sx = null });
+            ov.onclick = function (e) {
+                if (swiped) { swiped = false; return } if (e.target.closest('#ppbar,#ppmenu,#ppgrid,#ppcam')) return;
+                if (menuEl) { closeMenu(); return } if (tool || zoomOn || blackEl) { if (blackEl) toggleBlack(); return }
+                go(e.clientX < innerWidth / 3 ? -1 : 1)
+            };
+            document.addEventListener('keydown', key, true); addEventListener('resize', rs); document.body.appendChild(ov); sizeInk(); show(false); wake();
+            if (ov.requestFullscreen) ov.requestFullscreen().catch(function () { }); document.addEventListener('fullscreenchange', function f() { if (!document.fullscreenElement) { document.removeEventListener('fullscreenchange', f); if (ov.parentNode) end() } });
+        }
+
+        /* ---- UI ---- */
+        var css = document.createElement('style');
+        css.textContent = '#pptroot{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;background:var(--bg)}#pptroot[hidden]{display:none}#pptools{display:block;padding:0;background:var(--panel);border-bottom:1px solid var(--line)}#pptools .tb{min-width:32px;height:32px;padding:0 10px;border-radius:8px;border:1px solid transparent;background:none;position:relative;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}#pptools .tb:hover{background:var(--card);border-color:var(--line)}#pptools .tb:disabled{opacity:.4;pointer-events:none}#pptools .tb.pr{background:var(--accent);color:var(--accent-ink);font-weight:600}#pptools .sep{width:1px;height:20px;background:var(--line);margin:0 4px}#pptools .cl span{border-bottom:3px solid var(--sw,#d93025);font-weight:700;line-height:1.1}#pptools input[type=color]{position:absolute;inset:0;width:100%;height:100%;opacity:0;padding:0;border:0;cursor:pointer}#ppbody{flex:1;min-height:0;display:flex}#ppthumbs{flex:none;width:176px;overflow-y:auto;padding:10px 12px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:10px}.ppth{display:flex;gap:6px;cursor:pointer;align-items:flex-start}.ppth b{font-size:11px;color:var(--mute);width:14px;text-align:right;padding-top:2px}.ppthb{overflow:hidden;border:2px solid var(--line);border-radius:4px;background:#fff;pointer-events:none;box-sizing:content-box}.ppth.on .ppthb{border-color:var(--accent)}#ppstage{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;overflow:auto;padding:24px}#ppslide{position:relative;box-shadow:var(--shadow);flex:none;background:#fff;overflow:hidden;user-select:none;touch-action:none;color:#000}#ppslide .ppsl,#ppshow .ppsl{position:relative;overflow:hidden;transform-origin:0 0;font-family:Calibri,"Segoe UI",system-ui,sans-serif;line-height:1.2;color:#000}.ppsh{position:absolute;box-sizing:border-box}.ppsh.ly{pointer-events:none}.ppfill{position:absolute;inset:0}.pptxt{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box;word-wrap:break-word;outline:none}.pptxt.ed{overflow:visible;cursor:text;outline:2px solid #58a8ff;background:rgba(255,255,255,.35)}.pp{white-space:pre-wrap}.pp[data-bu]::before{content:attr(data-bu) " ";display:inline-block;min-width:1em;text-indent:0}.ppsh img{width:100%;height:100%;display:block;object-fit:fill}.ppph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;background:#eef1f6;color:#667180;font:14px system-ui;border:1px dashed #b5bfcc}.ppline{position:absolute;left:0;top:0;width:100%;height:100%}.pptbl{width:100%;height:100%;border-collapse:collapse;table-layout:fixed}.pptbl td{border:1px solid #bbb;padding:2px 6px;vertical-align:top;overflow:hidden}#ppslide .ppsh:not(.ly){cursor:move}#ppslide .ppsh.sel{outline:2px solid #2f9bff;outline-offset:0}.hd{position:absolute;width:12px;height:12px;background:#fff;border:2px solid #2f9bff;border-radius:3px;z-index:3}.hd.nw{left:-7px;top:-7px;cursor:nwse-resize}.hd.ne{right:-7px;top:-7px;cursor:nesw-resize}.hd.sw{left:-7px;bottom:-7px;cursor:nesw-resize}.hd.se{right:-7px;bottom:-7px;cursor:nwse-resize}#ppshow{position:fixed;inset:0;background:#000;z-index:100000;cursor:pointer}#pptools .rtabs>button{position:relative;border:0;background:none;border-radius:9px 9px 0 0;padding:8px 16px;height:auto;color:var(--mute);font-weight:600;white-space:nowrap}#pptools .rtabs>button:hover{color:var(--ink);background:color-mix(in srgb,var(--card) 60%,transparent)}#pptools .rtabs>button.on{color:var(--ink);background:var(--card)}#pptools .rpane .tb:hover{background:var(--panel)}#pptools .rpane .tb.on{background:var(--soft);border-color:var(--accent);color:var(--accent)}#pptools select{height:32px;background-color:var(--panel)}#pptools select:disabled{opacity:.4}#pptools .rz .tb.pr{height:30px}.pptxt>.pp{flex:none}#ppshow .pptxt{min-height:0}#ppbar{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:6px 10px;background:rgba(18,22,29,.86);border-radius:999px;color:#fff;font:600 13px system-ui;z-index:5;transition:opacity .25s;cursor:default;user-select:none}#ppbar.off{opacity:0;pointer-events:none}#ppbar button{border:0;background:none;color:#fff;min-width:36px;height:34px;border-radius:999px;font-size:16px;cursor:pointer;padding:0 8px}#ppbar button:hover{background:rgba(255,255,255,.18)}#ppbar button:disabled{opacity:.35;pointer-events:none}#ppbar .ct{min-width:64px;text-align:center}#ppbar .sepb{width:1px;height:18px;background:rgba(255,255,255,.25);margin:0 4px}#ppshow.idle{cursor:none}.ppimg{position:absolute;inset:0}.ppsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.pptxt.nw{overflow:visible}.pptxt.nw .pp{white-space:pre}#ppslide.ink,#ppslide.ink .ppsh{cursor:crosshair!important}@media(max-width:700px){#ppthumbs{width:84px}.ppth b{display:none}}';
+        css.textContent += '#ppbar{left:20px;transform:none;bottom:18px;gap:6px;padding:6px 8px;background:rgba(12,12,12,.9);border:1px solid rgba(255,255,255,.12);box-shadow:0 6px 24px rgba(0,0,0,.45)}#ppbar button{width:34px;min-width:34px;height:34px;padding:0;border-radius:50%;border:1.5px solid rgba(255,255,255,.5);color:#e9e9e9;display:inline-flex;align-items:center;justify-content:center}#ppbar button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}#ppbar button:hover{background:rgba(255,255,255,.18);border-color:#fff;color:#fff}#ppbar button.on{background:#fff;border-color:#fff;color:#111}#ppbar button.on:hover{background:#e6e6e6}#ppbar button:disabled{opacity:.35}#ppct{position:absolute;right:18px;bottom:22px;color:rgba(255,255,255,.75);font:600 12px system-ui;background:rgba(12,12,12,.7);padding:4px 10px;border-radius:999px;z-index:5;transition:opacity .25s;pointer-events:none}#ppct.off{opacity:0}#ppshow.idle:not(.tool):not(.zm){cursor:none}#ppshow.tool{cursor:crosshair}#ppshow.zm{cursor:zoom-in}#ppink{position:absolute;inset:0;z-index:3;pointer-events:none;touch-action:none}#ppink.on{pointer-events:auto}#ppshow>div:first-child{transform-origin:50% 50%}#ppmenu{position:absolute;z-index:8;min-width:210px;background:rgba(18,18,18,.97);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:6px;box-shadow:0 10px 32px rgba(0,0,0,.55);display:flex;flex-direction:column;color:#fff;font:500 13.5px system-ui}#ppmenu button{background:none;border:0;color:#f1f1f1;text-align:left;padding:9px 12px;border-radius:8px;cursor:pointer;font:inherit}#ppmenu button:hover{background:rgba(255,255,255,.14)}#ppmenu .sw{display:flex;gap:8px;padding:8px 12px 6px}#ppmenu .sw i{width:20px;height:20px;border-radius:50%;cursor:pointer;border:1px solid rgba(255,255,255,.35)}#ppcap{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);max-width:min(900px,86vw);background:rgba(0,0,0,.78);color:#fff;font:600 22px/1.35 system-ui;padding:10px 20px;border-radius:12px;text-align:center;z-index:4;pointer-events:none}#ppcam{position:absolute;right:22px;bottom:60px;width:190px;height:190px;border-radius:50%;object-fit:cover;transform:scaleX(-1);border:4px solid #fff;box-shadow:0 8px 28px rgba(0,0,0,.5);z-index:4;background:#111}#ppblack{position:absolute;inset:0;background:#000;z-index:2}#ppgrid{position:absolute;inset:0;z-index:10;background:#1e1e1e;overflow-y:auto;overflow-x:hidden;cursor:default;color:#fff}#ppgrid .pgback{position:fixed;left:16px;top:16px;width:42px;height:42px;border-radius:50%;border:2px solid #fff;background:rgba(30,30,30,.92);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;padding:0}#ppgrid .pgback:hover{background:#3a3a3a}#ppgrid .pgback svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#ppgrid .pgin{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px 22px;padding:84px 28px 48px}#ppgrid .pgc{cursor:pointer;outline:none}#ppgrid .pgb{position:relative;width:100%;overflow:hidden;background:#fff;border:3px solid transparent;border-radius:4px;box-sizing:border-box;pointer-events:none}#ppgrid .pgs{position:absolute;left:0;top:0;transform-origin:0 0}#ppgrid .pgc:hover .pgb{border-color:rgba(255,255,255,.55)}#ppgrid .pgc:focus-visible .pgb{border-color:#fff}#ppgrid .pgc.on .pgb{border-color:#ee8b6e}#ppgrid .pgn{display:block;margin:7px 2px 0;color:#bdbdbd;font:500 15px system-ui}#ppgrid .pgc.on .pgn{color:#ff6a1f;font-weight:700}@media(max-width:1100px){#ppgrid .pgin{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){#ppgrid .pgin{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px;padding:76px 14px 40px}#ppbar{left:50%;transform:translateX(-50%)}#ppbar button{width:30px;min-width:30px;height:30px}#ppct{display:none}}';
+        css.textContent += `
+#pptools .rpane[data-p="home"]{flex-wrap:nowrap;overflow-x:auto;align-items:stretch;gap:0;padding:8px 10px 4px}
+#pptools .rgx{flex:none;display:flex;flex-direction:column;padding:0 8px;border-right:1px solid var(--line)}
+#pptools .rgx:first-child{padding-left:2px}#pptools .rgx:last-child{border-right:0}
+#pptools .rgb{display:flex;align-items:stretch;gap:3px;height:68px}
+#pptools .rgl{font-size:11px;color:var(--mute);text-align:center;padding-top:4px;white-space:nowrap;letter-spacing:.01em}
+#pptools .rcol{display:flex;flex-direction:column;justify-content:space-between;gap:2px}
+#pptools .rrow{display:flex;align-items:center;gap:1px}
+#pptools .rgx .tb{height:32px;min-width:30px;padding:0 6px;gap:6px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--ink)}
+#pptools .rcol.c3{gap:1px}#pptools .rcol.c3 .tb{height:22px;min-width:26px;padding:0 5px}
+#pptools .rgx .tb.lg{flex-direction:column;height:auto;min-width:58px;padding:4px 8px 3px;gap:3px;justify-content:center;font-size:12px;line-height:1.15;text-align:center}
+#pptools .rgx .tb svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none;pointer-events:none}
+#pptools .rgx .tb svg text{font-family:Inter,"Segoe UI",system-ui,sans-serif}
+#pptools .rgx .tb.lg svg{width:32px;height:32px}
+#pptools .rgx .tb svg.car{width:9px;height:6px;stroke-width:1.6;opacity:.7}
+#pptools .rgx .tb .lb{display:inline-flex;align-items:center;justify-content:center;gap:3px;text-align:center;max-width:64px}
+#pptools .rgx .tb .gl{font-size:14px}
+#pptools .rgx .tb.cl{position:relative;padding:0 5px 0 6px;gap:3px}
+#pptools .rgx .tb.cl .bar{position:absolute;left:6px;width:18px;bottom:3px;height:3px;border-radius:2px;background:var(--sw,#e53935)}
+#pptools .rgx .tb.cl svg:first-child{margin-bottom:3px}
+#pptools .rgx .tb.cl:has(input:disabled){opacity:.4}
+#pptools .rgx select{height:30px;font-size:12.5px;padding:0 8px}
+#pptools #ppfont{width:158px}
+#pptools #ppsz{width:48px;height:30px;padding:0 4px;text-align:center;font-size:12.5px}
+#pppop{position:fixed;z-index:95;min-width:200px;padding:6px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+#pppop.wide{width:272px}
+#pppop .pt{font-size:12px;color:var(--mute);padding:6px 8px 4px}
+#pppop .pi{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:8px;color:var(--ink);font:inherit;font-size:13.5px;cursor:pointer}
+#pppop .pi:hover{background:var(--card)}
+#pppop .ps{height:1px;background:var(--line);margin:5px 4px}
+#pppop .pg{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;padding:2px 4px 6px}
+#pppop .pgi{height:38px;border:1px solid transparent;border-radius:8px;background:none;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+#pppop .pgi:hover{background:var(--card);border-color:var(--line)}
+#pppop .pgi svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+#pppop .qg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:6px}
+#pppop .qsi{height:46px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+#pppop .qsi:hover{border-color:var(--accent)}
+#pppop .qsi span{padding:4px 12px;border-radius:5px;font:600 13px system-ui;border:2px solid}
+`;
+        document.head.appendChild(css);
+        root = document.createElement('div'); root.id = 'pptroot'; root.hidden = true;
+        var B = function (id, t, label, extra) { return '<button class="tb' + (extra || '') + '" id="' + id + '" title="' + t + '">' + label + '</button>' };
+        var Bn = function (id, t, label) { return B(id, t, label, '" data-need="1') };
+        var G = function (s) { return '<div class="rg">' + s + '</div>' };
+        var SEL = function (id, t, a, need) { return '<select id="' + id + '" title="' + t + '" aria-label="' + t + '"' + (need ? ' data-need' : '') + '>' + a.map(function (x) { return '<option value="' + x[0] + '">' + x[1] + '</option>' }).join('') + '</select>' };
+        var CL = function (id, t, label, val, need) { return '<label class="tb cl" title="' + t + '"><span>' + label + '</span><input type="color" id="' + id + '"' + (need ? ' data-need' : '') + ' value="' + val + '"></label>' };
+        /* ---- Home tab: PowerPoint-style ribbon (Clipboard, Slides, Font, Paragraph, Drawing) ---- */
+        var ICO = function (p) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + p + '</svg>' };
+        var CAR = '<svg class="car" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>';
+        var TXT = function (x, y, s, w, t) { return '<text x="' + x + '" y="' + y + '" font-size="' + s + '" font-weight="' + (w || 600) + '" fill="currentColor" stroke="none">' + t + '</text>' };
+        var IC = {
+            undo: ICO('<path d="M8 5L4 9l4 4"/><path d="M4 9h10a6 6 0 0 1 0 12h-4"/>'),
+            redo: ICO('<path d="M16 5l4 4-4 4"/><path d="M20 9H10a6 6 0 0 0 0 12h4"/>'),
+            paste: ICO('<rect x="4.5" y="4.5" width="15" height="17" rx="2" fill="#f6e4d2" stroke="#c9722e"/><rect x="8.5" y="2.5" width="7" height="4" rx="1.2" fill="#ee8b3a" stroke="#c9722e"/><rect x="9.5" y="10" width="10" height="11.5" rx="1.5" fill="var(--panel)"/><path d="M12 14h5M12 17.5h5"/>'),
+            cut: ICO('<circle cx="6" cy="6.5" r="2.6"/><circle cx="6" cy="17.5" r="2.6"/><path d="M8 8l12 11M8 16L20 5"/>'),
+            copy: ICO('<rect x="9" y="9" width="11" height="11.5" rx="2"/><path d="M15 9V6.5A2 2 0 0 0 13 4.5H6.5a2 2 0 0 0-2 2V13a2 2 0 0 0 2 2H9"/>'),
+            paint: ICO('<rect x="4" y="3.5" width="12" height="6" rx="1.5" fill="#f3d36b" stroke="#a9841b"/><path d="M16 6.5h3v5.5h-8v3"/><rect x="9.2" y="14.5" width="3.6" height="6.5" rx="1"/>'),
+            newslide: ICO('<rect x="3" y="4.5" width="15" height="11" rx="1.5" fill="var(--panel)"/><path d="M6 8.5h9M6 11.5h6"/><circle cx="17.5" cy="17" r="5" fill="#2e9e5b" stroke="none"/><path d="M17.5 14.4v5.2M14.9 17h5.2" stroke="#fff" stroke-width="2"/>'),
+            dup: ICO('<rect x="8" y="9" width="12" height="9" rx="1.5"/><path d="M16 9V7.5A1.5 1.5 0 0 0 14.5 6h-9A1.5 1.5 0 0 0 4 7.5V13a1.5 1.5 0 0 0 1.5 1.5H8"/>'),
+            del: ICO('<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M9.5 8.5l5 5M14.5 8.5l-5 5M8 20h8"/>'),
+            up: ICO('<path d="M12 19V6M6.5 11.5L12 6l5.5 5.5"/>'),
+            down: ICO('<path d="M12 5v13M6.5 12.5L12 18l5.5-5.5"/>'),
+            grow: ICO(TXT(2, 20, 17, 600, 'A') + '<path d="M17.5 3.5l3.5 4.5h-7z" fill="currentColor" stroke="none"/>'),
+            shrink: ICO(TXT(2, 20, 13, 600, 'A') + '<path d="M14 4h7l-3.5 4.5z" fill="currentColor" stroke="none"/>'),
+            clear: ICO(TXT(2, 18, 16, 600, 'A') + '<path d="M13 21l6.5-8.5 3.5 2.8-5.2 6.7z" fill="#e8738a" stroke="#b5405a" stroke-width="1.2"/>'),
+            cas: ICO(TXT(1, 18, 15, 600, 'Aa')),
+            hl: ICO('<path d="M14.5 4.5l5 5-8 8H7.5v-4.5z" fill="var(--panel)"/><path d="M12.5 6.5l5 5"/>'),
+            fcol: ICO(TXT(4.5, 16.5, 17, 700, 'A')),
+            bul: ICO('<circle cx="5" cy="7" r="1.6" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.6" fill="currentColor" stroke="none"/><path d="M10 7h10M10 12h10M10 17h10"/>'),
+            num: ICO(TXT(2, 9, 7, 600, '1') + TXT(2, 14.5, 7, 600, '2') + TXT(2, 20, 7, 600, '3') + '<path d="M10 7h10M10 12.5h10M10 18h10"/>'),
+            out: ICO('<path d="M4 5h16M11 10h9M11 14h9M4 19h16"/><path d="M8 9.5L4.5 12 8 14.5"/>'),
+            ind: ICO('<path d="M4 5h16M11 10h9M11 14h9M4 19h16"/><path d="M4.5 9.5L8 12l-3.5 2.5"/>'),
+            lsp: ICO('<path d="M9 6h11M9 12h11M9 18h11"/><path d="M5 5v14M3 7.5L5 5l2 2.5M3 16.5L5 19l2-2.5"/>'),
+            aL: ICO('<path d="M4 6h16M4 10h10M4 14h16M4 18h10"/>'),
+            aC: ICO('<path d="M4 6h16M7 10h10M4 14h16M7 18h10"/>'),
+            aR: ICO('<path d="M4 6h16M10 10h10M4 14h16M10 18h10"/>'),
+            aJ: ICO('<path d="M4 6h16M4 10h16M4 14h16M4 18h16"/>'),
+            shapes: ICO('<circle cx="9" cy="9" r="5.5" fill="#dbe8ff" stroke="#3b6fd6"/><rect x="11" y="11" width="9.5" height="9.5" rx="1.5" fill="var(--panel)" stroke="#3b6fd6"/>'),
+            arr: ICO('<rect x="3.5" y="3.5" width="11" height="11" rx="1.5" fill="#fbd7b4" stroke="#d0762a"/><rect x="9.5" y="9.5" width="11" height="11" rx="1.5" fill="#cfe0ff" stroke="#3b6fd6"/>'),
+            qs: ICO('<rect x="3" y="3.5" width="13" height="13" rx="2" fill="#fff3cf" stroke="#c99a1b"/><path d="M21 3l-8.5 9.5"/><path d="M12.5 12.5c-2 0-3 1.5-3 3.2 0 1.7-1 2.8-2.5 3.3 3.5 1.2 7-.5 7-3.6z" fill="#e7b73c" stroke="#a9841b"/>'),
+            fill: ICO('<path d="M5 12l6.5-6.5 7 7L12 19z" fill="var(--panel)"/><path d="M11 5.5L9 3.5"/><path d="M19.5 14.5c1 1.5 1.5 2.5 1.5 3.3a1.5 1.5 0 0 1-3 0c0-.8.5-1.8 1.5-3.3z" fill="#f08a2d" stroke="#c9661a"/>'),
+            line: ICO('<path d="M4 20l1-4.5L16.5 4a1.8 1.8 0 0 1 2.5 0l1 1a1.8 1.8 0 0 1 0 2.5L8.5 19z" fill="var(--panel)"/><path d="M14.5 6l3.5 3.5"/>')
+        };
+        var SHP = [['rect', 'Rectangle', '<rect x="3" y="6" width="18" height="12" rx="1"/>'], ['roundRect', 'Rounded rectangle', '<rect x="3" y="6" width="18" height="12" rx="4"/>'], ['ellipse', 'Ellipse', '<ellipse cx="12" cy="12" rx="9" ry="6.5"/>'], ['triangle', 'Triangle', '<path d="M12 4l9 16H3z"/>'], ['diamond', 'Diamond', '<path d="M12 3l9 9-9 9-9-9z"/>'], ['pentagon', 'Pentagon', '<path d="M12 3l9 7-3.5 10h-11L3 10z"/>'], ['hexagon', 'Hexagon', '<path d="M7 4h10l5 8-5 8H7l-5-8z"/>'], ['star5', 'Star', '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>'], ['rightArrow', 'Arrow', '<path d="M3 9h11V5l7 7-7 7v-4H3z"/>'], ['plus', 'Plus', '<path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/>'], ['line', 'Line', '<path d="M4 20L20 4"/>'], ['text', 'Text box', TXT(6, 18, 17, 700, 'T')]];
+        var FONTS = ['Arial', 'Calibri', 'Cambria', 'Candara', 'Comic Sans MS', 'Consolas', 'Courier New', 'Garamond', 'Georgia', 'Impact', 'Segoe UI', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana', 'Inter', 'Lato', 'Montserrat', 'Open Sans', 'Poppins', 'Roboto'];
+        var FONTOPTS = '<option value="">Aptos (Body)</option><option value="Aptos Display">Aptos Display (Headings)</option>' + FONTS.map(function (f) { return '<option value="' + f + '" style="font-family:\'' + f + '\'">' + f + '</option>' }).join('');
+        var HB = function (id, t, inner, cls, need, pm) { return '<button type="button" class="tb' + (cls ? ' ' + cls : '') + '" id="' + id + '" title="' + t + '" aria-label="' + t + '"' + (need ? ' data-need' : '') + (pm ? ' data-pm="1"' : '') + '>' + inner + '</button>' };
+        var COLB = function (id, t, svg, col) { return '<label class="tb cl" title="' + t + '" style="--sw:' + col + '">' + svg + '<i class="bar"></i>' + CAR + '<input type="color" id="' + id + '" data-need value="' + col + '" aria-label="' + t + '"></label>' };
+        var GX = function (name, inner) { return '<div class="rgx"><div class="rgb">' + inner + '</div><div class="rgl">' + name + '</div></div>' };
+        var HOME =
+            GX('Undo', '<div class="rcol c2">' + HB('ppun', 'Undo (Ctrl+Z)', IC.undo) + HB('pprd', 'Redo (Ctrl+Y)', IC.redo) + '</div>') +
+            GX('Clipboard', HB('pppaste', 'Paste (Ctrl+V)', IC.paste + '<span class="lb">Paste</span>', 'lg') + '<div class="rcol c3">' + HB('ppcut', 'Cut (Ctrl+X)', IC.cut, '', 1) + HB('ppcopy', 'Copy (Ctrl+C)', IC.copy, '', 1) + HB('pppaint', 'Format Painter: pick up this shape\u2019s look, then click another shape', IC.paint, '', 1) + '</div>') +
+            GX('Slides', HB('ppadd', 'New slide after this one', IC.newslide + '<span class="lb">New Slide</span>', 'lg') + '<div class="rcol c2">' + HB('ppdup', 'Duplicate this slide', IC.dup + '<span>Duplicate</span>') + HB('ppdel', 'Delete this slide', IC.del + '<span>Delete</span>') + '</div><div class="rcol c2">' + HB('ppup', 'Move slide up', IC.up) + HB('ppdn', 'Move slide down', IC.down) + '</div>') +
+            GX('Font', '<div class="rcol c2"><div class="rrow"><select id="ppfont" data-need title="Font" aria-label="Font">' + FONTOPTS + '</select><input id="ppsz" data-need type="number" min="6" max="200" value="18" title="Text size (pt)" aria-label="Text size">' + HB('ppgrow', 'Increase font size', IC.grow, '', 1) + HB('ppshrink', 'Decrease font size', IC.shrink, '', 1) + HB('ppclr', 'Clear all formatting', IC.clear, '', 1) + '</div><div class="rrow">' + HB('ppb', 'Bold', '<b class="gl">B</b>', '', 1) + HB('ppi', 'Italic', '<i class="gl">I</i>', '', 1) + HB('ppu', 'Underline', '<u class="gl">U</u>', '', 1) + HB('ppst', 'Strikethrough', '<s class="gl">S</s>', '', 1) + HB('ppcase', 'Change case', IC.cas + CAR, '', 1, 1) + COLB('pxphl', 'Text highlight colour', IC.hl, '#ffe600') + COLB('pxptxt', 'Font colour', IC.fcol, '#e53935') + '</div></div>') +
+            GX('Paragraph', '<div class="rcol c2"><div class="rrow">' + HB('ppbu', 'Bullets', IC.bul, '', 1) + HB('ppnu', 'Numbering', IC.num, '', 1) + HB('ppout', 'Decrease indent', IC.out, '', 1) + HB('ppin', 'Increase indent', IC.ind, '', 1) + HB('pplsp', 'Line spacing', IC.lsp + CAR, '', 1, 1) + '</div><div class="rrow">' + HB('ppaL', 'Align left', IC.aL, '', 1) + HB('ppaC', 'Centre', IC.aC, '', 1) + HB('ppaR', 'Align right', IC.aR, '', 1) + HB('ppaJ', 'Justify', IC.aJ, '', 1) + '</div></div>') +
+            GX('Drawing', HB('ppshapes', 'Shapes', IC.shapes + '<span class="lb">Shapes' + CAR + '</span>', 'lg', 0, 1) + HB('pparr', 'Arrange', IC.arr + '<span class="lb">Arrange' + CAR + '</span>', 'lg', 1, 1) + HB('ppqs', 'Quick Styles', IC.qs + '<span class="lb">Quick Styles' + CAR + '</span>', 'lg', 1, 1) + '<div class="rcol c2">' + COLB('pxpfill', 'Shape Fill', IC.fill, '#ed7d31') + COLB('pxpline', 'Shape Outline', IC.line, '#3b6fd6') + '</div>');
+        var PANES = {
+            home: HOME,
+            insert: G(B('pptx', 'Add a text box', 'T Text') + B('pppic', 'Add a picture', 'Picture') + '<input id="ppimg" type="file" accept="image/png,image/jpeg,image/gif,image/webp" hidden>') + G(B('pprect', 'Add a rectangle', '\u25ad') + B('ppell', 'Add an ellipse', '\u25ef') + SEL('ppshp', 'Add a shape', [['', 'More shapes'], ['roundRect', 'Rounded rectangle'], ['triangle', 'Triangle'], ['diamond', 'Diamond'], ['pentagon', 'Pentagon'], ['hexagon', 'Hexagon'], ['star5', 'Star'], ['rightArrow', 'Arrow'], ['plus', 'Plus'], ['line', 'Line']])),
+            draw: G(B('pppen', 'Pen: drag on the slide to draw', '\u270e Pen') + B('pphl', 'Highlighter', 'Highlighter') + B('ppera', 'Eraser: click an ink stroke to remove it', 'Eraser')) + G(CL('ppinkc', 'Ink colour', '\u25cf', '#d93025') + SEL('ppinkw', 'Ink thickness', [['2', 'Thin'], ['3', 'Medium'], ['6', 'Thick']])),
+            design: G(CL('ppbgc', 'Background colour of this slide', '\u25a3', '#ffffff') + B('ppbga', 'Use this background colour on every slide', 'Background to all slides')) + G(SEL('ppsize', 'Slide size', [['', 'Slide size'], ['12192000x6858000', 'Widescreen 16:9'], ['9144000x6858000', 'Standard 4:3'], ['10972800x6858000', '16:10'], ['10692000x7560000', 'A4 landscape'], ['6858000x6858000', 'Square 1:1']])),
+            transitions: G(SEL('pptr', 'Transition for this slide', [['none', 'None'], ['fade', 'Fade'], ['push', 'Push'], ['wipe', 'Wipe'], ['split', 'Split'], ['cover', 'Cover'], ['zoom', 'Zoom'], ['dissolve', 'Dissolve']]) + SEL('pptrs', 'Transition speed', [['slow', 'Slow'], ['med', 'Medium'], ['fast', 'Fast']])) + G(B('pptrp', 'Preview this transition', 'Preview') + B('pptra', 'Use this transition on every slide', 'Apply to all slides')),
+            animations: G(SEL('ppan', 'Entrance animation for the selected shape (click a shape first)', [['', 'No animation'], ['appear', 'Appear'], ['fade', 'Fade'], ['wipe', 'Wipe'], ['dissolve', 'Dissolve']], 1)) + G(B('ppanp', 'Preview the animations on this slide', 'Preview'))
+        };
+        var TABS = [['home', 'Home'], ['insert', 'Insert'], ['draw', 'Draw'], ['design', 'Design'], ['transitions', 'Transitions'], ['animations', 'Animations']];
+        root.innerHTML = '<div id="pptools" role="toolbar" aria-label="Presentation tools"><div class="rtabs" role="tablist">' + TABS.map(function (x) { return '<button type="button" role="tab" data-p="' + x[0] + '">' + x[1] + '</button>' }).join('') + '<span class="sp"></span><div class="rz">' + B('ppplay', 'Present full screen', '\u25b6 Present', ' pr') + '</div></div>' + TABS.map(function (x) { return '<div class="rpane" data-p="' + x[0] + '" hidden>' + PANES[x[0]] + '</div>' }).join('') + '</div><div id="ppbody"><div id="ppthumbs"></div><div id="ppstage"><div id="ppslide"></div></div></div>';
+        $('docscroll').style.position = 'relative'; $('docscroll').appendChild(root); sl = $('ppslide'); th = $('ppthumbs'); stg = $('ppstage');
+        $('ppun').onclick = function () { var d = cur(); d && pp_restore(d, d.pp.undo, d.pp.redo) }; $('pprd').onclick = function () { var d = cur(); d && pp_restore(d, d.pp.redo, d.pp.undo) };
+        $('ppadd').onclick = function () { slideOp('add') }; $('ppdup').onclick = function () { slideOp('dup') }; $('ppdel').onclick = function () { if (confirm('Delete this slide?')) slideOp('del') }; $('ppup').onclick = function () { slideOp('up') }; $('ppdn').onclick = function () { slideOp('down') };
+        $('pptx').onclick = function () { addShape('text') }; $('pprect').onclick = function () { addShape('rect') }; $('ppell').onclick = function () { addShape('ellipse') }; $('pppic').onclick = function () { $('ppimg').click() };
+        $('ppimg').onchange = function () { var f = this.files[0]; this.value = ''; if (f) addPicture(f) };
+        $('ppb').onclick = function () { fmt('b') }; $('ppi').onclick = function () { fmt('i') }; 
+        $('ppsz').onchange = function () { var v = +this.value; if (v >= 6) fmt('sz', v) }; 
+        $('ppplay').onclick = present;
+        /* ---- Home tab behaviour ---- */
+        var clip = null, painter = null, PM = null;
+        var RPO = ['ln', 'noFill', 'solidFill', 'gradFill', 'blipFill', 'pattFill', 'grpFill', 'effectLst', 'effectDag', 'highlight', 'uLnTx', 'uLn', 'uFillTx', 'uFill', 'latin', 'ea', 'cs', 'sym', 'hlinkClick', 'hlinkMouseOver', 'rtl', 'extLst'];
+        var SZL = [8, 9, 10, 10.5, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 44, 48, 54, 60, 66, 72, 80, 88, 96];
+        var CASES = { up: function (s) { return s.toUpperCase() }, low: function (s) { return s.toLowerCase() }, title: function (s) { return s.toLowerCase().replace(/(^|[\s\-(\u201c"])([^\s\-(\u201c"])/g, function (m, a, b) { return a + b.toUpperCase() }) }, sent: function (s) { return s.toLowerCase().replace(/(^\s*|[.!?]\s+)(\S)/g, function (m, a, b) { return a + b.toUpperCase() }) } };
+        function needSel() { var d = cur(); if (!d || d.pp.sel === null) { toast('Click a shape on the slide first.'); return null } return d }
+        function putRp(r, node) { var rank = RPO.indexOf(node.localName), ref = null; kids(r, node.localName).forEach(function (c) { r.removeChild(c) }); for (var c = r.firstElementChild; c; c = c.nextElementSibling) if (RPO.indexOf(c.localName) > rank) { ref = c; break } r.insertBefore(node, ref) }
+        function pPrOf(doc, p) { var pp = kid(p, 'pPr'); if (!pp) { pp = doc.createElementNS(A, 'a:pPr'); p.insertBefore(pp, p.firstChild) } return pp }
+        function putBu(doc, pp, xs) { ['buFont', 'buNone', 'buChar', 'buAutoNum', 'buBlip'].forEach(function (n) { kids(pp, n).forEach(function (c) { pp.removeChild(c) }) }); var ref = null; for (var c = pp.firstElementChild; c; c = c.nextElementSibling) if (/^(tabLst|defRPr|extLst)$/.test(c.localName)) { ref = c; break } xs.forEach(function (x) { pp.insertBefore(frag(doc, x), ref) }) }
+        function stepSz(c, dir) { var i, v = null; if (dir > 0) { for (i = 0; i < SZL.length; i++) if (SZL[i] > c + .01) { v = SZL[i]; break } } else { for (i = SZL.length - 1; i >= 0; i--) if (SZL[i] < c - .01) { v = SZL[i]; break } } if (v === null) v = c + dir * 2; return Math.max(6, Math.min(200, v)) }
+        function setFill(doc, el, val) {
+            var sp = kid(el, 'spPr'); if (!sp) return; ['noFill', 'solidFill', 'gradFill', 'blipFill', 'pattFill', 'grpFill'].forEach(function (n) { kids(sp, n).forEach(function (c) { sp.removeChild(c) }) });
+            var after = kid(sp, 'prstGeom') || kid(sp, 'custGeom') || kid(sp, 'xfrm'); sp.insertBefore(frag(doc, val === 'none' ? '<a:noFill/>' : '<a:solidFill><a:srgbClr val="' + val + '"/></a:solidFill>'), after ? after.nextSibling : sp.firstChild);
+        }
+        function setLine(doc, el, val) {
+            var sp = kid(el, 'spPr'); if (!sp) return; var ln = kid(sp, 'ln');
+            if (!ln) { ln = doc.createElementNS(A, 'a:ln'); ln.setAttribute('w', '12700'); var ref = null; for (var c = sp.firstElementChild; c; c = c.nextElementSibling) if (/^(effectLst|effectDag|scene3d|sp3d|extLst)$/.test(c.localName)) { ref = c; break } sp.insertBefore(ln, ref) }
+            ['noFill', 'solidFill', 'gradFill', 'pattFill'].forEach(function (n) { kids(ln, n).forEach(function (c) { ln.removeChild(c) }) });
+            if (val !== 'none' && (!ln.getAttribute('w') || ln.getAttribute('w') === '0')) ln.setAttribute('w', '12700');
+            ln.insertBefore(frag(doc, val === 'none' ? '<a:noFill/>' : '<a:solidFill><a:srgbClr val="' + val + '"/></a:solidFill>'), ln.firstChild);
+        }
+        function textKinds(doc, tb, rps, kind, val, d, path, el) {
+            var ps = kids(tb, 'p'), off = false;
+            if (kind === 'strike') { rps.forEach(function (r) { if (at(r, 'strike', 'noStrike') === 'noStrike') off = true }); rps.forEach(function (r) { r.setAttribute('strike', off ? 'sngStrike' : 'noStrike') }) }
+            else if (kind === 'szd') { var base = (((phInfo(d, path, el) || {}).sz) || 1800) / 100; rps.forEach(function (r) { var c = r.getAttribute('sz') ? +r.getAttribute('sz') / 100 : base; r.setAttribute('sz', Math.round(stepSz(c, val) * 100)) }) }
+            else if (kind === 'font') rps.forEach(function (r) { if (val) putRp(r, frag(doc, '<a:latin typeface="' + val + '"/>')); else kids(r, 'latin').forEach(function (c) { r.removeChild(c) }) });
+            else if (kind === 'hl') rps.forEach(function (r) { if (val) putRp(r, frag(doc, '<a:highlight><a:srgbClr val="' + val + '"/></a:highlight>')); else kids(r, 'highlight').forEach(function (c) { r.removeChild(c) }) });
+            else if (kind === 'autocolor') rps.forEach(function (r) { ['solidFill', 'gradFill', 'noFill'].forEach(function (n) { kids(r, n).forEach(function (c) { r.removeChild(c) }) }) });
+            else if (kind === 'clear') rps.forEach(function (r) { ['b', 'i', 'u', 'strike', 'cap', 'spc', 'baseline', 'sz'].forEach(function (n) { r.removeAttribute(n) }); ['ln', 'noFill', 'solidFill', 'gradFill', 'blipFill', 'pattFill', 'grpFill', 'effectLst', 'effectDag', 'highlight', 'latin', 'ea', 'cs'].forEach(function (n) { kids(r, n).forEach(function (c) { r.removeChild(c) }) }) });
+            else if (kind === 'case') ps.forEach(function (p) {
+                var ts = [].slice.call(ns(p, 't')), full = ts.map(function (x) { return x.textContent }).join(''), out = CASES[val](full);
+                if (out.length === full.length) { var pos = 0; ts.forEach(function (x) { var n = x.textContent.length; x.textContent = out.substr(pos, n); pos += n }) } else ts.forEach(function (x) { x.textContent = CASES[val](x.textContent) });
+            });
+            else if (kind === 'bu' || kind === 'num') {
+                var want = kind === 'bu' ? 'buChar' : 'buAutoNum', allOn = ps.length && ps.every(function (p) { var pp = kid(p, 'pPr'); return pp && kid(pp, want) });
+                ps.forEach(function (p) {
+                    var pp = pPrOf(doc, p);
+                    if (allOn) { putBu(doc, pp, ['<a:buNone/>']); pp.setAttribute('marL', '0'); pp.setAttribute('indent', '0') }
+                    else { putBu(doc, pp, kind === 'bu' ? ['<a:buFont typeface="Arial"/>', '<a:buChar char="&#8226;"/>'] : ['<a:buFont typeface="+mj-lt"/>', '<a:buAutoNum type="arabicPeriod"/>']); pp.setAttribute('marL', Math.max(+at(pp, 'marL', 0), 342900)); pp.setAttribute('indent', '-342900') }
+                });
+            }
+            else if (kind === 'ind') ps.forEach(function (p) {
+                var pp = pPrOf(doc, p), m = Math.max(0, Math.min(342900 * 8, +at(pp, 'marL', 0) + val * 342900)); pp.setAttribute('marL', m);
+                if (kid(pp, 'buChar') || kid(pp, 'buAutoNum')) pp.setAttribute('indent', '-342900');
+            });
+            else if (kind === 'lnsp') ps.forEach(function (p) { var pp = pPrOf(doc, p); kids(pp, 'lnSpc').forEach(function (c) { pp.removeChild(c) }); pp.insertBefore(frag(doc, '<a:lnSpc><a:spcPct val="' + Math.round(val * 100000) + '"/></a:lnSpc>'), pp.firstChild) });
+        }
+        function reorder(kind) {
+            var d = needSel(); if (!d) return; var i = d.pp.sel;
+            editSlide(function (doc, shs, d2) {
+                var el = shs[i]; if (!el) return; var par = el.parentNode, c;
+                if (kind === 'front') par.appendChild(el);
+                else if (kind === 'back') { c = par.firstElementChild; while (c && /^(nvGrpSpPr|grpSpPr)$/.test(c.localName)) c = c.nextElementSibling; par.insertBefore(el, c) }
+                else if (kind === 'fwd') { c = el.nextElementSibling; if (c) par.insertBefore(c, el) }
+                else { c = el.previousElementSibling; if (c && !/^(nvGrpSpPr|grpSpPr)$/.test(c.localName)) par.insertBefore(el, c) }
+                d2.pp.sel = shapesOf(doc).indexOf(el);
+            });
+        }
+        function alignSel(k) {
+            var d = needSel(); if (!d) return; var i = d.pp.sel;
+            editSlide(function (doc, shs, d2, path) {
+                var el = shs[i]; if (!el) return; var xf = getXf(d2, doc, path, el), sz = sldSize(d2), W = Math.round(sz.w * EMU), H = Math.round(sz.h * EMU), v = { x: xf.x, y: xf.y, w: xf.w, h: xf.h };
+                if (k === 'l') v.x = 0; else if (k === 'c') v.x = Math.round((W - v.w) / 2); else if (k === 'r') v.x = W - v.w; else if (k === 't') v.y = 0; else if (k === 'm') v.y = Math.round((H - v.h) / 2); else v.y = H - v.h;
+                setXf(doc, el, v);
+            });
+        }
+        var QS = [['0B72D1', '084F93', 'FFFFFF'], ['ED7D31', 'AE5A21', 'FFFFFF'], ['70AD47', '507E32', 'FFFFFF'], ['FFC000', 'BF9000', '000000'], ['DCE6F4', '4472C4', '1F3864'], ['FFFFFF', '151922', '151922'], ['222A35', '222A35', 'FFFFFF'], ['7030A0', '4B1F6B', 'FFFFFF'], ['none', '4472C4', '4472C4']];
+        function quickStyle(n) {
+            var q = QS[n], d = needSel(); if (!d || !q) return;
+            editSlide(function (doc, shs) {
+                var el = shs[d.pp.sel]; if (!el) return; setFill(doc, el, q[0]); setLine(doc, el, q[1]);
+                var tb = kid(el, 'txBody'); if (tb) kids(tb, 'p').forEach(function (p) { kids(p, 'r').forEach(function (r) { var rp = kid(r, 'rPr'); if (!rp) { rp = doc.createElementNS(A, 'a:rPr'); r.insertBefore(rp, r.firstChild) } ['solidFill', 'gradFill', 'noFill'].forEach(function (nm) { kids(rp, nm).forEach(function (c) { rp.removeChild(c) }) }); putRp(rp, frag(doc, '<a:solidFill><a:srgbClr val="' + q[2] + '"/></a:solidFill>')) }) });
+            });
+        }
+        /* clipboard */
+        function copySel(cut) {
+            var d = needSel(); if (!d) return; var path = slideList(d)[d.pp.cur], el = shapesOf(px(d.pp.P[path]))[d.pp.sel]; if (!el) return;
+            clip = { xml: XS.serializeToString(el), path: path, cut: !!cut }; if (cut) delShape(); else toast('Copied. Use Paste to place it on a slide.');
+        }
+        function pasteText(t) { addShape('text'); editSlide(function (doc, shs, d2) { var el = shs[d2.pp.sel]; if (el) setText(doc, el, t.replace(/\r/g, '').split('\n')) }) }
+        async function pasteIt() {
+            var d = cur(); if (!d) return;
+            if (clip) {
+                var c = clip; if (c.path !== slideList(d)[d.pp.cur] && /r:(embed|id|link)=/.test(c.xml)) { toast('Pictures and linked items can only be pasted on the slide they were copied from.'); return }
+                editSlide(function (doc, shs, d2, path) {
+                    var el = frag(doc, c.xml), cn = ns(el, 'cNvPr')[0]; if (cn) cn.setAttribute('id', nextId(doc)); ns(doc.documentElement, 'spTree')[0].appendChild(el);
+                    var xf = getXf(d2, doc, path, el), o = c.cut && c.path === path ? 0 : 228600; setXf(doc, el, { x: xf.x + o, y: xf.y + o, w: xf.w, h: xf.h }); d2.pp.sel = shapesOf(doc).indexOf(el);
+                }); c.cut = false; return;
+            }
+            try { var items = await navigator.clipboard.read(); for (var k = 0; k < items.length; k++) { var ty = items[k].types.filter(function (x) { return /^image\/(png|jpeg|gif|webp)$/.test(x) })[0]; if (ty) { var bl = await items[k].getType(ty); addPicture(new File([bl], 'pasted.' + ty.split('/')[1].replace('jpeg', 'jpg'), { type: ty })); return } } } catch (e) { }
+            try { var tx = await navigator.clipboard.readText(); if (tx && tx.trim()) { pasteText(tx); return } } catch (e) { }
+            toast('Nothing to paste yet. Copy a shape on a slide, or copy a picture or some text first.');
+        }
+        function paintOff() { painter = null; $('pppaint').classList.remove('on') }
+        function armPainter() {
+            if (painter) { paintOff(); return } var d = needSel(); if (!d) return; var path = slideList(d)[d.pp.cur], el = shapesOf(px(d.pp.P[path]))[d.pp.sel]; if (!el) return;
+            var tb = kid(el, 'txBody'), sp = kid(el, 'spPr'), P = { src: d.pp.sel, rp: null, pp: null, fill: null, ln: null }, p0 = tb && kids(tb, 'p')[0], r0 = p0 && kid(p0, 'r'), rp = r0 && kid(r0, 'rPr'), pp = p0 && kid(p0, 'pPr');
+            if (rp) P.rp = XS.serializeToString(rp); if (pp) P.pp = XS.serializeToString(pp);
+            if (sp) { var f = kid(sp, 'solidFill') || kid(sp, 'noFill') || kid(sp, 'gradFill'), l = kid(sp, 'ln'); if (f) P.fill = XS.serializeToString(f); if (l) P.ln = XS.serializeToString(l) }
+            painter = P; $('pppaint').classList.add('on'); toast('Format Painter: now click the shape you want to restyle.');
+        }
+        sl.addEventListener('click', function () {
+            if (!painter) return; var d = cur(); if (!d || d.pp.sel === null || d.pp.sel === painter.src) return; var P = painter; paintOff();
+            editSlide(function (doc, shs) {
+                var el = shs[d.pp.sel]; if (!el) return; var tb = kid(el, 'txBody'), sp = kid(el, 'spPr');
+                if (tb) kids(tb, 'p').forEach(function (p) {
+                    if (P.rp) kids(p, 'r').forEach(function (r) { var old = kid(r, 'rPr'), nw = frag(doc, P.rp); if (old) r.replaceChild(nw, old); else r.insertBefore(nw, r.firstChild) });
+                    if (P.pp) { var o = kid(p, 'pPr'); if (o) p.removeChild(o); p.insertBefore(frag(doc, P.pp), p.firstChild) }
+                });
+                if (sp && P.fill) { ['noFill', 'solidFill', 'gradFill', 'blipFill', 'pattFill', 'grpFill'].forEach(function (n) { kids(sp, n).forEach(function (c) { sp.removeChild(c) }) }); var af = kid(sp, 'prstGeom') || kid(sp, 'custGeom') || kid(sp, 'xfrm'); sp.insertBefore(frag(doc, P.fill), af ? af.nextSibling : sp.firstChild) }
+                if (sp && P.ln) { kids(sp, 'ln').forEach(function (c) { sp.removeChild(c) }); var fl = kid(sp, 'noFill') || kid(sp, 'solidFill') || kid(sp, 'gradFill') || kid(sp, 'prstGeom') || kid(sp, 'custGeom') || kid(sp, 'xfrm'); sp.insertBefore(frag(doc, P.ln), fl ? fl.nextSibling : sp.firstChild) }
+            });
+        });
+        $('pppaste').onclick = pasteIt; $('ppcut').onclick = function () { copySel(true) }; $('ppcopy').onclick = function () { copySel(false) }; $('pppaint').onclick = armPainter;
+        document.addEventListener('keydown', function (e) {
+            var d = cur(); if (!d || root.hidden || !docOpen || ed || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName) || e.target.isContentEditable || document.getElementById('ppshow') || !(e.ctrlKey || e.metaKey)) return;
+            if (/^c$/i.test(e.key) && d.pp.sel !== null) { e.preventDefault(); copySel(false) } else if (/^x$/i.test(e.key) && d.pp.sel !== null) { e.preventDefault(); copySel(true) } else if (/^v$/i.test(e.key) && clip) { e.preventDefault(); pasteIt() }
+        });
+        document.addEventListener('paste', function (e) {
+            var d = cur(); if (!d || root.hidden || !docOpen || ed || clip || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName) || e.target.isContentEditable || document.getElementById('ppshow')) return;
+            var cd = e.clipboardData; if (!cd) return; var f = [].filter.call(cd.files || [], function (x) { return /^image\/(png|jpeg|gif|webp)$/.test(x.type) })[0];
+            if (f) { e.preventDefault(); addPicture(f); return } var tx = cd.getData('text/plain'); if (tx && tx.trim()) { e.preventDefault(); pasteText(tx) }
+        });
+        /* slides group, font group, paragraph group */
+        $('ppfont').onchange = function () { fmt('font', this.value) };
+        $('ppgrow').onclick = function () { fmt('szd', 1) }; $('ppshrink').onclick = function () { fmt('szd', -1) }; $('ppclr').onclick = function () { fmt('clear') };
+        $('ppst').onclick = function () { fmt('strike') };
+        $('ppbu').onclick = function () { fmt('bu') }; $('ppnu').onclick = function () { fmt('num') }; $('ppout').onclick = function () { fmt('ind', -1) }; $('ppin').onclick = function () { fmt('ind', 1) };
+        $('ppaL').onclick = function () { fmt('al', 'l') }; $('ppaC').onclick = function () { fmt('al', 'ctr') }; $('ppaR').onclick = function () { fmt('al', 'r') }; $('ppaJ').onclick = function () { fmt('al', 'just') };
+        /* drop-down menus */
+        function pmClose() { if (PM) { PM.remove(); PM = null } }
+        function pmOpen(btn, cls, html, pick) {
+            if (PM && PM._b === btn) { pmClose(); return } pmClose(); var p = PM = document.createElement('div'); p.id = 'pppop'; p.className = cls || ''; p._b = btn; p.innerHTML = html; (document.getElementById('docs') || document.body).appendChild(p);
+            var r = btn.getBoundingClientRect(); p.style.top = Math.max(8, Math.min(r.bottom + 6, innerHeight - p.offsetHeight - 8)) + 'px'; p.style.left = Math.max(8, Math.min(r.left, innerWidth - p.offsetWidth - 8)) + 'px';
+            p.addEventListener('mousedown', function (e) { e.preventDefault() });
+            p.addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (!b) return; var v = b.dataset.v; pmClose(); pick(v) });
+        }
+        document.addEventListener('mousedown', function (e) { if (PM && !PM.contains(e.target) && !e.target.closest('[data-pm]')) pmClose() });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && PM) { pmClose(); e.stopPropagation() } }, true);
+        var MI = function (v, label) { return '<button type="button" class="pi" data-v="' + v + '">' + label + '</button>' };
+        $('ppshapes').onclick = function () { pmOpen(this, 'wide', '<div class="pt">Shapes</div><div class="pg">' + SHP.map(function (s) { return '<button type="button" class="pgi" data-v="' + s[0] + '" title="' + s[1] + '" aria-label="' + s[1] + '">' + ICO(s[2]) + '</button>' }).join('') + '</div>', function (v) { addShape(v) }) };
+        $('pparr').onclick = function () {
+            pmOpen(this, '', MI('front', 'Bring to Front') + MI('fwd', 'Bring Forward') + MI('bwd', 'Send Backward') + MI('back', 'Send to Back') + '<div class="ps"></div>' + MI('al', 'Align Left') + MI('ac', 'Align Centre') + MI('ar', 'Align Right') + MI('at', 'Align Top') + MI('am', 'Align Middle') + MI('ab', 'Align Bottom') + '<div class="ps"></div>' + MI('dup', 'Duplicate'), function (v) {
+                var al = { al: 'l', ac: 'c', ar: 'r', at: 't', am: 'm', ab: 'b' }; if (al[v]) alignSel(al[v]); else if (v === 'dup') dupShape(); else reorder(v);
+            });
+        };
+        $('ppqs').onclick = function () { pmOpen(this, 'wide', '<div class="pt">Quick Styles</div><div class="qg">' + QS.map(function (q, n) { return '<button type="button" class="qsi" data-v="' + n + '" title="Style ' + (n + 1) + '"><span style="background:' + (q[0] === 'none' ? 'transparent' : '#' + q[0]) + ';border-color:#' + q[1] + ';color:#' + q[2] + '">Abc</span></button>' }).join('') + '</div>', function (v) { quickStyle(+v) }) };
+        $('ppcase').onclick = function () { pmOpen(this, '', MI('sent', 'Sentence case') + MI('low', 'lowercase') + MI('up', 'UPPERCASE') + MI('title', 'Capitalize Each Word'), function (v) { fmt('case', v) }) };
+        $('pplsp').onclick = function () { pmOpen(this, '', [['1', '1.0'], ['1.15', '1.15'], ['1.5', '1.5'], ['2', '2.0'], ['2.5', '2.5'], ['3', '3.0']].map(function (x) { return MI(x[0], x[1]) }).join(''), function (v) { fmt('lnsp', +v) }) };
+        /* colour buttons use the same palette as the Documents ribbon */
+        function hexApply(id, hex) { if (id === 'pxptxt') { if (hex) fmt('color', hex); else fmt('autocolor') } else if (id === 'pxphl') fmt('hl', hex); else if (id === 'pxpfill') fmt('fill', hex || 'none'); else fmt('line', hex || 'none') }
+        ['pxptxt', 'pxphl', 'pxpfill', 'pxpline'].forEach(function (id) {
+            var inp = $(id), lab = inp.parentNode;
+            lab.addEventListener('click', function (e) { e.preventDefault(); if (inp.disabled) { toast('Click a shape on the slide first.'); return } if (CPOP && CPOP.dataset.id === id) { colClose(); return } colOpen(id, lab); CPOP.dataset.id = id });
+            inp.addEventListener('change', function () { var c = inp.value; CREC = [c].concat(CREC.filter(function (x) { return x !== c })).slice(0, 10); lab.style.setProperty('--sw', c); hexApply(id, c.slice(1).toUpperCase()) });
+            inp.addEventListener('ppclear', function () { lab.style.setProperty('--sw', id === 'pxptxt' ? '#222' : 'transparent'); hexApply(id, null) });
+        });
+        /* keep the Home buttons in step with the selected shape */
+        function syncHome(d, i) {
+            var on = {}, szv = 18, fv = '';
+            if (d.pp.sel !== null) {
+                var path = slideList(d)[i], doc = px(d.pp.P[path]), el = shapesOf(doc)[d.pp.sel], tb = el && kid(el, 'txBody');
+                if (tb) {
+                    var p0 = kids(tb, 'p')[0], pp = p0 && kid(p0, 'pPr'), r0 = p0 && kid(p0, 'r'), rp = (r0 && kid(r0, 'rPr')) || (p0 && kid(p0, 'endParaRPr')), info = phInfo(d, path, el), lt = rp && kid(rp, 'latin');
+                    szv = rp && rp.getAttribute('sz') ? +rp.getAttribute('sz') / 100 : ((info && info.sz) || 1800) / 100; if (lt && lt.getAttribute('typeface') && lt.getAttribute('typeface')[0] !== '+') fv = lt.getAttribute('typeface');
+                    if (rp) { on.ppb = T(at(rp, 'b', '0')); on.ppi = T(at(rp, 'i', '0')); on.ppu = at(rp, 'u', 'none') !== 'none'; on.ppst = at(rp, 'strike', 'noStrike') !== 'noStrike' }
+                    var al = at(pp, 'algn', 'l'); on.ppaL = al === 'l'; on.ppaC = al === 'ctr'; on.ppaR = al === 'r'; on.ppaJ = al === 'just'; on.ppbu = !!(pp && kid(pp, 'buChar')); on.ppnu = !!(pp && kid(pp, 'buAutoNum'));
+                }
+            }
+            ['ppb', 'ppi', 'ppu', 'ppst', 'ppaL', 'ppaC', 'ppaR', 'ppaJ', 'ppbu', 'ppnu'].forEach(function (id) { $(id).classList.toggle('on', !!on[id]) });
+            var sz = $('ppsz'); if (document.activeElement !== sz) sz.value = Math.round(szv * 10) / 10;
+            var sf = $('ppfont'); if (fv && ![].some.call(sf.options, function (o) { return o.value === fv })) { var op = document.createElement('option'); op.value = fv; op.textContent = fv; sf.appendChild(op) } sf.value = fv;
+        }
+        /* ---- ribbon: tabs and their controls ---- */
+        var tool = null, ink = null, ivC = '#d93025', ivW = 3, strip = root.querySelector('.rtabs');
+        function setTool(k) {
+            tool = tool === k ? null : k; sl.classList.toggle('ink', !!tool); [['pppen', 'pen'], ['pphl', 'hl'], ['ppera', 'er']].forEach(function (x) { $(x[0]).classList.toggle('on', x[1] === tool) });
+            var d = cur(); if (tool && d && d.pp.sel !== null) { d.pp.sel = null; draw(false) }
+        }
+        function actTab(id) {
+            [].forEach.call(root.querySelectorAll('.rtabs [data-p]'), function (b) { var on = b.dataset.p === id; b.classList.toggle('on', on); b.setAttribute('aria-selected', on) });
+            [].forEach.call(root.querySelectorAll('.rpane'), function (p) { p.hidden = p.dataset.p !== id }); if (id !== 'draw' && tool) setTool(tool);
+        }
+        strip.addEventListener('mousedown', function (e) { if (e.target.closest('button')) e.preventDefault() });
+        strip.addEventListener('click', function (e) { var b = e.target.closest('button[data-p]'); if (b) actTab(b.dataset.p) }); actTab('home'); $('ppinkw').value = '3';
+        function rbSync() {
+            var d = cur(); if (!d || !d.pp) return; var i = d.pp.cur, t = transOf(d, i); $('pptr').value = t ? t.type : 'none'; $('pptrs').value = t ? t.spd : 'med';
+            var sz = sldSize(d), w = Math.round(sz.w * EMU), h = Math.round(sz.h * EMU), o = [].filter.call($('ppsize').options, function (x) { var v = x.value.split('x'); return x.value && Math.abs(v[0] - w) < 2000 && Math.abs(v[1] - h) < 2000 })[0]; $('ppsize').value = o ? o.value : '';
+            var fx = ''; if (d.pp.sel !== null) { var doc = px(d.pp.P[slideList(d)[i]]), el = shapesOf(doc)[d.pp.sel], id = el && at(ns(el, 'cNvPr')[0], 'id', ''), a = animsDoc(doc).filter(function (q) { return q.id === id })[0]; fx = a && a.fx !== 'other' ? a.fx : '' } $('ppan').value = fx; try { syncHome(d, i) } catch (x) { }
+        }
+        $('ppu').onclick = function () { fmt('u') }; $('ppshp').onchange = function () { var v = this.value; this.value = ''; if (v) addShape(v) };
+        $('pppen').onclick = function () { setTool('pen') }; $('pphl').onclick = function () { setTool('hl') }; $('ppera').onclick = function () { setTool('er') };
+        $('ppinkc').onchange = function () { ivC = this.value; this.parentNode.style.setProperty('--sw', this.value) }; $('ppinkw').onchange = function () { ivW = +this.value };
+        function inkDown(e, d) {
+            commitEd(); var el = e.target.closest('.ppsh:not(.ly)'); e.preventDefault();
+            if (tool === 'er') { if (el && /^Ink/.test(el.dataset.nm || '')) { d.pp.sel = +el.dataset.i; delShape() } return }
+            var box = sl.firstElementChild; if (!box) return; var r = box.getBoundingClientRect(), s = d.pp.s || 1, NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'), p = document.createElementNS(NS, 'path'), hl = tool === 'hl';
+            ink = { pts: [[(e.clientX - r.left) / s, (e.clientY - r.top) / s]], r: r, s: s, hl: hl, p: p };
+            svg.setAttribute('style', 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible'); p.setAttribute('fill', 'none'); p.setAttribute('stroke', ivC); p.setAttribute('stroke-width', hl ? ivW * 4 : ivW); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); if (hl) p.setAttribute('stroke-opacity', '.4');
+            svg.appendChild(p); box.appendChild(svg); try { sl.setPointerCapture(e.pointerId) } catch (x) { }
+        }
+        sl.addEventListener('pointermove', function (e) {
+            if (!ink) return; var pts = ink.pts, p = [(e.clientX - ink.r.left) / ink.s, (e.clientY - ink.r.top) / ink.s], q = pts[pts.length - 1]; if (Math.hypot(p[0] - q[0], p[1] - q[1]) < 1.5) return; pts.push(p);
+            ink.p.setAttribute('d', 'M' + pts.map(function (a) { return a[0].toFixed(1) + ' ' + a[1].toFixed(1) }).join('L'));
+        });
+        function inkUp() {
+            if (!ink) return; var g = ink, pts = g.pts; ink = null; if (pts.length < 2) pts.push([pts[0][0] + .1, pts[0][1]]);
+            var xs = pts.map(function (a) { return a[0] }), ys = pts.map(function (a) { return a[1] }), x0 = Math.min.apply(null, xs), y0 = Math.min.apply(null, ys), cx = Math.max(9525, Math.round((Math.max.apply(null, xs) - x0) * EMU)), cy = Math.max(9525, Math.round((Math.max.apply(null, ys) - y0) * EMU));
+            var seg = pts.map(function (a, k) { var q = '<a:pt x="' + Math.round((a[0] - x0) * EMU) + '" y="' + Math.round((a[1] - y0) * EMU) + '"/>'; return k ? '<a:lnTo>' + q + '</a:lnTo>' : '<a:moveTo>' + q + '</a:moveTo>' }).join('');
+            editSlide(function (doc) {
+                var tree = ns(doc.documentElement, 'spTree')[0], id = nextId(doc);
+                tree.appendChild(frag(doc, '<p:sp><p:nvSpPr><p:cNvPr id="' + id + '" name="Ink ' + id + '"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="' + Math.round(x0 * EMU) + '" y="' + Math.round(y0 * EMU) + '"/><a:ext cx="' + cx + '" cy="' + cy + '"/></a:xfrm><a:custGeom><a:avLst/><a:gdLst/><a:ahLst/><a:cxnLst/><a:rect l="0" t="0" r="r" b="b"/><a:pathLst><a:path w="' + cx + '" h="' + cy + '" fill="none">' + seg + '</a:path></a:pathLst></a:custGeom><a:noFill/><a:ln w="' + Math.round((g.hl ? ivW * 4 : ivW) * EMU) + '" cap="rnd"><a:solidFill><a:srgbClr val="' + ivC.slice(1).toUpperCase() + '">' + (g.hl ? '<a:alpha val="40000"/>' : '') + '</a:srgbClr></a:solidFill><a:round/></a:ln></p:spPr></p:sp>'));
+            });
+        }
+        sl.addEventListener('pointerup', inkUp); sl.addEventListener('pointercancel', inkUp);
+        /* Design: backgrounds and slide size */
+        function setBg(hex, all) {
+            mut(function (d) { var list = slideList(d); (all ? list : [list[d.pp.cur]]).forEach(function (pth) { var doc = px(d.pp.P[pth]), cs = ns(doc.documentElement, 'cSld')[0]; kids(cs, 'bg').forEach(function (b) { cs.removeChild(b) }); cs.insertBefore(frag(doc, '<p:bg><p:bgPr><a:solidFill><a:srgbClr val="' + hex + '"/></a:solidFill><a:effectLst/></p:bgPr></p:bg>'), cs.firstChild); d.pp.P[pth] = ser(doc) }) });
+        }
+        function resizeDeck(nw, nh) {
+            mut(function (d) {
+                var P = d.pp.P, pk = 'ppt/presentation.xml', pd = px(P[pk]), sz = ns(pd.documentElement, 'sldSz')[0], ow = +sz.getAttribute('cx'), oh = +sz.getAttribute('cy'); if (nw === ow && nh === oh) return false;
+                var s = Math.min(nw / ow, nh / oh), ox = (nw - ow * s) / 2, oy = (nh - oh * s) / 2; sz.setAttribute('cx', nw); sz.setAttribute('cy', nh); sz.removeAttribute('type'); P[pk] = ser(pd);
+                Object.keys(P).filter(function (k) { return /^ppt\/(slides|slideLayouts|slideMasters)\/[^\/]+\.xml$/.test(k) }).forEach(function (k) {
+                    var doc = px(P[k]), tree = ns(doc.documentElement, 'spTree')[0]; if (!tree) return;
+                    [].forEach.call(tree.children, function (c) {
+                        var nm = c.localName, x = nm === 'grpSp' ? kid(kid(c, 'grpSpPr'), 'xfrm') : nm === 'graphicFrame' ? kid(c, 'xfrm') : kid(kid(c, 'spPr'), 'xfrm'), o = x && kid(x, 'off'), e = x && kid(x, 'ext'); if (!o || !e) return;
+                        o.setAttribute('x', Math.round(+o.getAttribute('x') * s + ox)); o.setAttribute('y', Math.round(+o.getAttribute('y') * s + oy)); e.setAttribute('cx', Math.round(+e.getAttribute('cx') * s)); e.setAttribute('cy', Math.round(+e.getAttribute('cy') * s));
+                    });
+                    [].forEach.call(doc.getElementsByTagName('*'), function (n) { if (/^(rPr|defRPr|endParaRPr)$/.test(n.localName) && n.getAttribute('sz')) n.setAttribute('sz', Math.max(100, Math.round(n.getAttribute('sz') * s))) }); P[k] = ser(doc);
+                });
+            });
+        }
+        $('ppbgc').onchange = function () { this.parentNode.style.setProperty('--sw', this.value); setBg(this.value.slice(1).toUpperCase(), false) }; $('ppbga').onclick = function () { setBg($('ppbgc').value.slice(1).toUpperCase(), true) };
+        $('ppsize').onchange = function () { var v = this.value.split('x'); if (v[0]) resizeDeck(+v[0], +v[1]) };
+        /* Transitions and animations */
+        function setTr(all) {
+            var ty = $('pptr').value, sp = $('pptrs').value; if (!cur() || !ty) return;
+            mut(function (d) { var list = slideList(d); (all ? list : [list[d.pp.cur]]).forEach(function (pth) { var doc = px(d.pp.P[pth]); setTrXml(doc, ty, sp); d.pp.P[pth] = ser(doc) }) });
+        }
+        $('pptr').onchange = function () { setTr(false) }; $('pptrs').onchange = function () { setTr(false) }; $('pptra').onclick = function () { setTr(true) };
+        $('pptrp').onclick = function () { var d = cur(); if (d) playTr(sl.firstElementChild, { type: $('pptr').value, spd: $('pptrs').value }, 1) };
+        $('ppan').onchange = function () {
+            var fx = this.value, d = cur(); if (!d || d.pp.sel === null) return;
+            mut(function (d) {
+                var path = slideList(d)[d.pp.cur], doc = px(d.pp.P[path]), el = shapesOf(doc)[d.pp.sel]; if (!el) return false; var id = at(ns(el, 'cNvPr')[0], 'id', ''), list = animsDoc(doc);
+                if (list.some(function (a) { return a.pc !== 'entr' || a.fx === 'other' }) && !confirm('This slide has animations that can\u2019t be edited here. Replace them?')) return false;
+                list = list.filter(function (a) { return a.id !== id }); if (fx) list.push({ id: id, fx: fx }); putTiming(doc, list); d.pp.P[path] = ser(doc);
+            });
+        };
+        $('ppanp').onclick = function () {
+            var d = cur(); if (!d) return; var l = animsOf(d, d.pp.cur).filter(function (a) { return a.pc === 'entr' }), els = l.map(function (a) { return sl.querySelector('[data-id="' + a.id + '"]') });
+            els.forEach(function (e) { if (e) e.style.visibility = 'hidden' }); l.forEach(function (a, k) { setTimeout(function () { var e = els[k]; if (e) { e.style.visibility = 'visible'; playFx(e, a.fx) } }, k * 700 + 200) });
+            setTimeout(function () { els.forEach(function (e) { if (e) e.style.visibility = '' }) }, l.length * 700 + 800);
+        };
+        th.addEventListener('click', function (e) { var t = e.target.closest('.ppth'), d = cur(); if (!t || !d) return; commitEd(); d.pp.cur = +t.dataset.n; d.pp.sel = null; draw(false) });
+        sl.addEventListener('pointerdown', function (e) {
+            var d = cur(); if (!d || (ed && ed.tb.contains(e.target))) return; if (tool) return inkDown(e, d); var el = e.target.closest('.ppsh:not(.ly)'), h = e.target.closest('.hd'); commitEd();
+            if (!el) { d.pp.sel = null; draw(false); return } var i = +el.dataset.i; if (d.pp.sel !== i) el = selectEl(d, i) || el;
+            var now = Date.now(), dbl = lastTap.i === i && now - lastTap.t < 450; lastTap = { i: i, t: now }; if (dbl && !h && el.querySelector('.pptxt')) { startEd(el); return }
+            var path = slideList(d)[d.pp.cur], doc = px(d.pp.P[path]), shs = shapesOf(doc); drag = { i: i, mode: h ? h.dataset.h : 'move', sx: e.clientX, sy: e.clientY, xf: getXf(d, doc, path, shs[i]), el: el, moved: false, v: null };
+            try { sl.setPointerCapture(e.pointerId) } catch (x) { } e.preventDefault();
+        });
+        sl.addEventListener('pointermove', function (e) {
+            if (!drag) return; var d = cur(), s = d.pp.s || 1, dx = (e.clientX - drag.sx) / s * EMU, dy = (e.clientY - drag.sy) / s * EMU, f = drag.xf, v = { x: f.x, y: f.y, w: f.w, h: f.h }, m = drag.mode;
+            if (Math.abs(e.clientX - drag.sx) + Math.abs(e.clientY - drag.sy) > 3) drag.moved = true; if (!drag.moved) return;
+            if (m === 'move') { v.x += dx; v.y += dy } else { if (m[1] === 'e') v.w = f.w + dx; else { v.x = f.x + dx; v.w = f.w - dx } if (m[0] === 's') v.h = f.h + dy; else { v.y = f.y + dy; v.h = f.h - dy } }
+            if (v.w < 100000) { if (m[1] === 'w') v.x -= 100000 - v.w; v.w = 100000 } if (v.h < 100000) { if (m[0] === 'n') v.y -= 100000 - v.h; v.h = 100000 }
+            drag.v = v; var st = drag.el.style; st.left = v.x / EMU + 'px'; st.top = v.y / EMU + 'px'; st.width = v.w / EMU + 'px'; st.height = v.h / EMU + 'px';
+        });
+        function endDrag() { if (!drag) return; var g = drag; drag = null; if (g.moved && g.v) editSlide(function (doc, shs) { var el = shs[g.i]; if (el) setXf(doc, el, g.v); cur().pp.sel = g.i }) }
+        sl.addEventListener('pointerup', endDrag); sl.addEventListener('pointercancel', endDrag);
+        sl.addEventListener('dblclick', function (e) { var el = e.target.closest('.ppsh:not(.ly)') || sl.querySelector('.ppsh.sel'); if (el && cur()) { cur().pp.sel = +el.dataset.i; startEd(el) } });
+        root.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ed) { e.stopPropagation(); ed.tb.blur() } else if ((e.ctrlKey || e.metaKey) && /^s$/i.test(e.key) && ed) commitEd() });
+        document.addEventListener('keydown', function (e) {
+            var d = cur(); if (!d || root.hidden || !docOpen || ed || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName) || document.getElementById('ppshow')) return;
+            if ((e.ctrlKey || e.metaKey) && /^z$/i.test(e.key)) { e.preventDefault(); e.shiftKey ? $('pprd').click() : $('ppun').click() } else if ((e.ctrlKey || e.metaKey) && /^y$/i.test(e.key)) { e.preventDefault(); $('pprd').click() }
+            else if ((e.ctrlKey || e.metaKey) && /^d$/i.test(e.key) && d.pp.sel !== null) { e.preventDefault(); dupShape() } else if ((e.key === 'Delete' || e.key === 'Backspace') && d.pp.sel !== null) { e.preventDefault(); delShape() }
+            else if (e.key === 'PageDown' || e.key === 'PageUp') { var n = slideList(d).length; d.pp.cur = Math.max(0, Math.min(n - 1, d.pp.cur + (e.key === 'PageDown' ? 1 : -1))); d.pp.sel = null; draw(false) }
+        });
+        if (window.ResizeObserver) new ResizeObserver(fit).observe(stg); addEventListener('resize', fit);
+
+        /* ---- hooks into the Documents module ---- */
+        WORDRE = /\.(docx|doc|pdf|pptx)$/i; DOCRE = /\.(docx|doc|txt|md|pdf|pptx)$/i;
+        var _pl = docLoad; docLoad = async function (d) { if (d.kind === 'pptx') { if (d.loaded) return; await needZip(); await ppInit(d, await d.file.arrayBuffer()); d.loaded = true; return } return _pl(d) };
+        var _pt = paintDoc; paintDoc = function (d) {
+            if (d && d.kind === 'pptx') {
+                dEmpty.hidden = true; dPage.hidden = true; dMsg.hidden = true; $('pdfpages').hidden = true; $('doctools').hidden = true; $('pdftools').hidden = true; $('findbar').hidden = true; dShown = d; root.hidden = false; draw(true);
+                try { renderOutline() } catch (e) { } updDocUi(); return;
+            } root.hidden = true; _pt(d);
+        };
+        var _ps = docSelect; docSelect = function (d) { if (!(docCur === d && dShown === d)) { commitEd(); root.hidden = true } return _ps(d) };
+        var _pr = removeDoc; removeDoc = function (d) { _pr(d); if (!docCur) root.hidden = true };
+        var _pb = docBlob; docBlob = async function (d) { if (d.kind === 'pptx') return await ppBlob(d); return _pb(d) };
+        var _pst = saveTypes; saveTypes = function (d) { if (d.kind === 'pptx') { var o = {}; o[MIME_P] = ['.pptx']; return [{ description: 'PowerPoint presentation', accept: o }] } return _pst(d) };
+        var _pcw = countWords; countWords = function () { var d = docCur; if (d && d.kind === 'pptx' && d === dShown && d.pp) { var n = slideList(d).length; $('docwords').textContent = n + (n === 1 ? ' slide' : ' slides'); return } _pcw() };
+        var _pu = updDocUi; updDocUi = function () { _pu(); var d = docCur; if (d && d.kind === 'pptx') { try { $('docedit').hidden = true } catch (e) { } } };
+        /* open pptx from the file pickers (the folder walker and drop zone already use these patterns) */
+        var df = $('dfile'); if (df) df.accept = '.docx,.doc,.txt,.md,.pdf,.pptx';
+        /* new blank presentation: button on the empty screen and an entry in the New menu */
+        async function newDeck() {
+            try { await needZip(); var bytes = await blankDeck(), name = uniqueName('Untitled presentation', 'pptx'); registerDoc({ id: ++docSeq, key: 'new|' + docSeq, file: new File([bytes], name), handle: null, name: name, path: name, dir: '', ext: 'pptx', kind: 'pptx', date: new Date(), dirty: false, loaded: false, isNew: true }) }
+            catch (e) { toast('PowerPoint tools need a one-time download that couldn’t be reached. Check your internet connection.') }
+        }
+        var row = document.querySelector('#docempty .row'); if (row) { var nb = document.createElement('button'); nb.textContent = 'Blank presentation'; nb.onclick = newDeck; row.insertBefore(nb, $('docemptypdf').nextSibling) }
+        var _tm = tplMenu; tplMenu = function (f) { _tm(f); var m = $('tplmenu'); if (m && !m.querySelector('[data-tpl="pptx"]')) m.insertAdjacentHTML('beforeend', '<button data-tpl="pptx"><b>Blank presentation</b><span>A 16:9 deck to edit like PowerPoint</span></button>') };
+        var _nd = newDoc; newDoc = function (k) { if (k === 'pptx') { tplMenu(false); return newDeck() } return _nd(k) };
+    })();
 })();
 
 /* sidebar: Type segmented control and active-filter dot */
@@ -7495,4 +8529,3 @@ html.noanim :not(#fxov):not(#fxov *),html.noanim :not(#fxov):not(#fxov *)::befor
 </body>
 
 </html>
-
